@@ -1,4 +1,4 @@
-# 🅿️ Sistema de Gestión Operativa - Parqueadero Autos Colombia (Iteración 1)
+# 🅿️ Sistema de Gestión Operativa - Parqueadero Autos Colombia 
 
 > **Asignatura:** Arquitectura y Diseño de Software / Ingeniería de Software  
 > **Institución Universitaria / Proyecto:** Autos Colombia  
@@ -9,7 +9,7 @@
 
 ## 1. Descripción del Sistema
 
-El **Sistema de Gestión Operativa para el Parqueadero Autos Colombia (Iteración 1)** es una solución integral diseñada para sistematizar, agilizar y auditar las operaciones de acceso vehicular, asignación de espacios, control de mensualidades y novedades físicas en portería y caja.
+El **Sistema de Gestión Operativa para el Parqueadero Autos Colombia ** es una solución integral diseñada para sistematizar, agilizar y auditar las operaciones de acceso vehicular, asignación de espacios, control de mensualidades y novedades físicas en portería y caja.
 
 El sistema administra una capacidad instalada de **50 celdas fijas**:
 - **20 celdas para automóviles** (`A-01` a `A-20`).
@@ -164,7 +164,7 @@ Requiere tener instalado **Node.js** (versión 16+ o 18+ LTS).
 
 1. **Abrir la terminal** en la carpeta raíz del proyecto:
    ```bash
-   cd "c:\Users\wilga\Documentos\Documentos U\Visual Studio Code\Ingenieria De Software\Autos_colombia"
+   cd "c:\Users\Autos_colombia"
    ```
 
 2. **Instalar dependencias:**
