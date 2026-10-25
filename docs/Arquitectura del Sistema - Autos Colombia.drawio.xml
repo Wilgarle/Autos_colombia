@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net">
+  <diagram name="Página-1" id="wQYbPQely__mf7W0UYNO">
+    <mxGraphModel dx="1493" dy="813" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" connectable="0" parent="1" style="group" value="" vertex="1">
+          <mxGeometry height="630" width="600" x="114" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="3" parent="2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;verticalAlign=top;align=center;spacingLeft=15;spacingTop=10;shadow=1;" value="&lt;b style=&quot;font-size: 14px;&quot;&gt;Capa de Persistencia (Base de Datos)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="130" width="540" x="26" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="4" connectable="0" parent="2" style="group" value="" vertex="1">
+          <mxGeometry height="610" width="600" as="geometry" />
+        </mxCell>
+        <mxCell id="5" parent="4" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" value="&lt;b style=&quot;font-size: 16px;&quot;&gt;Arquitectura del Sistema: Modelo Cliente-Servidor (MVC) - Autos Colombia&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="600" as="geometry" />
+        </mxCell>
+        <mxCell id="6" parent="4" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;align=center;spacingLeft=15;spacingTop=10;shadow=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b style=&quot;font-size: 14px;&quot;&gt;Capa de Presentación (Frontend / Cliente Web)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="120" width="540" x="26" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="7" parent="4" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;" value="&lt;b&gt;Interfaz Portería&lt;/b&gt;&lt;br&gt;(Registro Entradas, Salidas&lt;br&gt;y Novedades)" vertex="1">
+          <mxGeometry height="60" width="200" x="56" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="8" parent="4" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;" value="&lt;b&gt;Interfaz Administración&lt;/b&gt;&lt;br&gt;(Gestión Pagos, Historial&lt;br&gt;y Reportes)" vertex="1">
+          <mxGeometry height="60" width="200" x="336" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="9" parent="4" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;verticalAlign=top;align=center;spacingLeft=15;spacingTop=10;shadow=1;" value="&lt;b style=&quot;font-size: 14px;&quot;&gt;Capa de Lógica de Negocio (Backend / API REST)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="160" width="540" x="26" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="10" parent="4" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;" value="Controlador&lt;br&gt;&lt;b&gt;Movimientos&lt;/b&gt;" vertex="1">
+          <mxGeometry height="50" width="100" x="56" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="11" parent="4" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;" value="Controlador&lt;br&gt;&lt;b&gt;Celdas&lt;/b&gt;" vertex="1">
+          <mxGeometry height="50" width="100" x="186" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="12" parent="4" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;" value="Controlador&lt;br&gt;&lt;b&gt;Pagos / Usuarios&lt;/b&gt;" vertex="1">
+          <mxGeometry height="50" width="100" x="316" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="13" parent="4" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="Módulo de&lt;br&gt;&lt;b&gt;Seguridad (Auth)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="50" width="100" x="436" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="14" parent="4" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#eeeeee;strokeColor=#999999;fontStyle=2;" value="Enrutador API (Endpoints JSON)" vertex="1">
+          <mxGeometry height="20" width="480" x="56" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="15" parent="4" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffffff;strokeColor=#d79b00;" value="&lt;b&gt;Base de Datos Relacional (Ej. MySQL / PostgreSQL)&lt;/b&gt;&lt;br&gt;Tablas: Usuarios, Vehículos, Celdas, Ingresos, Pagos" vertex="1">
+          <mxGeometry height="70" width="310" x="141" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="16" edge="1" parent="4" source="6" style="endArrow=classic;startArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;edgeStyle=orthogonalEdgeStyle;" target="9" value="&lt;b&gt;Peticiones HTTP (REST)&lt;/b&gt;">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="296" y="220" />
+              <mxPoint x="296" y="220" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="17" edge="1" parent="2" source="9" style="endArrow=classic;startArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;strokeWidth=2;edgeStyle=orthogonalEdgeStyle;" target="3" value="&lt;b&gt;Consultas SQL / ORM&lt;/b&gt;">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="296" y="460" />
+              <mxPoint x="296" y="460" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

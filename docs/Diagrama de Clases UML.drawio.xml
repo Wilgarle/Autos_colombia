@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net">
+  <diagram name="Página-1" id="0GtVAr_BR5Tqe0Os1eVj">
+    <mxGraphModel dx="2320" dy="813" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" value="&lt;b style=&quot;font-size: 16px;&quot;&gt;Diagrama de Clases UML - Sistema Parqueadero Autos Colombia&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="750" x="160" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fffbeb;strokeColor=#d97706;align=left;verticalAlign=top;spacing=0;fontFamily=Courier New;fontSize=10.5;shadow=1;" value="&lt;div style=&quot;background:#fef3c7;padding:5px;border-bottom:1px solid #d97706;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Controller&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b style=&quot;font-size:12px;&quot;&gt;ControladorParqueadero&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;padding:6px;border-bottom:1px solid #d97706;&quot;&gt;- operarioEnSesion : String&lt;br&gt;- rolActivo : String&lt;br&gt;- totalCeldasAutos : Int = 20&lt;br&gt;- totalCeldasMotos : Int = 30&lt;/div&gt;&lt;div style=&quot;padding:6px;&quot;&gt;+ autenticarSesion(usuario: String, clave: String) : Boolean&lt;br&gt;+ procesarIngresoVehicular(placa: String, celda: String) : String&lt;br&gt;+ procesarSalidaVehicular(placa: String, novedad: String) : Boolean&lt;br&gt;+ consultarOcupacionPatio() : List&amp;lt;Celda&amp;gt;&lt;br&gt;+ consultarBitacoraAuditoria(filtro: String) : List&amp;lt;Movimiento&amp;gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="195" width="440" x="315" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#2563eb;align=left;verticalAlign=top;spacing=0;fontFamily=Courier New;fontSize=10.5;shadow=1;" value="&lt;div style=&quot;background:#dbeafe;padding:5px;border-bottom:1px solid #2563eb;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Entity&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b style=&quot;font-size:12px;&quot;&gt;Usuario&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;padding:6px;border-bottom:1px solid #2563eb;&quot;&gt;- documentoId : String&lt;br&gt;- nombresApellidos : String&lt;br&gt;- telefonoContacto : String&lt;br&gt;- estadoMensualidad : String&lt;br&gt;- fechaVencimiento : Date&lt;/div&gt;&lt;div style=&quot;padding:6px;&quot;&gt;+ validarVigencia() : Boolean&lt;br&gt;+ actualizarVigencia(nuevaFecha: Date) : void&lt;br&gt;+ obtenerEstadoCuenta() : String&lt;/div&gt;" vertex="1">
+          <mxGeometry height="190" width="305" x="-30" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#2563eb;align=left;verticalAlign=top;spacing=0;fontFamily=Courier New;fontSize=10.5;shadow=1;" value="&lt;div style=&quot;background:#dbeafe;padding:5px;border-bottom:1px solid #2563eb;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Entity&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b style=&quot;font-size:12px;&quot;&gt;Vehiculo&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;padding:6px;border-bottom:1px solid #2563eb;&quot;&gt;- placa : String&lt;br&gt;- documentoId : String&lt;br&gt;- tipoVehiculo : String&lt;br&gt;- marcaColor : String&lt;/div&gt;&lt;div style=&quot;padding:6px;&quot;&gt;+ consultarDatosPlaca() : String&lt;br&gt;+ validarCompatibilidad(tipoCelda: String) : Boolean&lt;/div&gt;" vertex="1">
+          <mxGeometry height="165" width="330" x="400" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#2563eb;align=left;verticalAlign=top;spacing=0;fontFamily=Courier New;fontSize=10.5;shadow=1;" value="&lt;div style=&quot;background:#dbeafe;padding:5px;border-bottom:1px solid #2563eb;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Entity&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b style=&quot;font-size:12px;&quot;&gt;Celda&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;padding:6px;border-bottom:1px solid #2563eb;&quot;&gt;- codigoCelda : String&lt;br&gt;- tipoEspacio : String&lt;br&gt;- estadoOcupacion : String&lt;/div&gt;&lt;div style=&quot;padding:6px;&quot;&gt;+ verificarDisponibilidad() : Boolean&lt;br&gt;+ ocuparCelda() : void&lt;br&gt;+ liberarCelda() : void&lt;/div&gt;" vertex="1">
+          <mxGeometry height="165" width="250" x="827" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="7" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f0fdf4;strokeColor=#16a34a;align=left;verticalAlign=top;spacing=0;fontFamily=Courier New;fontSize=10.5;shadow=1;" value="&lt;div style=&quot;background:#dcfce7;padding:5px;border-bottom:1px solid #16a34a;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Entity&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b style=&quot;font-size:12px;&quot;&gt;Pago&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;padding:6px;border-bottom:1px solid #16a34a;&quot;&gt;- codigoTransaccion : String&lt;br&gt;- documentoId : String&lt;br&gt;- montoTotal : Decimal&lt;br&gt;- medioPago : String&lt;br&gt;- fechaEmision : DateTime&lt;br&gt;- vigenciaHasta : Date&lt;br&gt;- operarioResponsable : String&lt;/div&gt;&lt;div style=&quot;padding:6px;&quot;&gt;+ procesarRecaudo() : Boolean&lt;br&gt;+ generarPazYSalvo() : String&lt;/div&gt;" vertex="1">
+          <mxGeometry height="205" width="210" x="250" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="8" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#eef2ff;strokeColor=#4338ca;align=left;verticalAlign=top;spacing=0;fontFamily=Courier New;fontSize=10.5;shadow=1;" value="&lt;div style=&quot;background:#e0e7ff;padding:5px;border-bottom:1px solid #4338ca;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Entity&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b style=&quot;font-size:12px;&quot;&gt;Movimiento&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;padding:6px;border-bottom:1px solid #4338ca;&quot;&gt;- idTicket : String&lt;br&gt;- placa : String&lt;br&gt;- codigoCelda : String&lt;br&gt;- fechaHoraIngreso : DateTime&lt;br&gt;- fechaHoraSalida : DateTime&lt;br&gt;- novedadOperativa : String&lt;br&gt;- estadoMovimiento : String&lt;br&gt;- operarioResponsable : String&lt;/div&gt;&lt;div style=&quot;padding:6px;&quot;&gt;+ registrarEntrada() : Boolean&lt;br&gt;+ registrarSalida() : Boolean&lt;br&gt;+ anexarNovedad(detalle: String) : void&lt;br&gt;+ emitirComprobanteIngreso() : String&lt;/div&gt;" vertex="1">
+          <mxGeometry height="235" width="265" x="590" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="9" edge="1" parent="1" source="4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;startArrow=diamondThin;startFill=0;startSize=12;endArrow=open;endFill=0;strokeWidth=1.5;strokeColor=#1e293b;fontSize=10;" target="5" value="posee&#xa;1          1..*">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="10" edge="1" parent="1" source="4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=open;endFill=0;strokeWidth=1.5;strokeColor=#16a34a;fontSize=10;" target="7" value="realiza (1 .. 0..*)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="11" edge="1" parent="1" source="5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=open;endFill=0;strokeWidth=1.5;strokeColor=#4338ca;fontSize=10;" target="8" value="registra (1 .. 0..*)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="12" edge="1" parent="1" source="6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=open;endFill=0;strokeWidth=1.5;strokeColor=#4338ca;fontSize=10;" target="8" value="asigna (1 .. 0..*)">
+          <mxGeometry relative="1" x="0.1091" y="-2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="13" edge="1" parent="1" source="3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=open;endFill=0;strokeColor=#d97706;fontSize=9;" target="4" value="&amp;lt;&amp;lt;use&amp;gt;&amp;gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="14" edge="1" parent="1" source="3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=open;endFill=0;strokeColor=#d97706;fontSize=9;" target="5" value="&amp;lt;&amp;lt;use&amp;gt;&amp;gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="15" edge="1" parent="1" source="3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=open;endFill=0;strokeColor=#d97706;fontSize=9;" target="6" value="&amp;lt;&amp;lt;use&amp;gt;&amp;gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

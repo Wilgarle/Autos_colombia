@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net">
+  <diagram name="Página-1" id="ynKQRZc8BSg_At2M8y4h">
+    <mxGraphModel dx="1585" dy="863" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" value="&lt;b style=&quot;font-size: 16px;&quot;&gt;Diagrama de Paquetes UML - Sistema Parqueadero Autos Colombia&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="750" x="38" y="15" as="geometry" />
+        </mxCell>
+        <mxCell id="3" edge="1" parent="1" source="8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=open;endFill=0;strokeWidth=1.8;strokeColor=#334155;fontSize=11;" target="16" value="&lt;b&gt;&amp;lt;&amp;lt;use&amp;gt;&amp;gt;&lt;/b&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4" edge="1" parent="1" source="16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;exitX=1;exitY=0.55;exitDx=0;exitDy=0;entryX=0;entryY=0.55;entryDx=0;entryDy=0;endArrow=open;endFill=0;strokeWidth=1.8;strokeColor=#334155;fontSize=11;" target="21" value="&lt;b&gt;&amp;lt;&amp;lt;import&amp;gt;&amp;gt;&lt;/b&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5" edge="1" parent="1" source="16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;endArrow=open;endFill=0;strokeWidth=1.8;strokeColor=#334155;fontSize=11;" target="29" value="&lt;b&gt;&amp;lt;&amp;lt;use&amp;gt;&amp;gt;&lt;/b&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6" edge="1" parent="1" source="29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=open;endFill=0;strokeWidth=1.8;strokeColor=#334155;fontSize=11;" target="21" value="&lt;b&gt;&amp;lt;&amp;lt;access&amp;gt;&amp;gt;&lt;/b&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7" connectable="0" parent="1" style="group" value="" vertex="1">
+          <mxGeometry height="175" width="550" x="139" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="8" parent="7" style="shape=folder;fontStyle=1;tabWidth=260;tabHeight=28;tabPosition=left;html=1;boundedLbl=1;labelInHeader=1;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;align=left;spacingLeft=10;fontSize=12;shadow=1;" value="com.autoscolombia.presentacion" vertex="1">
+          <mxGeometry height="175" width="550" as="geometry" />
+        </mxCell>
+        <mxCell id="9" parent="7" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;" value="&lt;b&gt;VistaMonitorCeldasPatio&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:10px;&quot;&gt;(50 Celdas - HU-03)&lt;/span&gt;" vertex="1">
+          <mxGeometry height="50" width="160" x="370" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="10" parent="7" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;" value="&lt;b&gt;VistaBitacoraAuditoria&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:10px;&quot;&gt;(Historial - HU-07)&lt;/span&gt;" vertex="1">
+          <mxGeometry height="50" width="160" x="285" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="11" connectable="0" parent="7" style="group" value="" vertex="1">
+          <mxGeometry height="115" width="335" x="20" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="12" parent="11" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;" value="&lt;b&gt;VistaIngresoPorteria&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:10px;&quot;&gt;(HU-01, HU-02)&lt;/span&gt;" vertex="1">
+          <mxGeometry height="50" width="160" as="geometry" />
+        </mxCell>
+        <mxCell id="13" parent="11" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;" value="&lt;b&gt;VistaSalidasNovedades&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:10px;&quot;&gt;(HU-05, HU-06)&lt;/span&gt;" vertex="1">
+          <mxGeometry height="50" width="160" x="175" as="geometry" />
+        </mxCell>
+        <mxCell id="14" parent="11" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;" value="&lt;b&gt;VistaMensualidadesCaja&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:10px;&quot;&gt;(Paz y Salvo - HU-04)&lt;/span&gt;" vertex="1">
+          <mxGeometry height="50" width="160" x="85" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="15" connectable="0" parent="1" style="group" value="" vertex="1">
+          <mxGeometry height="190" width="350" x="37.05" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="16" parent="15" style="shape=folder;fontStyle=1;tabWidth=290;tabHeight=28;tabPosition=left;html=1;boundedLbl=1;labelInHeader=1;fillColor=#fff2cc;strokeColor=#d6b656;verticalAlign=top;align=left;spacingLeft=10;fontSize=12;shadow=1;" value="com.autoscolombia.logica.controladores" vertex="1">
+          <mxGeometry height="190" width="350" as="geometry" />
+        </mxCell>
+        <mxCell id="17" parent="15" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;" value="&lt;b&gt;ControladorParqueadero&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:10px;&quot;&gt;Orquestador principal de entradas, salidas y caja&lt;/span&gt;" vertex="1">
+          <mxGeometry height="55" width="310.22727272727275" x="19.886363636363637" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="18" parent="15" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;" value="&lt;b&gt;ValidadorMensualidad&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:10px;&quot;&gt;(RF-01, RF-07)&lt;/span&gt;" vertex="1">
+          <mxGeometry height="55" width="147.15909090909093" x="19.886363636363637" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="19" parent="15" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;" value="&lt;b&gt;GestorCuposPatio&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:10px;&quot;&gt;(20 Autos / 30 Motos)&lt;/span&gt;" vertex="1">
+          <mxGeometry height="55" width="147.15909090909093" x="182.95454545454547" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="20" connectable="0" parent="1" style="group" value="" vertex="1">
+          <mxGeometry height="190" width="320" x="480" y="395" as="geometry" />
+        </mxCell>
+        <mxCell id="21" parent="20" style="shape=folder;fontStyle=1;tabWidth=280;tabHeight=28;tabPosition=left;html=1;boundedLbl=1;labelInHeader=1;fillColor=#d5e8d4;strokeColor=#82b366;verticalAlign=top;align=left;spacingLeft=10;fontSize=12;shadow=1;" value="com.autoscolombia.dominio.entidades" vertex="1">
+          <mxGeometry height="190" width="320" as="geometry" />
+        </mxCell>
+        <mxCell id="22" connectable="0" parent="20" style="group" value="" vertex="1">
+          <mxGeometry height="120" width="290.90909090909093" x="14.545454545454547" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="23" parent="22" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;" value="&lt;b&gt;Usuario&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:10px;&quot;&gt;&amp;lt;&amp;lt;Entity&amp;gt;&amp;gt;&lt;/span&gt;" vertex="1">
+          <mxGeometry height="50" width="90.9090909090909" as="geometry" />
+        </mxCell>
+        <mxCell id="24" parent="22" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;" value="&lt;b&gt;Vehiculo&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:10px;&quot;&gt;&amp;lt;&amp;lt;Entity&amp;gt;&amp;gt;&lt;/span&gt;" vertex="1">
+          <mxGeometry height="50" width="90.9090909090909" x="101.81818181818181" as="geometry" />
+        </mxCell>
+        <mxCell id="25" parent="22" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;" value="&lt;b&gt;Celda&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:10px;&quot;&gt;&amp;lt;&amp;lt;Entity&amp;gt;&amp;gt;&lt;/span&gt;" vertex="1">
+          <mxGeometry height="50" width="87.27272727272728" x="203.63636363636363" as="geometry" />
+        </mxCell>
+        <mxCell id="26" parent="22" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;" value="&lt;b&gt;Movimiento&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:10px;&quot;&gt;&amp;lt;&amp;lt;Entity&amp;gt;&amp;gt; (Ticket/Patio)&lt;/span&gt;" vertex="1">
+          <mxGeometry height="50" width="116.36363636363637" x="29.090909090909093" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="27" parent="22" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;" value="&lt;b&gt;Pago&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:10px;&quot;&gt;&amp;lt;&amp;lt;Entity&amp;gt;&amp;gt; (Mensualidad)&lt;/span&gt;" vertex="1">
+          <mxGeometry height="50" width="116.36363636363637" x="160" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="28" connectable="0" parent="1" style="group" value="" vertex="1">
+          <mxGeometry height="170" width="550" x="148.18" y="670" as="geometry" />
+        </mxCell>
+        <mxCell id="29" parent="28" style="shape=folder;fontStyle=1;tabWidth=330;tabHeight=28;tabPosition=left;html=1;boundedLbl=1;labelInHeader=1;fillColor=#ffe6cc;strokeColor=#d79b00;verticalAlign=top;align=left;spacingLeft=10;fontSize=12;shadow=1;" value="com.autoscolombia.infraestructura.persistencia" vertex="1">
+          <mxGeometry height="170" width="550" as="geometry" />
+        </mxCell>
+        <mxCell id="30" connectable="0" parent="28" style="group" value="" vertex="1">
+          <mxGeometry height="105" width="510" x="20" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="31" parent="30" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11;" value="&lt;b&gt;ConexionMySQL&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:10px;&quot;&gt;(autos_colombia_db)&lt;/span&gt;" vertex="1">
+          <mxGeometry height="50" width="160" as="geometry" />
+        </mxCell>
+        <mxCell id="32" parent="30" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11;" value="&lt;b&gt;RepositorioMovimientos&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:10px;&quot;&gt;(DAO Ingresos / Celdas)&lt;/span&gt;" vertex="1">
+          <mxGeometry height="50" width="160" x="175" as="geometry" />
+        </mxCell>
+        <mxCell id="33" parent="30" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11;" value="&lt;b&gt;RepositorioUsuariosPagos&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:10px;&quot;&gt;(DAO Titulares / Caja)&lt;/span&gt;" vertex="1">
+          <mxGeometry height="50" width="160" x="350" as="geometry" />
+        </mxCell>
+        <mxCell id="34" parent="30" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11;" value="&lt;b&gt;ServicioAuditoriaAuth&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:10px;&quot;&gt;Control de sesión activa y registro inmutable de bitácora (RNF-05)&lt;/span&gt;" vertex="1">
+          <mxGeometry height="45" width="390" x="60" y="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

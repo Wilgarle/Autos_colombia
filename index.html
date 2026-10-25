@@ -1,0 +1,2077 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autos Colombia - Control Operativo de Parqueadero</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome 6.4.0 CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9;
+            color: #1e293b;
+        }
+
+        /* Placa Vehicular Colombiana */
+        .placa-badge {
+            background-color: #fbbf24;
+            color: #0f172a;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 1px 2px rgba(15, 23, 42, 0.12);
+            letter-spacing: 0.06em;
+        }
+
+        /* Botones Corporativos con Gradientes Sólidos */
+        .btn-corp-primary {
+            background: linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%);
+            color: #ffffff;
+            transition: all 0.15s ease-in-out;
+        }
+        .btn-corp-primary:hover {
+            background: linear-gradient(135deg, #1e40af 0%, #172554 100%);
+            box-shadow: 0 4px 12px rgba(29, 78, 216, 0.22);
+        }
+
+        .btn-corp-emerald {
+            background: linear-gradient(135deg, #059669 0%, #065f46 100%);
+            color: #ffffff;
+            transition: all 0.15s ease-in-out;
+        }
+        .btn-corp-emerald:hover {
+            background: linear-gradient(135deg, #047857 0%, #064e3b 100%);
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.22);
+        }
+
+        .btn-corp-dark {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: #ffffff;
+            transition: all 0.15s ease-in-out;
+        }
+        .btn-corp-dark:hover {
+            background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
+        }
+
+        /* Navegación activa en menú lateral */
+        .menu-item-active {
+            background: linear-gradient(90deg, rgba(30, 64, 175, 0.9) 0%, rgba(30, 58, 138, 0.35) 100%);
+            border-left: 4px solid #38bdf8;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        /* Scrollbars limpias */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e2e8f0;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 h-screen flex overflow-hidden">
+
+    <!-- =================================================================== -->
+    <!-- MENÚ LATERAL IZQUIERDO FIJO (SIDEBAR CORPORATIVO)                   -->
+    <!-- =================================================================== -->
+    <aside class="w-64 bg-slate-900 text-white flex flex-col shadow-xl z-20 shrink-0 select-none">
+        <!-- Cabecera de Marca -->
+        <div class="p-5 flex items-center space-x-3 border-b border-slate-800">
+            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center text-white shadow-md shrink-0">
+                <i class="fa-solid fa-square-parking text-xl"></i>
+            </div>
+            <div class="overflow-hidden">
+                <span class="text-base font-bold tracking-tight text-white block truncate">Autos Colombia</span>
+                <span class="text-xs text-slate-400 block truncate">Gestión de Parqueadero</span>
+            </div>
+        </div>
+
+        <!-- Indicador de Servidor Local -->
+        <div class="mx-3 mt-4 mb-2 px-3 py-2.5 rounded-lg bg-slate-800/90 border border-slate-700/80 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="text-xs font-medium text-slate-200">Servidor Local Activo</span>
+            </div>
+            <span class="text-[10px] font-mono text-slate-400">127.0.0.1</span>
+        </div>
+
+        <div class="px-4 pt-3 pb-2 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+            Operación Diaria
+        </div>
+
+        <!-- 5 Pestañas de Navegación -->
+        <nav class="flex-1 px-2 space-y-1 overflow-y-auto">
+            <button id="btn-tab-ingreso" onclick="cambiarPestana('tab-ingreso', 'btn-tab-ingreso')" class="menu-item menu-item-active w-full flex items-center justify-between px-4 py-3 rounded-r text-left text-sm hover:bg-slate-800/80 transition">
+                <div class="flex items-center space-x-3">
+                    <i class="fa-solid fa-right-to-bracket w-5 text-center text-sky-400"></i>
+                    <span>Ingreso y Portería</span>
+                </div>
+            </button>
+
+            <button id="btn-tab-salidas" onclick="cambiarPestana('tab-salidas', 'btn-tab-salidas')" class="menu-item w-full flex items-center justify-between px-4 py-3 rounded-r text-left text-sm text-slate-300 hover:bg-slate-800/80 transition">
+                <div class="flex items-center space-x-3">
+                    <i class="fa-solid fa-right-from-bracket w-5 text-center text-slate-400"></i>
+                    <span>Salidas y Novedades</span>
+                </div>
+                <span id="sidebar-count-patio" class="bg-slate-800 text-slate-200 text-xs font-mono px-2 py-0.5 rounded border border-slate-700">3</span>
+            </button>
+
+            <button id="btn-tab-patio" onclick="cambiarPestana('tab-patio', 'btn-tab-patio')" class="menu-item w-full flex items-center justify-between px-4 py-3 rounded-r text-left text-sm text-slate-300 hover:bg-slate-800/80 transition">
+                <div class="flex items-center space-x-3">
+                    <i class="fa-solid fa-table-cells-large w-5 text-center text-slate-400"></i>
+                    <span>Celdas y Patio</span>
+                </div>
+                <span class="text-[11px] font-mono text-slate-400">50</span>
+            </button>
+
+            <button id="btn-tab-pagos" onclick="cambiarPestana('tab-pagos', 'btn-tab-pagos')" class="menu-item w-full flex items-center justify-between px-4 py-3 rounded-r text-left text-sm text-slate-300 hover:bg-slate-800/80 transition">
+                <div class="flex items-center space-x-3">
+                    <i class="fa-solid fa-file-invoice-dollar w-5 text-center text-slate-400"></i>
+                    <span>Mensualidades y Caja</span>
+                </div>
+                <span id="sidebar-count-mora" class="bg-rose-900/80 text-rose-200 text-xs font-mono px-2 py-0.5 rounded border border-rose-700">2</span>
+            </button>
+
+            <button id="btn-tab-auditoria" onclick="cambiarPestana('tab-auditoria', 'btn-tab-auditoria')" class="menu-item w-full flex items-center justify-between px-4 py-3 rounded-r text-left text-sm text-slate-300 hover:bg-slate-800/80 transition">
+                <div class="flex items-center space-x-3">
+                    <i class="fa-solid fa-clipboard-list w-5 text-center text-slate-400"></i>
+                    <span>Bitácora de Auditoría</span>
+                </div>
+            </button>
+        </nav>
+
+        <!-- Operario Autenticado -->
+        <div class="p-4 border-t border-slate-800 bg-slate-950/60 flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center font-bold text-xs text-white shadow">
+                CR
+            </div>
+            <div class="overflow-hidden flex-1">
+                <p class="text-sm font-semibold text-white truncate">Carlos Ríos</p>
+                <p class="text-xs text-slate-400 truncate">Operador en Turno • Sede 01</p>
+            </div>
+            <i class="fa-solid fa-user-check text-emerald-400 text-xs" title="Sesión Activa"></i>
+        </div>
+    </aside>
+
+    <!-- =================================================================== -->
+    <!-- CONTENIDO PRINCIPAL                                                 -->
+    <!-- =================================================================== -->
+    <main class="flex-1 flex flex-col h-screen overflow-y-auto">
+
+        <!-- BARRA SUPERIOR -->
+        <header class="bg-white shadow-sm border-b border-slate-200 px-8 py-4 flex flex-wrap justify-between items-center gap-4 sticky top-0 z-10">
+            <div>
+                <h1 id="header-titulo" class="text-xl font-bold text-slate-800">Ingreso y Control de Portería</h1>
+                <p id="header-subtitulo" class="text-xs text-slate-500 mt-0.5">Verificación de titularidad, asignación de celda disponible y emisión de comprobante.</p>
+            </div>
+            <div class="flex items-center space-x-3">
+                <div class="bg-slate-100 text-slate-700 text-xs font-mono px-3 py-1.5 rounded-md border border-slate-200 flex items-center">
+                    <i class="fa-regular fa-clock mr-2 text-slate-500"></i>
+                    <span id="reloj-sistema">2026-10-24 15:36:00</span>
+                </div>
+                <div class="bg-blue-50 text-blue-800 text-xs font-semibold px-3 py-1.5 rounded-md border border-blue-200 flex items-center">
+                    <i class="fa-solid fa-warehouse mr-1.5 text-blue-600"></i>
+                    <span id="header-resumen-ocupacion">Ocupación: 3 / 50</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- NOTIFICACIÓN OPERATIVA -->
+        <div id="alerta-operativa" class="hidden mx-8 mt-5 rounded-lg border px-4 py-3 shadow-sm flex items-center justify-between transition-all">
+            <div class="flex items-center space-x-3">
+                <i id="alerta-icono" class="fa-solid fa-circle-check text-base"></i>
+                <span id="alerta-mensaje" class="text-sm font-medium"></span>
+            </div>
+            <button onclick="ocultarAlerta()" class="text-xs font-semibold opacity-75 hover:opacity-100">
+                <i class="fa-solid fa-xmark text-sm"></i>
+            </button>
+        </div>
+
+        <!-- CONTENEDOR DE MÓDULOS -->
+        <div class="px-8 py-6 flex-1 space-y-6">
+
+            <!-- =============================================================== -->
+            <!-- MÓDULO 1: INGRESO Y PORTERÍA (2 COLUMNAS LIMPIAS)               -->
+            <!-- =============================================================== -->
+            <section id="tab-ingreso" class="vista-modulo">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+                    <!-- Columna Izquierda: Formulario Operativo en 3 Pasos -->
+                    <div class="lg:col-span-7 bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="px-6 py-4 bg-gradient-to-r from-slate-800 to-slate-900 text-white flex justify-between items-center">
+                            <div class="flex items-center space-x-2.5">
+                                <i class="fa-solid fa-car-side text-sky-400"></i>
+                                <h2 class="font-bold text-sm uppercase tracking-wider">Registro de Entrada Vehicular</h2>
+                            </div>
+                            <span class="text-xs font-mono text-slate-300">Portería Principal</span>
+                        </div>
+
+                        <div class="p-6 space-y-6">
+                            <!-- Paso 1: Placa del Vehículo a Ingresar -->
+                            <div>
+                                <label for="input-placa-entrada" class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">
+                                    Paso 1. Placa del Vehículo a Ingresar
+                                </label>
+                                <div class="flex space-x-3">
+                                    <div class="relative flex-1">
+                                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-sm"></i>
+                                        <input 
+                                            type="text" 
+                                            id="input-placa-entrada" 
+                                            list="datalist-placas-padron"
+                                            maxlength="7" 
+                                            placeholder="Digite la placa (ej. KLM-452, ZPL-12F, BGT-891)" 
+                                            oninput="validarPlacaEnPorteria()"
+                                            class="w-full border border-slate-300 rounded-md pl-10 pr-4 py-2 font-mono font-bold uppercase text-base text-slate-900 bg-white focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none"
+                                        >
+                                        <datalist id="datalist-placas-padron">
+                                            <!-- Autocompletado nativo poblado por JS -->
+                                        </datalist>
+                                    </div>
+                                    <button type="button" onclick="validarPlacaEnPorteria()" class="btn-corp-primary px-5 py-2 rounded-md text-sm font-semibold shadow-sm flex items-center shrink-0">
+                                        <i class="fa-solid fa-check-double mr-2"></i>Validar Placa
+                                    </button>
+                                </div>
+
+                                <!-- Tarjeta de Resultado de Validación -->
+                                <div id="tarjeta-validacion-ingreso" class="mt-4">
+                                    <!-- Renderizado dinámicamente -->
+                                </div>
+                            </div>
+
+                            <!-- Paso 2: Selección de Celda Disponible y Observaciones -->
+                            <div class="pt-4 border-t border-slate-200 space-y-4">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="select-celda-entrada" class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">
+                                            Paso 2. Selección de Celda Disponible
+                                        </label>
+                                        <select id="select-celda-entrada" class="w-full border border-slate-300 rounded-md px-3 py-2 text-sm font-mono bg-white text-slate-800 focus:ring-2 focus:ring-blue-600 outline-none">
+                                            <option value="">-- Valide una placa habilitada --</option>
+                                        </select>
+                                        <p id="contador-celdas-compatibles" class="text-[11px] text-slate-500 mt-1">Filtrado automático por categoría vehicular.</p>
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">
+                                            Autorización de Barrera
+                                        </label>
+                                        <div id="estado-barrera-ingreso" class="border border-slate-200 bg-slate-50 rounded-md px-3 py-2 text-xs text-slate-600 flex items-center h-[38px]">
+                                            <i class="fa-solid fa-lock text-slate-400 mr-2"></i>
+                                            <span>En espera de validación</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label for="input-observacion-entrada" class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">
+                                        Observaciones / Estado Físico de Ingreso (Opcional)
+                                    </label>
+                                    <textarea 
+                                        id="input-observacion-entrada" 
+                                        rows="2" 
+                                        placeholder="Registre rayones previos, golpes visibles, accesorios o cascos dejados en custodia..."
+                                        class="w-full border border-slate-300 rounded-md p-2.5 text-sm text-slate-800 bg-white focus:ring-2 focus:ring-blue-600 outline-none"
+                                    ></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Paso 3: Confirmación y Emisión -->
+                            <div class="pt-4 border-t border-slate-200 flex items-center justify-between">
+                                <button type="button" onclick="limpiarFormularioPorteria()" class="px-4 py-2.5 border border-slate-300 rounded-md text-xs font-semibold text-slate-600 hover:bg-slate-100 transition">
+                                    <i class="fa-solid fa-eraser mr-1.5"></i>Limpiar Formulario
+                                </button>
+                                <button type="button" id="btn-confirmar-ingreso" onclick="procesarEntradaVehiculo()" class="btn-corp-emerald px-6 py-2.5 rounded-md text-sm font-bold shadow flex items-center">
+                                    <i class="fa-solid fa-receipt mr-2"></i>Registrar Entrada y Emitir Ticket
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Columna Derecha: Visor de Comprobante / Ticket Térmico -->
+                    <div class="lg:col-span-5 bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="px-6 py-4 bg-slate-100 border-b border-slate-200 flex justify-between items-center">
+                            <div class="flex items-center space-x-2">
+                                <i class="fa-solid fa-print text-blue-700"></i>
+                                <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider">Visor de Comprobante de Ingreso</h3>
+                            </div>
+                            <span class="text-[11px] font-mono bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded border border-emerald-300 font-semibold">
+                                Impresora POS Lista
+                            </span>
+                        </div>
+
+                        <div class="p-6">
+                            <!-- Recibo Térmico -->
+                            <div id="visor-ticket-termico" class="border-2 border-dashed border-slate-300 rounded-lg p-5 bg-slate-50 font-mono text-xs space-y-3 text-slate-800">
+                                <!-- Poblado dinámicamente -->
+                            </div>
+
+                            <div class="mt-5 grid grid-cols-2 gap-3">
+                                <button type="button" onclick="abrirModalImpresion()" class="btn-corp-dark py-2.5 px-4 rounded-md text-xs font-semibold flex items-center justify-center">
+                                    <i class="fa-solid fa-print mr-2"></i>Imprimir Comprobante
+                                </button>
+                                <button type="button" onclick="descargarTicketTxt()" class="border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 py-2.5 px-4 rounded-md text-xs font-semibold flex items-center justify-center transition">
+                                    <i class="fa-solid fa-download mr-2"></i>Descargar Recibo (.TXT)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- =============================================================== -->
+            <!-- MÓDULO 2: SALIDAS Y NOVEDADES                                   -->
+            <!-- =============================================================== -->
+            <section id="tab-salidas" class="vista-modulo hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+                    <!-- Columna Izquierda: Gestión de Novedades y Autorización de Salida -->
+                    <div class="lg:col-span-7 bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="px-6 py-4 bg-gradient-to-r from-slate-800 to-slate-900 text-white flex justify-between items-center">
+                            <div class="flex items-center space-x-2.5">
+                                <i class="fa-solid fa-right-from-bracket text-amber-400"></i>
+                                <h2 class="font-bold text-sm uppercase tracking-wider">Control de Salida y Registro de Novedades</h2>
+                            </div>
+                            <span class="text-xs font-mono text-slate-300">Verificación de Egreso</span>
+                        </div>
+
+                        <div class="p-6 space-y-5">
+                            <!-- Selector de vehículo activo en patio -->
+                            <div>
+                                <label for="select-vehiculo-activo-salida" class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">
+                                    Seleccionar Vehículo Estacionado en Patio
+                                </label>
+                                <select id="select-vehiculo-activo-salida" onchange="cargarFichaSalida()" class="w-full border border-slate-300 rounded-md px-3.5 py-2.5 text-sm font-mono bg-white text-slate-800 focus:ring-2 focus:ring-blue-600 outline-none">
+                                    <!-- Poblado por JS -->
+                                </select>
+                            </div>
+
+                            <!-- Resumen de Validación de Salida -->
+                            <div id="ficha-resumen-salida" class="border border-slate-200 rounded-lg p-4 bg-slate-50 space-y-3">
+                                <!-- Poblado por JS -->
+                            </div>
+
+                            <!-- Formulario para Registrar Novedad Física Inmutable -->
+                            <div class="border border-slate-200 rounded-lg p-4 bg-white space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <label for="input-nueva-novedad" class="text-xs font-bold text-slate-700 uppercase tracking-wide">
+                                        <i class="fa-solid fa-shield-halved text-blue-700 mr-1.5"></i>Anexar Reporte de Novedad o Incidente sobre el Vehículo
+                                    </label>
+                                    <span class="text-[11px] text-slate-500 font-mono">Registro Inmutable</span>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <input 
+                                        type="text" 
+                                        id="input-nueva-novedad" 
+                                        placeholder="Describa rayón, golpe, novedad reportada en patio o conformidad de retiro..."
+                                        class="flex-1 border border-slate-300 rounded-md px-3 py-2 text-xs text-slate-800 focus:ring-2 focus:ring-blue-600 outline-none"
+                                    >
+                                    <button type="button" onclick="guardarNovedadInmutable()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-md text-xs font-semibold transition shrink-0">
+                                        <i class="fa-solid fa-plus mr-1.5"></i>Guardar Novedad
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Botón Autorizar Salida -->
+                            <div class="pt-3 border-t border-slate-200 flex justify-end">
+                                <button type="button" onclick="ejecutarSalidaVehiculo()" class="btn-corp-primary px-6 py-2.5 rounded-md text-sm font-bold shadow flex items-center">
+                                    <i class="fa-solid fa-door-open mr-2"></i>Autorizar Salida y Liberar Celda
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Columna Derecha: Vehículos Actualmente en Patio -->
+                    <div class="lg:col-span-5 bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="px-5 py-4 bg-slate-100 border-b border-slate-200 flex justify-between items-center">
+                            <span class="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                                <i class="fa-solid fa-car-On mr-1.5 text-blue-700"></i>Vehículos Activos en Patio
+                            </span>
+                            <span class="text-xs text-slate-500">Seleccione para gestionar</span>
+                        </div>
+                        <div id="lista-lateral-activos" class="p-4 space-y-3 max-h-[480px] overflow-y-auto">
+                            <!-- Poblado por JS -->
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- =============================================================== -->
+            <!-- MÓDULO 3: CELDAS Y PATIO (50 CELDAS: 20 AUTOS / 30 MOTOS)       -->
+            <!-- =============================================================== -->
+            <section id="tab-patio" class="vista-modulo hidden space-y-6">
+                <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6 space-y-5">
+                    <!-- Barra de Filtros del Mapa de Celdas -->
+                    <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-4">
+                        <div>
+                            <h2 class="text-base font-bold text-slate-800">Mapa General de Celdas (Capacidad Total: 50 Celdas)</h2>
+                            <p class="text-xs text-slate-500">Distribución oficial: 20 celdas para Automóviles (A-01 a A-20) y 30 celdas para Motocicletas (M-01 a M-30).</p>
+                        </div>
+
+                        <div class="flex flex-wrap items-center gap-3">
+                            <div class="relative">
+                                <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                                <input 
+                                    type="text" 
+                                    id="filtro-celdas-busqueda" 
+                                    oninput="renderizarMapa50Celdas()" 
+                                    placeholder="Buscar placa o celda (ej. A-01)..." 
+                                    class="border border-slate-300 rounded-md pl-8 pr-3 py-1.5 text-xs w-56 focus:ring-2 focus:ring-blue-600 outline-none"
+                                >
+                            </div>
+
+                            <select id="filtro-celdas-tipo" onchange="renderizarMapa50Celdas()" class="border border-slate-300 rounded-md px-3 py-1.5 text-xs bg-white text-slate-700 font-medium outline-none">
+                                <option value="TODAS">Todas las Celdas (50)</option>
+                                <option value="Automóvil">Sector Automóviles (20)</option>
+                                <option value="Motocicleta">Sector Motocicletas (30)</option>
+                            </select>
+
+                            <select id="filtro-celdas-estado" onchange="renderizarMapa50Celdas()" class="border border-slate-300 rounded-md px-3 py-1.5 text-xs bg-white text-slate-700 font-medium outline-none">
+                                <option value="TODOS">Todos los Estados</option>
+                                <option value="DISPONIBLE">Solo Disponibles</option>
+                                <option value="OCUPADA">Solo Ocupadas</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Cuadrícula Interactiva de las 50 Celdas -->
+                    <div id="cuadricula-principal-50-celdas" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-10 gap-3">
+                        <!-- Renderizado por JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- =============================================================== -->
+            <!-- MÓDULO 4: MENSUALIDADES Y CAJA                                  -->
+            <!-- =============================================================== -->
+            <section id="tab-pagos" class="vista-modulo hidden space-y-6">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+                    <!-- Columna Izquierda: Recaudo de Mensualidad y Alta de Suscriptor -->
+                    <div class="lg:col-span-4 space-y-6">
+                        <!-- Tarjeta de Recaudo -->
+                        <div class="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
+                            <div class="px-5 py-4 bg-gradient-to-r from-blue-800 to-indigo-900 text-white">
+                                <h2 class="font-bold text-sm uppercase tracking-wider">
+                                    <i class="fa-solid fa-cash-register mr-2"></i>Recaudo de Mensualidad
+                                </h2>
+                                <p class="text-xs text-blue-200 mt-0.5">Renovación por 30 días y activación inmediata en portería.</p>
+                            </div>
+
+                            <div class="p-5 space-y-4">
+                                <div>
+                                    <label for="select-cliente-caja" class="block text-xs font-bold text-slate-700 uppercase mb-1.5">Seleccionar Suscriptor</label>
+                                    <select id="select-cliente-caja" onchange="mostrarLiquidacionCaja()" class="w-full border border-slate-300 rounded-md px-3 py-2 text-xs font-mono bg-white text-slate-800 outline-none">
+                                        <!-- Poblado por JS -->
+                                    </select>
+                                </div>
+
+                                <div id="detalle-liquidacion-caja" class="bg-slate-50 border border-slate-200 rounded-lg p-3.5 text-xs space-y-2">
+                                    <!-- Poblado por JS -->
+                                </div>
+
+                                <div>
+                                    <label for="select-metodo-pago" class="block text-xs font-bold text-slate-700 uppercase mb-1.5">Método de Pago</label>
+                                    <select id="select-metodo-pago" class="w-full border border-slate-300 rounded-md px-3 py-2 text-xs bg-white text-slate-800 outline-none">
+                                        <option value="Efectivo en Caja">Efectivo en Caja</option>
+                                        <option value="Transferencia PSE / Bancolombia">Transferencia PSE / Bancolombia</option>
+                                        <option value="Tarjeta Débito / Crédito">Tarjeta Débito / Crédito</option>
+                                    </select>
+                                </div>
+
+                                <button type="button" onclick="registrarPagoEnCaja()" class="w-full btn-corp-primary py-2.5 px-4 rounded-md text-xs font-bold uppercase tracking-wider shadow flex items-center justify-center">
+                                    <i class="fa-solid fa-file-circle-check mr-2"></i>Registrar Pago y Emitir Paz y Salvo
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Tarjeta para Registrar Nuevo Cliente de Mensualidad -->
+                        <div class="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
+                            <div class="px-5 py-3.5 bg-slate-800 text-white flex items-center justify-between">
+                                <span class="text-xs font-bold uppercase tracking-wider">
+                                    <i class="fa-solid fa-user-plus mr-1.5 text-sky-400"></i>Vincular Nuevo Cliente Mensual
+                                </span>
+                            </div>
+                            <div class="p-5 space-y-3 text-xs">
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="block font-bold text-slate-700 uppercase mb-1">Placa</label>
+                                        <input type="text" id="nuevo-cliente-placa" maxlength="7" placeholder="Ej. RTY-901" class="w-full border border-slate-300 rounded px-2.5 py-1.5 font-mono uppercase font-bold outline-none focus:ring-2 focus:ring-blue-600">
+                                    </div>
+                                    <div>
+                                        <label class="block font-bold text-slate-700 uppercase mb-1">Tipo Vehículo</label>
+                                        <select id="nuevo-cliente-tipo" class="w-full border border-slate-300 rounded px-2.5 py-1.5 bg-white outline-none">
+                                            <option value="Automóvil">Automóvil ($180.000)</option>
+                                            <option value="Motocicleta">Motocicleta ($95.000)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block font-bold text-slate-700 uppercase mb-1">Nombre Completo del Titular</label>
+                                    <input type="text" id="nuevo-cliente-nombre" placeholder="Nombre y Apellidos" class="w-full border border-slate-300 rounded px-2.5 py-1.5 outline-none focus:ring-2 focus:ring-blue-600">
+                                </div>
+                                <div>
+                                    <label class="block font-bold text-slate-700 uppercase mb-1">Documento de Identidad</label>
+                                    <input type="text" id="nuevo-cliente-doc" placeholder="Ej. CC 1037654321" class="w-full border border-slate-300 rounded px-2.5 py-1.5 font-mono outline-none focus:ring-2 focus:ring-blue-600">
+                                </div>
+                                <button type="button" onclick="registrarNuevoSuscriptor()" class="w-full btn-corp-dark py-2 px-4 rounded text-xs font-semibold flex items-center justify-center mt-2">
+                                    <i class="fa-solid fa-floppy-disk mr-2"></i>Guardar y Activar Mensualidad
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Columna Derecha: Tabla Responsiva del Padrón de Mensualidades -->
+                    <div class="lg:col-span-8 bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="px-6 py-4 bg-slate-50 border-b border-slate-200 flex flex-wrap justify-between items-center gap-3">
+                            <div>
+                                <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider">Padrón General de Clientes de Mensualidad</h3>
+                                <p class="text-xs text-slate-500">Control de vigencias, tarifas asignadas y estado de acceso en portería.</p>
+                            </div>
+                            <span id="contador-suscriptores-total" class="text-xs font-mono bg-slate-200 text-slate-700 px-2.5 py-1 rounded font-semibold">7 Clientes</span>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead class="bg-slate-100 text-slate-600 border-b border-slate-200 text-[11px] uppercase">
+                                    <tr>
+                                        <th class="px-4 py-3 font-bold whitespace-nowrap">Placa</th>
+                                        <th class="px-4 py-3 font-bold whitespace-nowrap">Titular / Documento</th>
+                                        <th class="px-4 py-3 font-bold whitespace-nowrap">Categoría / Tarifa</th>
+                                        <th class="px-4 py-3 font-bold whitespace-nowrap">Vencimiento</th>
+                                        <th class="px-4 py-3 font-bold whitespace-nowrap">Estado</th>
+                                        <th class="px-4 py-3 font-bold whitespace-nowrap text-right">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabla-padron-mensualidades" class="divide-y divide-slate-200 text-xs">
+                                    <!-- Renderizado por JS con celdas whitespace-nowrap -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- =============================================================== -->
+            <!-- MÓDULO 5: BITÁCORA DE AUDITORÍA                                 -->
+            <!-- =============================================================== -->
+            <section id="tab-auditoria" class="vista-modulo hidden space-y-6">
+                <div class="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="p-5 bg-slate-50 border-b border-slate-200 flex flex-wrap justify-between items-center gap-4">
+                        <div class="flex flex-wrap items-center gap-3">
+                            <div class="relative w-72">
+                                <i class="fa-solid fa-filter absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                                <input 
+                                    type="text" 
+                                    id="filtro-auditoria-texto" 
+                                    oninput="renderizarTablaAuditoria()" 
+                                    placeholder="Buscar por placa, operario, celda o acción..." 
+                                    class="w-full border border-slate-300 rounded-md pl-8 pr-3 py-1.5 text-xs bg-white focus:ring-2 focus:ring-blue-600 outline-none"
+                                >
+                            </div>
+
+                            <select id="filtro-auditoria-tipo" onchange="renderizarTablaAuditoria()" class="border border-slate-300 rounded-md px-3 py-1.5 text-xs bg-white text-slate-700 font-medium outline-none">
+                                <option value="TODOS">Todos los Eventos</option>
+                                <option value="INGRESO">Ingreso</option>
+                                <option value="SALIDA">Salida</option>
+                                <option value="PAGO">Pago</option>
+                                <option value="NOVEDAD">Novedad</option>
+                                <option value="BLOQUEO">Bloqueo</option>
+                            </select>
+                        </div>
+
+                        <button type="button" onclick="exportarBitacoraCSV()" class="px-3.5 py-1.5 rounded-md border border-blue-700 text-blue-700 hover:bg-blue-50 text-xs font-semibold transition flex items-center">
+                            <i class="fa-solid fa-file-csv mr-2"></i>Exportar Bitácora (.CSV)
+                        </button>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-slate-100 text-slate-600 border-b border-slate-200 text-[11px] uppercase">
+                                <tr>
+                                    <th class="px-4 py-3 font-bold whitespace-nowrap">Código Transacción</th>
+                                    <th class="px-4 py-3 font-bold whitespace-nowrap">Fecha / Hora Exacta</th>
+                                    <th class="px-4 py-3 font-bold whitespace-nowrap">Módulo / Evento</th>
+                                    <th class="px-4 py-3 font-bold whitespace-nowrap">Placa / Celda</th>
+                                    <th class="px-4 py-3 font-bold">Descripción del Evento</th>
+                                    <th class="px-4 py-3 font-bold whitespace-nowrap">Operario Responsable</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-bitacora-auditoria" class="divide-y divide-slate-200 text-xs">
+                                <!-- Renderizado por JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =============================================================== -->
+            <!-- PANEL INFERIOR PERSISTENTE: ESTADO DE LAS 50 CELDAS             -->
+            <!-- =============================================================== -->
+            <section class="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
+                <div class="px-5 py-3.5 bg-slate-800 text-white flex flex-wrap items-center justify-between gap-4">
+                    <div class="flex items-center space-x-2.5">
+                        <i class="fa-solid fa-table-cells text-sky-400"></i>
+                        <h3 class="text-xs font-bold uppercase tracking-wider">
+                            Estado Operativo de Celdas en Patio (50 Celdas: 20 Autos / 30 Motos)
+                        </h3>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-4 text-xs">
+                        <div class="flex items-center space-x-1.5">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block"></span>
+                            <span class="text-slate-300">Disponibles:</span>
+                            <strong id="barra-inf-libres" class="font-mono text-white">47</strong>
+                        </div>
+                        <div class="flex items-center space-x-1.5">
+                            <span class="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block"></span>
+                            <span class="text-slate-300">Ocupadas:</span>
+                            <strong id="barra-inf-ocupadas" class="font-mono text-amber-300">3</strong>
+                        </div>
+                        <div class="flex items-center space-x-1.5">
+                            <span class="text-slate-400">Autos:</span>
+                            <strong id="barra-inf-autos" class="font-mono text-sky-300">2/20</strong>
+                        </div>
+                        <div class="flex items-center space-x-1.5">
+                            <span class="text-slate-400">Motos:</span>
+                            <strong id="barra-inf-motos" class="font-mono text-sky-300">1/30</strong>
+                        </div>
+                        <button type="button" onclick="alternarPanelInferior()" class="text-xs text-slate-300 hover:text-white font-semibold ml-2 flex items-center">
+                            <i id="icono-colapsar-inferior" class="fa-solid fa-chevron-up mr-1"></i>
+                            <span id="texto-colapsar-inferior">Compactar</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="cuerpo-panel-inferior-celdas" class="p-4 bg-slate-50/70 space-y-3">
+                    <!-- Cuadrícula compacta de las 50 celdas -->
+                    <div id="grid-inferior-50-celdas" class="grid grid-cols-5 sm:grid-cols-10 md:grid-cols-10 lg:grid-cols-10 gap-1.5">
+                        <!-- Renderizado por JS -->
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- =================================================================== -->
+    <!-- MODAL DE IMPRESIÓN DE TICKET / RECIBO DE CAJA                       -->
+    <!-- =================================================================== -->
+    <div id="modal-impresion" class="fixed inset-0 z-50 hidden bg-slate-900/60 flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg max-w-md w-full shadow-2xl border border-slate-300 overflow-hidden">
+            <div class="px-5 py-3.5 bg-slate-900 text-white flex justify-between items-center">
+                <span class="text-xs font-bold uppercase tracking-wider">
+                    <i class="fa-solid fa-print mr-2 text-sky-400"></i>Terminal de Impresión POS
+                </span>
+                <button type="button" onclick="cerrarModalImpresion()" class="text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div id="modal-impresion-cuerpo" class="p-6 font-mono text-xs space-y-2.5 bg-slate-50 text-slate-900">
+                <!-- Poblado por JS -->
+            </div>
+            <div class="px-5 py-3 bg-white border-t border-slate-200 flex justify-end space-x-2">
+                <button type="button" onclick="cerrarModalImpresion()" class="px-4 py-2 rounded border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-100">
+                    Cerrar
+                </button>
+                <button type="button" onclick="confirmarSalidaImpresora()" class="btn-corp-primary px-4 py-2 rounded text-xs font-semibold flex items-center">
+                    <i class="fa-solid fa-check mr-1.5"></i>Confirmar Impresión
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- LÓGICA DE NEGOCIO Y DATOS EN MEMORIA (JAVASCRIPT)                   -->
+    <!-- =================================================================== -->
+    <script>
+        // 1. Clientes de mensualidad pre-cargados
+        const padronClientes = [
+            {
+                placa: 'ENV-774',
+                titular: 'Carlos Andrés Mejía',
+                documento: 'CC 1037612890',
+                tipo: 'Automóvil',
+                estado: 'ACTIVA',
+                vencimiento: '2026-11-15',
+                tarifa: 180000,
+                enPatio: true,
+                celdaActual: 'A-01'
+            },
+            {
+                placa: 'KLM-452',
+                titular: 'Laura Sofía Gómez',
+                documento: 'CC 1017234981',
+                tipo: 'Automóvil',
+                estado: 'ACTIVA',
+                vencimiento: '2026-11-10',
+                tarifa: 180000,
+                enPatio: false,
+                celdaActual: null
+            },
+            {
+                placa: 'BGT-891',
+                titular: 'Jorge Iván Restrepo',
+                documento: 'CC 71345902',
+                tipo: 'Automóvil',
+                estado: 'EN MORA',
+                vencimiento: '2026-10-05',
+                tarifa: 180000,
+                enPatio: false,
+                celdaActual: null
+            },
+            {
+                placa: 'XRT-94D',
+                titular: 'Mateo Cano Valencia',
+                documento: 'CC 1040751239',
+                tipo: 'Motocicleta',
+                estado: 'ACTIVA',
+                vencimiento: '2026-11-20',
+                tarifa: 95000,
+                enPatio: true,
+                celdaActual: 'M-01'
+            },
+            {
+                placa: 'ZPL-12F',
+                titular: 'Diana Marcela Ríos',
+                documento: 'CC 43987123',
+                tipo: 'Motocicleta',
+                estado: 'ACTIVA',
+                vencimiento: '2026-11-18',
+                tarifa: 95000,
+                enPatio: false,
+                celdaActual: null
+            },
+            {
+                placa: 'MDE-305',
+                titular: 'Santiago Montoya',
+                documento: 'CC 1036945112',
+                tipo: 'Automóvil',
+                estado: 'ACTIVA',
+                vencimiento: '2026-11-12',
+                tarifa: 180000,
+                enPatio: true,
+                celdaActual: 'A-02'
+            },
+            {
+                placa: 'QWE-88A',
+                titular: 'Andrés Felipe Duque',
+                documento: 'CC 1020456789',
+                tipo: 'Motocicleta',
+                estado: 'EN MORA',
+                vencimiento: '2026-10-12',
+                tarifa: 95000,
+                enPatio: false,
+                celdaActual: null
+            }
+        ];
+
+        // 2. Generación dinámica de las 50 celdas (20 Automóviles: A-01..A-20 y 30 Motocicletas: M-01..M-30)
+        const inventarioCeldas = [];
+        for (let i = 1; i <= 20; i++) {
+            const codigo = `A-${String(i).padStart(2, '0')}`;
+            let ocupante = null;
+            if (codigo === 'A-01') ocupante = 'ENV-774';
+            if (codigo === 'A-02') ocupante = 'MDE-305';
+            inventarioCeldas.push({
+                codigo,
+                tipo: 'Automóvil',
+                estado: ocupante ? 'OCUPADA' : 'DISPONIBLE',
+                placaActual: ocupante
+            });
+        }
+        for (let i = 1; i <= 30; i++) {
+            const codigo = `M-${String(i).padStart(2, '0')}`;
+            let ocupante = null;
+            if (codigo === 'M-01') ocupante = 'XRT-94D';
+            inventarioCeldas.push({
+                codigo,
+                tipo: 'Motocicleta',
+                estado: ocupante ? 'OCUPADA' : 'DISPONIBLE',
+                placaActual: ocupante
+            });
+        }
+
+        // 3. Movimientos actualmente activos en patio
+        let movimientosActivos = [
+            {
+                transaccion: 'TRX-2026-1041',
+                placa: 'ENV-774',
+                titular: 'Carlos Andrés Mejía',
+                documento: 'CC 1037612890',
+                tipo: 'Automóvil',
+                celda: 'A-01',
+                fechaEntrada: '2026-10-24 07:45:10',
+                permanencia: '07h 50m',
+                operario: 'Carlos Ríos',
+                novedades: [
+                    '2026-10-24 07:45 — Ingreso: Rayón superficial previo en puerta trasera derecha.'
+                ]
+            },
+            {
+                transaccion: 'TRX-2026-1042',
+                placa: 'XRT-94D',
+                titular: 'Mateo Cano Valencia',
+                documento: 'CC 1040751239',
+                tipo: 'Motocicleta',
+                celda: 'M-01',
+                fechaEntrada: '2026-10-24 08:20:00',
+                permanencia: '07h 15m',
+                operario: 'Carlos Ríos',
+                novedades: [
+                    '2026-10-24 08:20 — Ingreso: Deja casco abatible negro asegurado en soporte.'
+                ]
+            },
+            {
+                transaccion: 'TRX-2026-1043',
+                placa: 'MDE-305',
+                titular: 'Santiago Montoya',
+                documento: 'CC 1036945112',
+                tipo: 'Automóvil',
+                celda: 'A-02',
+                fechaEntrada: '2026-10-24 09:10:25',
+                permanencia: '06h 25m',
+                operario: 'Carlos Ríos',
+                novedades: [
+                    '2026-10-24 09:10 — Ingreso: Vehículo ingresa sin novedades físicas.'
+                ]
+            }
+        ];
+
+        // 4. Bitácora de Auditoría
+        let eventosAuditoria = [
+            {
+                codigo: 'TRX-2026-1043',
+                fecha: '2026-10-24 09:10:25',
+                tipo: 'INGRESO',
+                modulo: 'Portería',
+                placaCelda: 'MDE-305 • A-02',
+                descripcion: 'Entrada vehicular registrada. Asignación de celda A-02 a Santiago Montoya.',
+                operario: 'Carlos Ríos'
+            },
+            {
+                codigo: 'TRX-2026-1042',
+                fecha: '2026-10-24 08:20:00',
+                tipo: 'INGRESO',
+                modulo: 'Portería',
+                placaCelda: 'XRT-94D • M-01',
+                descripcion: 'Entrada de motocicleta registrada en celda M-01. Observación: Casco en soporte.',
+                operario: 'Carlos Ríos'
+            },
+            {
+                codigo: 'TRX-2026-1041',
+                fecha: '2026-10-24 07:45:10',
+                tipo: 'NOVEDAD',
+                modulo: 'Portería',
+                placaCelda: 'ENV-774 • A-01',
+                descripcion: 'Acta de ingreso con novedad física: Rayón superficial previo en puerta trasera derecha.',
+                operario: 'Carlos Ríos'
+            },
+            {
+                codigo: 'TRX-2026-1040',
+                fecha: '2026-10-24 07:30:12',
+                tipo: 'BLOQUEO',
+                modulo: 'Portería',
+                placaCelda: 'BGT-891 • N/A',
+                descripcion: 'Bloqueo automático de ingreso por mensualidad vencida (Titular: Jorge Iván Restrepo).',
+                operario: 'Carlos Ríos'
+            },
+            {
+                codigo: 'RC-2026-0891',
+                fecha: '2026-10-24 07:15:00',
+                tipo: 'PAGO',
+                modulo: 'Caja',
+                placaCelda: 'KLM-452 • Mensualidad',
+                descripcion: 'Pago de mensualidad por $180.000 COP (Transferencia PSE). Vigencia hasta 2026-11-10.',
+                operario: 'Carlos Ríos'
+            }
+        ];
+
+        let consecutivoTransaccion = 1044;
+        let ultimoComprobante = movimientosActivos[movimientosActivos.length - 1];
+        let panelInferiorColapsado = false;
+
+        const metadatosCabecera = {
+            'tab-ingreso': {
+                titulo: 'Ingreso y Control de Portería',
+                subtitulo: 'Verificación de titularidad, asignación de celda disponible y emisión de comprobante.'
+            },
+            'tab-salidas': {
+                titulo: 'Salidas, Novedades y Liberación de Celdas',
+                subtitulo: 'Inspección de salida, registro inmutable de novedades físicas y liberación automática.'
+            },
+            'tab-patio': {
+                titulo: 'Monitor de Celdas y Ocupación en Patio',
+                subtitulo: 'Visualización interactiva de las 50 celdas (20 Automóviles y 30 Motocicletas).'
+            },
+            'tab-pagos': {
+                titulo: 'Mensualidades, Suscriptores y Recaudo en Caja',
+                subtitulo: 'Gestión de pagos mensuales, estados de paz y salvo y vinculación de nuevos clientes.'
+            },
+            'tab-auditoria': {
+                titulo: 'Bitácora de Auditoría Operativa',
+                subtitulo: 'Trazabilidad histórica de ingresos, salidas, recaudos, novedades y bloqueos.'
+            }
+        };
+
+        // Sincronización asíncrona no destructiva con Backend Node.js (/api/estado)
+        async function refrescarEstadoDesdeBackend() {
+            try {
+                const res = await fetch('/api/estado');
+                if (!res.ok) return false;
+                const json = await res.json();
+                if (json && json.ok && json.datos) {
+                    if (Array.isArray(json.datos.padronClientes) && json.datos.padronClientes.length > 0) {
+                        padronClientes.splice(0, padronClientes.length, ...json.datos.padronClientes);
+                    }
+                    if (Array.isArray(json.datos.inventarioCeldas) && json.datos.inventarioCeldas.length > 0) {
+                        inventarioCeldas.splice(0, inventarioCeldas.length, ...json.datos.inventarioCeldas);
+                    }
+                    if (Array.isArray(json.datos.movimientosActivos)) {
+                        movimientosActivos.splice(0, movimientosActivos.length, ...json.datos.movimientosActivos);
+                    }
+                    if (Array.isArray(json.datos.eventosAuditoria) && json.datos.eventosAuditoria.length > 0) {
+                        eventosAuditoria.splice(0, eventosAuditoria.length, ...json.datos.eventosAuditoria);
+                    }
+                    if (json.datos.ultimoComprobante) {
+                        ultimoComprobante = json.datos.ultimoComprobante;
+                    }
+                    return true;
+                }
+            } catch (err) {
+                // Silencioso: Doble clic en index.html o servidor apagado
+            }
+            return false;
+        }
+
+        // Inicialización
+        window.onload = async function() {
+            iniciarReloj();
+            sincronizarVistas();
+            document.getElementById('input-placa-entrada').value = 'KLM-452';
+            validarPlacaEnPorteria();
+
+            // Intento de conexión con backend Node.js
+            const conectado = await refrescarEstadoDesdeBackend();
+            if (conectado) {
+                sincronizarVistas();
+                validarPlacaEnPorteria();
+            }
+        };
+
+        function obtenerFechaHoraActual() {
+            const ahora = new Date();
+            const hora = ahora.toTimeString().slice(0, 8);
+            return `2026-10-24 ${hora}`;
+        }
+
+        function iniciarReloj() {
+            const tick = () => {
+                document.getElementById('reloj-sistema').textContent = obtenerFechaHoraActual();
+            };
+            tick();
+            setInterval(tick, 1000);
+        }
+
+        // Cambio de pestañas en menú lateral
+        function cambiarPestana(idTab, idBoton) {
+            document.querySelectorAll('.vista-modulo').forEach(sec => sec.classList.add('hidden'));
+            document.getElementById(idTab).classList.remove('hidden');
+
+            document.querySelectorAll('.menu-item').forEach(btn => {
+                btn.classList.remove('menu-item-active');
+                btn.classList.add('text-slate-300');
+                const icono = btn.querySelector('i');
+                if (icono) {
+                    icono.classList.remove('text-sky-400');
+                    icono.classList.add('text-slate-400');
+                }
+            });
+
+            const botonActivo = document.getElementById(idBoton);
+            botonActivo.classList.add('menu-item-active');
+            botonActivo.classList.remove('text-slate-300');
+            const iconoActivo = botonActivo.querySelector('i');
+            if (iconoActivo) {
+                iconoActivo.classList.remove('text-slate-400');
+                iconoActivo.classList.add('text-sky-400');
+            }
+
+            if (metadatosCabecera[idTab]) {
+                document.getElementById('header-titulo').textContent = metadatosCabecera[idTab].titulo;
+                document.getElementById('header-subtitulo').textContent = metadatosCabecera[idTab].subtitulo;
+            }
+        }
+
+        function sincronizarVistas() {
+            actualizarDatalistPlacas();
+            renderizarVisorTicket();
+            renderizarModuloSalidas();
+            renderizarMapa50Celdas();
+            renderizarModuloPagos();
+            renderizarTablaAuditoria();
+            renderizarPanelInferior50Celdas();
+        }
+
+        function actualizarDatalistPlacas() {
+            const datalist = document.getElementById('datalist-placas-padron');
+            datalist.innerHTML = padronClientes.map(c => 
+                `<option value="${c.placa}">${c.titular} — ${c.tipo} (${c.estado === 'ACTIVA' ? 'PAZ Y SALVO' : 'EN MORA'})</option>`
+            ).join('');
+        }
+
+        // ===================================================================
+        // MÓDULO 1: INGRESO Y PORTERÍA
+        // ===================================================================
+        function limpiarFormularioPorteria() {
+            document.getElementById('input-placa-entrada').value = '';
+            document.getElementById('input-observacion-entrada').value = '';
+            validarPlacaEnPorteria();
+        }
+
+        function validarPlacaEnPorteria() {
+            const placaInput = document.getElementById('input-placa-entrada').value.trim().toUpperCase();
+            const contenedorTarjeta = document.getElementById('tarjeta-validacion-ingreso');
+            const selectCelda = document.getElementById('select-celda-entrada');
+            const estadoBarrera = document.getElementById('estado-barrera-ingreso');
+            const contadorCeldas = document.getElementById('contador-celdas-compatibles');
+
+            if (!placaInput) {
+                contenedorTarjeta.innerHTML = `
+                    <div class="border border-slate-200 bg-slate-50 rounded-lg p-4 text-xs text-slate-500 flex items-center">
+                        <i class="fa-solid fa-id-card text-slate-400 text-base mr-3"></i>
+                        <span>Ingrese un número de placa para consultar la vigencia de su mensualidad y asignar celda.</span>
+                    </div>
+                `;
+                selectCelda.innerHTML = `<option value="">-- Valide una placa habilitada --</option>`;
+                contadorCeldas.textContent = 'Filtrado automático por categoría vehicular.';
+                estadoBarrera.innerHTML = `<i class="fa-solid fa-lock text-slate-400 mr-2"></i><span>En espera de validación</span>`;
+                estadoBarrera.className = 'border border-slate-200 bg-slate-50 rounded-md px-3 py-2 text-xs text-slate-600 flex items-center h-[38px]';
+                return;
+            }
+
+            const cliente = padronClientes.find(c => c.placa === placaInput);
+
+            // Placa no encontrada
+            if (!cliente) {
+                contenedorTarjeta.innerHTML = `
+                    <div class="border-l-4 border-rose-600 bg-rose-50 p-4 rounded-r-lg flex items-start justify-between">
+                        <div class="flex items-start">
+                            <i class="fa-solid fa-circle-xmark text-rose-600 text-base mr-3 mt-0.5"></i>
+                            <div>
+                                <h4 class="text-rose-900 font-bold text-xs uppercase">Placa No Vinculada en el Padrón</h4>
+                                <p class="text-rose-700 text-xs mt-1">El vehículo con placa <span class="font-mono font-bold">${placaInput}</span> no registra contrato de mensualidad. Vincúlelo primero en el módulo de Mensualidades y Caja.</p>
+                            </div>
+                        </div>
+                        <button type="button" onclick="cambiarPestana('tab-pagos', 'btn-tab-pagos')" class="text-xs font-bold text-blue-700 hover:underline whitespace-nowrap ml-3">
+                            Ir a Caja
+                        </button>
+                    </div>
+                `;
+                selectCelda.innerHTML = `<option value="">-- Vehículo no registrado --</option>`;
+                estadoBarrera.innerHTML = `<i class="fa-solid fa-ban text-rose-600 mr-2"></i><span class="font-bold text-rose-800">Acceso No Autorizado</span>`;
+                estadoBarrera.className = 'border border-rose-300 bg-rose-50 rounded-md px-3 py-2 text-xs flex items-center h-[38px]';
+                return;
+            }
+
+            // Vehículo ya estacionado en el patio
+            if (cliente.enPatio) {
+                contenedorTarjeta.innerHTML = `
+                    <div class="border-l-4 border-amber-500 bg-amber-50 p-4 rounded-r-lg flex flex-wrap items-center justify-between gap-3">
+                        <div class="flex items-start">
+                            <i class="fa-solid fa-triangle-exclamation text-amber-600 text-base mr-3 mt-0.5"></i>
+                            <div>
+                                <h4 class="text-amber-900 font-bold text-xs uppercase">Vehículo Actualmente Estacionado en Patio</h4>
+                                <p class="text-amber-800 text-xs mt-1">Titular: <b>${cliente.titular}</b> (${cliente.documento}). Registra ocupación activa en la celda <b>${cliente.celdaActual}</b>.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="placa-badge inline-flex items-center justify-center whitespace-nowrap px-2.5 py-0.5 rounded font-mono font-bold text-xs border-2 border-slate-900 shadow-sm">${cliente.placa}</span>
+                            <button type="button" onclick="irASalidaConPlaca('${cliente.placa}')" class="px-2.5 py-1 bg-amber-800 text-white rounded text-xs font-semibold hover:bg-amber-900">
+                                Gestionar Salida
+                            </button>
+                        </div>
+                    </div>
+                `;
+                selectCelda.innerHTML = `<option value="">-- Ocupando celda ${cliente.celdaActual} --</option>`;
+                estadoBarrera.innerHTML = `<i class="fa-solid fa-hand text-amber-600 mr-2"></i><span class="font-bold text-amber-800">Ya Registra Entrada</span>`;
+                estadoBarrera.className = 'border border-amber-300 bg-amber-50 rounded-md px-3 py-2 text-xs flex items-center h-[38px]';
+                return;
+            }
+
+            // Cliente en mora
+            if (cliente.estado !== 'ACTIVA') {
+                contenedorTarjeta.innerHTML = `
+                    <div class="border-l-4 border-rose-600 bg-rose-50 p-4 rounded-r-lg flex flex-wrap items-center justify-between gap-3">
+                        <div class="flex items-start max-w-lg">
+                            <i class="fa-solid fa-ban text-rose-600 text-base mr-3 mt-0.5"></i>
+                            <div>
+                                <h4 class="text-rose-900 font-bold text-xs uppercase">Acceso Bloqueado: Mensualidad Vencida</h4>
+                                <p class="text-rose-800 text-xs mt-1">Titular: <b>${cliente.titular}</b> (${cliente.documento}) • Categoría: <b>${cliente.tipo}</b>. Fecha de corte vencida el <b>${cliente.vencimiento}</b>.</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-end space-y-2">
+                            <span class="placa-badge inline-flex items-center justify-center whitespace-nowrap px-2.5 py-0.5 rounded font-mono font-bold text-xs border-2 border-slate-900 shadow-sm">${cliente.placa}</span>
+                            <button type="button" onclick="irACajaConPlaca('${cliente.placa}')" class="px-3 py-1.5 bg-rose-700 hover:bg-rose-800 text-white rounded text-xs font-bold shadow-xs flex items-center">
+                                <i class="fa-solid fa-cash-register mr-1.5"></i>Ir a Caja a Renovar
+                            </button>
+                        </div>
+                    </div>
+                `;
+                selectCelda.innerHTML = `<option value="">-- Bloqueado por mora --</option>`;
+                estadoBarrera.innerHTML = `<i class="fa-solid fa-lock text-rose-600 mr-2"></i><span class="font-bold text-rose-800">Bloqueado por Mora</span>`;
+                estadoBarrera.className = 'border border-rose-300 bg-rose-50 rounded-md px-3 py-2 text-xs flex items-center h-[38px]';
+                return;
+            }
+
+            // Cliente al día (ACTIVA)
+            const celdasLibresCompatibles = inventarioCeldas.filter(c => c.estado === 'DISPONIBLE' && c.tipo === cliente.tipo);
+
+            contenedorTarjeta.innerHTML = `
+                <div class="border border-emerald-300 bg-emerald-50/80 p-4 rounded-lg flex flex-wrap items-center justify-between gap-4">
+                    <div class="flex items-center space-x-3.5">
+                        <span class="placa-badge inline-flex items-center justify-center whitespace-nowrap px-2.5 py-0.5 rounded font-mono font-bold text-xs border-2 border-slate-900 shadow-sm">${cliente.placa}</span>
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <h4 class="text-sm font-bold text-slate-900">${cliente.titular}</h4>
+                                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800 border border-emerald-300 whitespace-nowrap">
+                                    <i class="fa-solid fa-circle-check text-[10px]"></i>PAZ Y SALVO
+                                </span>
+                            </div>
+                            <p class="text-xs text-slate-600 mt-0.5">${cliente.documento} • Tipo: <b>${cliente.tipo}</b> • Vigencia activa hasta: <b class="font-mono">${cliente.vencimiento}</b></p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            contadorCeldas.textContent = `${celdasLibresCompatibles.length} celdas disponibles para ${cliente.tipo}.`;
+
+            if (celdasLibresCompatibles.length === 0) {
+                selectCelda.innerHTML = `<option value="">-- Sin celdas disponibles para ${cliente.tipo} --</option>`;
+                estadoBarrera.innerHTML = `<i class="fa-solid fa-circle-exclamation text-amber-600 mr-2"></i><span class="font-bold text-amber-800">Sin Cupo Disponible</span>`;
+                estadoBarrera.className = 'border border-amber-300 bg-amber-50 rounded-md px-3 py-2 text-xs flex items-center h-[38px]';
+            } else {
+                selectCelda.innerHTML = celdasLibresCompatibles.map(c => 
+                    `<option value="${c.codigo}">Celda ${c.codigo} — ${c.tipo} (DISPONIBLE)</option>`
+                ).join('');
+                estadoBarrera.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600 mr-2"></i><span class="font-bold text-emerald-800">Habilitado para Ingresar</span>`;
+                estadoBarrera.className = 'border border-emerald-300 bg-emerald-50 rounded-md px-3 py-2 text-xs flex items-center h-[38px]';
+            }
+        }
+
+        async function procesarEntradaVehiculo() {
+            const placaInput = document.getElementById('input-placa-entrada').value.trim().toUpperCase();
+            const celdaSeleccionada = document.getElementById('select-celda-entrada').value;
+            const observacionInput = document.getElementById('input-observacion-entrada').value.trim() || 'Vehículo ingresa sin novedades físicas.';
+
+            // Sinergia Híbrida: Intento con API REST Node.js
+            try {
+                const res = await fetch('/api/movimientos/entrada', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        placa: placaInput,
+                        celda: celdaSeleccionada,
+                        observacion: observacionInput,
+                        operario: 'Carlos Ríos'
+                    })
+                });
+                const data = await res.json();
+                if (res.ok && data.ok) {
+                    await refrescarEstadoDesdeBackend();
+                    document.getElementById('input-observacion-entrada').value = '';
+                    sincronizarVistas();
+                    validarPlacaEnPorteria();
+                    mostrarAlerta(data.mensaje || `Ingreso registrado con éxito. Vehículo ${placaInput} ubicado en celda ${celdaSeleccionada}.`, 'success');
+                    return;
+                } else if (!res.ok && data.error) {
+                    await refrescarEstadoDesdeBackend();
+                    sincronizarVistas();
+                    mostrarAlerta(data.error, 'error');
+                    return;
+                }
+            } catch (e) {
+                // Modo silencioso: Opera en memoria si el servidor no está respondiendo
+            }
+
+            // Motor en memoria reactivo (Fallback Cero Fricción)
+            const cliente = padronClientes.find(c => c.placa === placaInput);
+
+            if (!cliente) {
+                mostrarAlerta('Valide primero una placa registrada en el padrón de mensualidades.', 'error');
+                return;
+            }
+            if (cliente.enPatio) {
+                mostrarAlerta(`El vehículo ${cliente.placa} ya se encuentra dentro del parqueadero en la celda ${cliente.celdaActual}.`, 'warning');
+                return;
+            }
+            if (cliente.estado !== 'ACTIVA') {
+                eventosAuditoria.unshift({
+                    codigo: `TRX-2026-${consecutivoTransaccion++}`,
+                    fecha: obtenerFechaHoraActual(),
+                    tipo: 'BLOQUEO',
+                    modulo: 'Portería',
+                    placaCelda: `${cliente.placa} • N/A`,
+                    descripcion: `Intento de ingreso rechazado por mensualidad en mora (Venció: ${cliente.vencimiento}).`,
+                    operario: 'Carlos Ríos'
+                });
+                sincronizarVistas();
+                mostrarAlerta(`Ingreso bloqueado: La mensualidad de la placa ${cliente.placa} se encuentra EN MORA.`, 'error');
+                return;
+            }
+            if (!celdaSeleccionada) {
+                mostrarAlerta('Seleccione una celda disponible para completar el ingreso.', 'warning');
+                return;
+            }
+
+            // Actualizar celda y cliente
+            const celdaObj = inventarioCeldas.find(c => c.codigo === celdaSeleccionada);
+            celdaObj.estado = 'OCUPADA';
+            celdaObj.placaActual = cliente.placa;
+
+            cliente.enPatio = true;
+            cliente.celdaActual = celdaSeleccionada;
+
+            const fechaHora = obtenerFechaHoraActual();
+            const codigoTrx = `TRX-2026-${consecutivoTransaccion++}`;
+
+            const nuevoMovimiento = {
+                transaccion: codigoTrx,
+                placa: cliente.placa,
+                titular: cliente.titular,
+                documento: cliente.documento,
+                tipo: cliente.tipo,
+                celda: celdaSeleccionada,
+                fechaEntrada: fechaHora,
+                permanencia: '00h 01m',
+                operario: 'Carlos Ríos',
+                novedades: [
+                    `${fechaHora.slice(0, 16)} — Ingreso: ${observacionInput}`
+                ]
+            };
+
+            movimientosActivos.unshift(nuevoMovimiento);
+            ultimoComprobante = nuevoMovimiento;
+
+            eventosAuditoria.unshift({
+                codigo: codigoTrx,
+                fecha: fechaHora,
+                tipo: 'INGRESO',
+                modulo: 'Portería',
+                placaCelda: `${cliente.placa} • ${celdaSeleccionada}`,
+                descripcion: `Entrada autorizada en celda ${celdaSeleccionada}. Estado físico: ${observacionInput}`,
+                operario: 'Carlos Ríos'
+            });
+
+            document.getElementById('input-observacion-entrada').value = '';
+            sincronizarVistas();
+            validarPlacaEnPorteria();
+            mostrarAlerta(`Ingreso registrado con éxito. Vehículo ${cliente.placa} ubicado en celda ${celdaSeleccionada}.`, 'success');
+        }
+
+        function renderizarVisorTicket() {
+            if (!ultimoComprobante) return;
+            const c = ultimoComprobante;
+            const htmlRecibo = `
+                <div class="text-center border-b border-slate-300 pb-3">
+                    <p class="font-bold text-sm text-slate-900">PARQUEADERO AUTOS COLOMBIA</p>
+                    <p class="text-[11px] text-slate-500">NIT 900.412.890-1 • Servicio de Mensualidades</p>
+                    <p class="text-[11px] text-slate-500">Comprobante Oficial de Ingreso</p>
+                </div>
+                <div class="space-y-2 pt-1">
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-500">TRANSACCIÓN:</span>
+                        <span class="font-bold text-blue-800">${c.transaccion}</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-500">PLACA VEHÍCULO:</span>
+                        <span class="placa-badge inline-flex items-center justify-center whitespace-nowrap px-2.5 py-0.5 rounded font-mono font-bold text-xs border-2 border-slate-900 shadow-sm">${c.placa}</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-500">TITULAR:</span>
+                        <span class="font-semibold text-slate-900 text-right">${c.titular}</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-500">CATEGORÍA:</span>
+                        <span class="text-slate-800">${c.tipo}</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-500">CELDA ASIGNADA:</span>
+                        <span class="font-bold text-xs bg-blue-100 text-blue-900 px-2 py-0.5 rounded border border-blue-300">${c.celda}</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-500">FECHA Y HORA:</span>
+                        <span class="text-slate-800">${c.fechaEntrada}</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-500">OPERARIO EN TURNO:</span>
+                        <span class="text-slate-800">${c.operario}</span>
+                    </div>
+                    <div class="pt-2 border-t border-slate-300">
+                        <span class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Observaciones / Estado Físico:</span>
+                        <div class="bg-white p-2 rounded border border-slate-200 text-[11px] text-slate-700">
+                            ${c.novedades[c.novedades.length - 1]}
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('visor-ticket-termico').innerHTML = htmlRecibo;
+            document.getElementById('modal-impresion-cuerpo').innerHTML = htmlRecibo;
+        }
+
+        function abrirModalImpresion() {
+            document.getElementById('modal-impresion').classList.remove('hidden');
+        }
+
+        function cerrarModalImpresion() {
+            document.getElementById('modal-impresion').classList.add('hidden');
+        }
+
+        function confirmarSalidaImpresora() {
+            cerrarModalImpresion();
+            mostrarAlerta(`Comprobante ${ultimoComprobante.transaccion} impreso correctamente.`, 'success');
+        }
+
+        function descargarTicketTxt() {
+            if (!ultimoComprobante) return;
+            const c = ultimoComprobante;
+            const texto = [
+                '==========================================',
+                '        PARQUEADERO AUTOS COLOMBIA        ',
+                '     COMPROBANTE DE INGRESO VEHICULAR     ',
+                '==========================================',
+                `Transaccion : ${c.transaccion}`,
+                `Placa       : ${c.placa}`,
+                `Titular     : ${c.titular}`,
+                `Tipo        : ${c.tipo}`,
+                `Celda       : ${c.celda}`,
+                `Entrada     : ${c.fechaEntrada}`,
+                `Operario    : ${c.operario}`,
+                '------------------------------------------',
+                `Novedades   : ${c.novedades.join(' | ')}`,
+                '=========================================='
+            ].join('\n');
+
+            const blob = new Blob([texto], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Ticket_${c.placa}_${c.transaccion}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // ===================================================================
+        // MÓDULO 2: SALIDAS Y NOVEDADES
+        // ===================================================================
+        function renderizarModuloSalidas() {
+            const select = document.getElementById('select-vehiculo-activo-salida');
+            const listaLateral = document.getElementById('lista-lateral-activos');
+            document.getElementById('sidebar-count-patio').textContent = movimientosActivos.length;
+
+            if (movimientosActivos.length === 0) {
+                select.innerHTML = `<option value="">-- No hay vehículos estacionados actualmente --</option>`;
+                listaLateral.innerHTML = `<div class="p-6 text-center text-xs text-slate-400">No se registran vehículos en patio.</div>`;
+                cargarFichaSalida();
+                return;
+            }
+
+            select.innerHTML = movimientosActivos.map(m => 
+                `<option value="${m.placa}">${m.placa} — Celda ${m.celda} • ${m.titular} (${m.tipo})</option>`
+            ).join('');
+
+            listaLateral.innerHTML = movimientosActivos.map(m => `
+                <div onclick="seleccionarActivoEnSalida('${m.placa}')" class="p-3.5 rounded-lg border border-slate-200 hover:border-blue-600 hover:bg-blue-50/40 cursor-pointer transition flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <span class="placa-badge inline-flex items-center justify-center whitespace-nowrap px-2.5 py-0.5 rounded font-mono font-bold text-xs border-2 border-slate-900 shadow-sm">${m.placa}</span>
+                        <div>
+                            <p class="text-xs font-bold text-slate-800">${m.titular}</p>
+                            <p class="text-[11px] text-slate-500 font-mono">Entrada: ${m.fechaEntrada.slice(11, 16)} • ${m.novedades.length} novedad(es)</p>
+                        </div>
+                    </div>
+                    <span class="font-mono font-bold text-xs bg-amber-100 text-amber-900 px-2.5 py-1 rounded border border-amber-300">
+                        Celda ${m.celda}
+                    </span>
+                </div>
+            `).join('');
+
+            cargarFichaSalida();
+        }
+
+        function seleccionarActivoEnSalida(placa) {
+            document.getElementById('select-vehiculo-activo-salida').value = placa;
+            cargarFichaSalida();
+        }
+
+        function irASalidaConPlaca(placa) {
+            cambiarPestana('tab-salidas', 'btn-tab-salidas');
+            seleccionarActivoEnSalida(placa);
+        }
+
+        function cargarFichaSalida() {
+            const placa = document.getElementById('select-vehiculo-activo-salida').value;
+            const contenedor = document.getElementById('ficha-resumen-salida');
+            const mov = movimientosActivos.find(m => m.placa === placa);
+
+            if (!mov) {
+                contenedor.innerHTML = `<p class="text-xs text-slate-500">Seleccione un vehículo estacionado para visualizar su historial de novedades y autorizar la salida.</p>`;
+                return;
+            }
+
+            const cliente = padronClientes.find(c => c.placa === mov.placa);
+            const estadoMensualidad = cliente ? cliente.estado : 'ACTIVA';
+
+            contenedor.innerHTML = `
+                <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-3">
+                    <div class="flex items-center space-x-3">
+                        <span class="placa-badge inline-flex items-center justify-center whitespace-nowrap px-2.5 py-0.5 rounded font-mono font-bold text-xs border-2 border-slate-900 shadow-sm">${mov.placa}</span>
+                        <div>
+                            <h4 class="text-sm font-bold text-slate-900">${mov.titular}</h4>
+                            <p class="text-xs text-slate-500 font-mono">${mov.documento} • Transacción: ${mov.transaccion}</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap bg-emerald-100 text-emerald-800 border border-emerald-300">
+                            <i class="fa-solid fa-circle-check"></i>Mensualidad ${estadoMensualidad}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-3 text-xs pt-1">
+                    <div class="bg-white p-2.5 rounded border border-slate-200">
+                        <span class="text-slate-500 block text-[11px]">Hora de Entrada</span>
+                        <strong class="font-mono text-slate-800">${mov.fechaEntrada}</strong>
+                    </div>
+                    <div class="bg-white p-2.5 rounded border border-slate-200">
+                        <span class="text-slate-500 block text-[11px]">Tiempo en Patio</span>
+                        <strong class="font-mono text-slate-800">${mov.permanencia}</strong>
+                    </div>
+                    <div class="bg-white p-2.5 rounded border border-slate-200">
+                        <span class="text-slate-500 block text-[11px]">Celda a Liberar</span>
+                        <strong class="font-mono text-blue-800">${mov.celda} (${mov.tipo})</strong>
+                    </div>
+                </div>
+
+                <div class="pt-1">
+                    <span class="text-[11px] font-bold text-slate-600 uppercase block mb-1.5">
+                        Historial Inmutable de Novedades del Vehículo:
+                    </span>
+                    <ul class="space-y-1.5">
+                        ${mov.novedades.map(n => `
+                            <li class="bg-white px-3 py-2 rounded border border-slate-200 text-xs font-mono text-slate-700 flex items-start">
+                                <i class="fa-solid fa-lock text-slate-400 text-[10px] mr-2 mt-1"></i>
+                                <span>${n}</span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+
+        async function guardarNovedadInmutable() {
+            const placa = document.getElementById('select-vehiculo-activo-salida').value;
+            const texto = document.getElementById('input-nueva-novedad').value.trim();
+
+            if (!placa) {
+                mostrarAlerta('Seleccione primero un vehículo en patio.', 'warning');
+                return;
+            }
+            if (!texto) {
+                mostrarAlerta('Escriba la descripción de la novedad física antes de guardar.', 'warning');
+                return;
+            }
+
+            // Sinergia Híbrida: Intento con API REST Node.js
+            try {
+                const res = await fetch('/api/movimientos/novedad', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ placa, novedad: texto, operario: 'Carlos Ríos' })
+                });
+                const data = await res.json();
+                if (res.ok && data.ok) {
+                    await refrescarEstadoDesdeBackend();
+                    document.getElementById('input-nueva-novedad').value = '';
+                    sincronizarVistas();
+                    seleccionarActivoEnSalida(placa);
+                    mostrarAlerta(data.mensaje || `Novedad física registrada y sellada para el vehículo ${placa}.`, 'success');
+                    return;
+                }
+            } catch (e) {
+                // Modo silencioso: Fallback en memoria
+            }
+
+            // Motor en memoria reactivo (Fallback Cero Fricción)
+            const mov = movimientosActivos.find(m => m.placa === placa);
+            if (!mov) {
+                mostrarAlerta('Seleccione primero un vehículo en patio.', 'warning');
+                return;
+            }
+
+            const fechaHora = obtenerFechaHoraActual();
+            mov.novedades.push(`${fechaHora.slice(0, 16)} — Reporte Patio: ${texto}`);
+
+            eventosAuditoria.unshift({
+                codigo: `TRX-2026-${consecutivoTransaccion++}`,
+                fecha: fechaHora,
+                tipo: 'NOVEDAD',
+                modulo: 'Salidas y Novedades',
+                placaCelda: `${mov.placa} • ${mov.celda}`,
+                descripcion: `Novedad física anexada al vehículo: ${texto}`,
+                operario: 'Carlos Ríos'
+            });
+
+            document.getElementById('input-nueva-novedad').value = '';
+            sincronizarVistas();
+            seleccionarActivoEnSalida(placa);
+            mostrarAlerta(`Novedad física registrada y sellada para el vehículo ${mov.placa}.`, 'success');
+        }
+
+        async function ejecutarSalidaVehiculo() {
+            const placa = document.getElementById('select-vehiculo-activo-salida').value;
+            const textoPendiente = document.getElementById('input-nueva-novedad').value.trim();
+
+            if (!placa) {
+                mostrarAlerta('Seleccione un vehículo activo para autorizar su salida.', 'warning');
+                return;
+            }
+
+            // Sinergia Híbrida: Intento con API REST Node.js
+            try {
+                const res = await fetch('/api/movimientos/salida', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ placa, novedad: textoPendiente, operario: 'Carlos Ríos' })
+                });
+                const data = await res.json();
+                if (res.ok && data.ok) {
+                    await refrescarEstadoDesdeBackend();
+                    document.getElementById('input-nueva-novedad').value = '';
+                    sincronizarVistas();
+                    validarPlacaEnPorteria();
+                    mostrarAlerta(data.mensaje || `Salida registrada para ${placa}. La celda ha quedado DISPONIBLE.`, 'success');
+                    return;
+                } else if (!res.ok && data.error) {
+                    mostrarAlerta(data.error, 'error');
+                    return;
+                }
+            } catch (e) {
+                // Modo silencioso: Fallback en memoria
+            }
+
+            // Motor en memoria reactivo (Fallback Cero Fricción)
+            const idx = movimientosActivos.findIndex(m => m.placa === placa);
+            if (idx === -1) {
+                mostrarAlerta('Seleccione un vehículo activo para autorizar su salida.', 'warning');
+                return;
+            }
+
+            const mov = movimientosActivos[idx];
+
+            if (textoPendiente) {
+                mov.novedades.push(`${obtenerFechaHoraActual().slice(0, 16)} — Salida: ${textoPendiente}`);
+                document.getElementById('input-nueva-novedad').value = '';
+            }
+
+            // Liberar celda en inventario de 50 celdas
+            const celdaObj = inventarioCeldas.find(c => c.codigo === mov.celda);
+            if (celdaObj) {
+                celdaObj.estado = 'DISPONIBLE';
+                celdaObj.placaActual = null;
+            }
+
+            // Actualizar estado en padrón
+            const clienteObj = padronClientes.find(c => c.placa === mov.placa);
+            if (clienteObj) {
+                clienteObj.enPatio = false;
+                clienteObj.celdaActual = null;
+            }
+
+            const fechaHora = obtenerFechaHoraActual();
+            eventosAuditoria.unshift({
+                codigo: `TRX-2026-${consecutivoTransaccion++}`,
+                fecha: fechaHora,
+                tipo: 'SALIDA',
+                modulo: 'Salidas y Novedades',
+                placaCelda: `${mov.placa} • ${mov.celda}`,
+                descripcion: `Salida autorizada para ${mov.titular}. Celda ${mov.celda} liberada a estado DISPONIBLE.`,
+                operario: 'Carlos Ríos'
+            });
+
+            movimientosActivos.splice(idx, 1);
+            sincronizarVistas();
+            validarPlacaEnPorteria();
+            mostrarAlerta(`Salida registrada para ${mov.placa}. La celda ${mov.celda} se encuentra nuevamente DISPONIBLE.`, 'success');
+        }
+
+        // ===================================================================
+        // MÓDULO 3: CELDAS Y PATIO (50 CELDAS)
+        // ===================================================================
+        function renderizarMapa50Celdas() {
+            const busqueda = document.getElementById('filtro-celdas-busqueda').value.trim().toUpperCase();
+            const filtroTipo = document.getElementById('filtro-celdas-tipo').value;
+            const filtroEstado = document.getElementById('filtro-celdas-estado').value;
+
+            const celdasFiltradas = inventarioCeldas.filter(c => {
+                const coincideTexto = !busqueda ||
+                    c.codigo.includes(busqueda) ||
+                    (c.placaActual && c.placaActual.includes(busqueda));
+                const coincideTipo = filtroTipo === 'TODAS' || c.tipo === filtroTipo;
+                const coincideEstado = filtroEstado === 'TODOS' || c.estado === filtroEstado;
+                return coincideTexto && coincideTipo && coincideEstado;
+            });
+
+            const grid = document.getElementById('cuadricula-principal-50-celdas');
+            grid.innerHTML = celdasFiltradas.map(c => {
+                const ocupada = c.estado === 'OCUPADA';
+                const icono = c.tipo === 'Automóvil' ? 'fa-car' : 'fa-motorcycle';
+                const mov = movimientosActivos.find(m => m.celda === c.codigo);
+
+                if (ocupada) {
+                    return `
+                        <div onclick="irASalidaConPlaca('${c.placaActual}')" title="Click para gestionar salida de ${c.placaActual}" class="cursor-pointer rounded-lg border-2 border-amber-400 bg-amber-50/70 p-2.5 flex flex-col justify-between min-h-[104px] hover:shadow-md transition">
+                            <div class="flex items-center justify-between border-b border-amber-200 pb-1">
+                                <span class="font-mono font-bold text-xs text-slate-900">
+                                    <i class="fa-solid ${icono} text-amber-700 mr-1"></i>${c.codigo}
+                                </span>
+                                <span class="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded bg-amber-200 text-amber-900">Ocupada</span>
+                            </div>
+                            <div class="my-1.5 text-center">
+                                <span class="placa-badge inline-flex items-center justify-center whitespace-nowrap px-2 py-0.5 rounded font-mono font-bold text-[11px] border-2 border-slate-900 shadow-sm">${c.placaActual}</span>
+                            </div>
+                            <div class="text-[10px] font-mono text-slate-600 text-center border-t border-amber-200 pt-1">
+                                ${mov ? mov.fechaEntrada.slice(11, 16) : 'En patio'}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                return `
+                    <div onclick="preseleccionarCeldaEnIngreso('${c.codigo}')" title="Celda ${c.codigo} Disponible (${c.tipo})" class="cursor-pointer rounded-lg border border-emerald-300 bg-emerald-50/40 p-2.5 flex flex-col justify-between min-h-[104px] hover:bg-emerald-50 transition">
+                        <div class="flex items-center justify-between border-b border-emerald-200 pb-1">
+                            <span class="font-mono font-bold text-xs text-slate-700">
+                                <i class="fa-solid ${icono} text-emerald-600 mr-1"></i>${c.codigo}
+                            </span>
+                            <span class="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded bg-emerald-200 text-emerald-900">Libre</span>
+                        </div>
+                        <div class="my-1.5 text-center">
+                            <i class="fa-solid fa-circle-check text-emerald-500 text-sm"></i>
+                            <span class="block text-[10px] font-semibold text-emerald-800 mt-0.5">Disponible</span>
+                        </div>
+                        <div class="text-[9px] text-slate-400 text-center border-t border-emerald-200 pt-1">
+                            ${c.tipo}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function preseleccionarCeldaEnIngreso(codigoCelda) {
+            cambiarPestana('tab-ingreso', 'btn-tab-ingreso');
+            const select = document.getElementById('select-celda-entrada');
+            if ([...select.options].some(o => o.value === codigoCelda)) {
+                select.value = codigoCelda;
+            }
+        }
+
+        // ===================================================================
+        // MÓDULO 4: MENSUALIDADES Y CAJA (CON CORRECCIÓN RESPONSIVA CRÍTICA)
+        // ===================================================================
+        function renderizarModuloPagos() {
+            const selectCaja = document.getElementById('select-cliente-caja');
+            const clientesOrdenados = [...padronClientes].sort((a, b) => a.estado === 'EN MORA' ? -1 : 1);
+
+            selectCaja.innerHTML = clientesOrdenados.map(c => 
+                `<option value="${c.placa}">${c.placa} — ${c.titular} (${c.estado === 'ACTIVA' ? 'PAZ Y SALVO' : 'EN MORA'})</option>`
+            ).join('');
+
+            mostrarLiquidacionCaja();
+
+            const totalEnMora = padronClientes.filter(c => c.estado !== 'ACTIVA').length;
+            document.getElementById('sidebar-count-mora').textContent = totalEnMora;
+            document.getElementById('contador-suscriptores-total').textContent = `${padronClientes.length} Clientes`;
+
+            const tbody = document.getElementById('tabla-padron-mensualidades');
+            tbody.innerHTML = padronClientes.map(c => {
+                const estaAlDia = c.estado === 'ACTIVA';
+                const badgeEstado = estaAlDia
+                    ? `<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap bg-emerald-100 text-emerald-800 border border-emerald-300">
+                            <i class="fa-solid fa-circle-check text-emerald-600"></i>PAZ Y SALVO
+                       </span>`
+                    : `<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap bg-rose-100 text-rose-800 border border-rose-300">
+                            <i class="fa-solid fa-circle-exclamation text-rose-600"></i>EN MORA - BLOQUEADO
+                       </span>`;
+
+                return `
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <span class="placa-badge inline-flex items-center justify-center whitespace-nowrap px-2.5 py-0.5 rounded font-mono font-bold text-xs border-2 border-slate-900 shadow-sm">${c.placa}</span>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <p class="font-bold text-slate-800">${c.titular}</p>
+                            <p class="text-[11px] text-slate-500 font-mono">${c.documento}</p>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <span class="font-semibold text-slate-700 block">${c.tipo}</span>
+                            <span class="font-mono text-slate-500">$${c.tarifa.toLocaleString('es-CO')} COP</span>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap font-mono ${estaAlDia ? 'text-slate-700' : 'text-rose-700 font-bold'}">
+                            ${c.vencimiento}
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            ${badgeEstado}
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap text-right">
+                            <button type="button" onclick="seleccionarPlacaEnCaja('${c.placa}')" class="px-3 py-1.5 rounded border border-blue-700 text-blue-700 hover:bg-blue-50 font-semibold text-xs transition whitespace-nowrap">
+                                <i class="fa-solid fa-hand-holding-dollar mr-1"></i>Gestionar Pago
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function seleccionarPlacaEnCaja(placa) {
+            document.getElementById('select-cliente-caja').value = placa;
+            mostrarLiquidacionCaja();
+        }
+
+        function irACajaConPlaca(placa) {
+            cambiarPestana('tab-pagos', 'btn-tab-pagos');
+            seleccionarPlacaEnCaja(placa);
+        }
+
+        function mostrarLiquidacionCaja() {
+            const placa = document.getElementById('select-cliente-caja').value;
+            const c = padronClientes.find(item => item.placa === placa);
+            const div = document.getElementById('detalle-liquidacion-caja');
+            if (!c) return;
+
+            div.innerHTML = `
+                <div class="flex justify-between items-center border-b border-slate-200 pb-2">
+                    <span class="text-slate-500">Vehículo:</span>
+                    <span class="placa-badge inline-flex items-center justify-center whitespace-nowrap px-2.5 py-0.5 rounded font-mono font-bold text-xs border-2 border-slate-900 shadow-sm">${c.placa}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-500">Titular:</span>
+                    <strong class="text-slate-800">${c.titular}</strong>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-500">Canon Mensual (${c.tipo}):</span>
+                    <strong class="font-mono text-emerald-700">$${c.tarifa.toLocaleString('es-CO')} COP</strong>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-500">Estado Actual:</span>
+                    <strong class="${c.estado === 'ACTIVA' ? 'text-emerald-700' : 'text-rose-700'}">${c.estado} (${c.vencimiento})</strong>
+                </div>
+                <div class="flex justify-between border-t border-slate-200 pt-2">
+                    <span class="text-slate-500">Nueva Vigencia (+30 días):</span>
+                    <strong class="font-mono text-blue-800">2026-11-24</strong>
+                </div>
+            `;
+        }
+
+        async function registrarPagoEnCaja() {
+            const placa = document.getElementById('select-cliente-caja').value;
+            const metodo = document.getElementById('select-metodo-pago').value;
+            const cliente = padronClientes.find(item => item.placa === placa);
+            if (!cliente) return;
+
+            // Sinergia Híbrida: Intento con API REST Node.js
+            try {
+                const res = await fetch('/api/pagos', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        placa,
+                        medioPago: metodo,
+                        monto: cliente.tarifa,
+                        operario: 'Carlos Ríos'
+                    })
+                });
+                const data = await res.json();
+                if (res.ok && data.ok) {
+                    await refrescarEstadoDesdeBackend();
+                    sincronizarVistas();
+                    validarPlacaEnPorteria();
+                    mostrarAlerta(data.mensaje || `Recibo emitido: El vehículo ${placa} se encuentra ahora en PAZ Y SALVO.`, 'success');
+                    return;
+                }
+            } catch (e) {
+                // Modo silencioso: Fallback en memoria
+            }
+
+            // Motor en memoria reactivo (Fallback Cero Fricción)
+            cliente.estado = 'ACTIVA';
+            cliente.vencimiento = '2026-11-24';
+
+            const fechaHora = obtenerFechaHoraActual();
+            const codigoRecibo = `RC-2026-${consecutivoTransaccion++}`;
+
+            eventosAuditoria.unshift({
+                codigo: codigoRecibo,
+                fecha: fechaHora,
+                tipo: 'PAGO',
+                modulo: 'Mensualidades y Caja',
+                placaCelda: `${cliente.placa} • Mensualidad`,
+                descripcion: `Pago registrado por $${cliente.tarifa.toLocaleString('es-CO')} COP (${metodo}). Estado actualizado a PAZ Y SALVO hasta 2026-11-24.`,
+                operario: 'Carlos Ríos'
+            });
+
+            sincronizarVistas();
+            validarPlacaEnPorteria();
+            mostrarAlerta(`Recibo ${codigoRecibo} emitido: El vehículo ${cliente.placa} (${cliente.titular}) se encuentra ahora en PAZ Y SALVO.`, 'success');
+        }
+
+        async function registrarNuevoSuscriptor() {
+            const placa = document.getElementById('nuevo-cliente-placa').value.trim().toUpperCase();
+            const tipo = document.getElementById('nuevo-cliente-tipo').value;
+            const nombre = document.getElementById('nuevo-cliente-nombre').value.trim();
+            const doc = document.getElementById('nuevo-cliente-doc').value.trim();
+
+            if (!placa || !nombre || !doc) {
+                mostrarAlerta('Complete la placa, nombre del titular y documento para vincular al cliente.', 'warning');
+                return;
+            }
+
+            // Sinergia Híbrida: Intento con API REST Node.js
+            try {
+                const res = await fetch('/api/clientes', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        placa,
+                        tipo,
+                        titular: nombre,
+                        documento: doc,
+                        operario: 'Carlos Ríos'
+                    })
+                });
+                const data = await res.json();
+                if (res.ok && data.ok) {
+                    await refrescarEstadoDesdeBackend();
+                    document.getElementById('nuevo-cliente-placa').value = '';
+                    document.getElementById('nuevo-cliente-nombre').value = '';
+                    document.getElementById('nuevo-cliente-doc').value = '';
+                    sincronizarVistas();
+                    mostrarAlerta(data.mensaje || `Cliente ${nombre} vinculado en PAZ Y SALVO.`, 'success');
+                    return;
+                } else if (!res.ok && data.error) {
+                    mostrarAlerta(data.error, 'error');
+                    return;
+                }
+            } catch (e) {
+                // Modo silencioso: Fallback en memoria
+            }
+
+            // Motor en memoria reactivo (Fallback Cero Fricción)
+            if (padronClientes.some(c => c.placa === placa)) {
+                mostrarAlerta(`La placa ${placa} ya se encuentra registrada en el padrón.`, 'error');
+                return;
+            }
+
+            const tarifa = tipo === 'Automóvil' ? 180000 : 95000;
+            padronClientes.unshift({
+                placa,
+                titular: nombre,
+                documento: doc,
+                tipo,
+                estado: 'ACTIVA',
+                vencimiento: '2026-11-24',
+                tarifa,
+                enPatio: false,
+                celdaActual: null
+            });
+
+            eventosAuditoria.unshift({
+                codigo: `RC-2026-${consecutivoTransaccion++}`,
+                fecha: obtenerFechaHoraActual(),
+                tipo: 'PAGO',
+                modulo: 'Mensualidades y Caja',
+                placaCelda: `${placa} • Alta Mensualidad`,
+                descripcion: `Nuevo suscriptor vinculado (${nombre} - ${tipo}). Pago inicial $${tarifa.toLocaleString('es-CO')} COP.`,
+                operario: 'Carlos Ríos'
+            });
+
+            document.getElementById('nuevo-cliente-placa').value = '';
+            document.getElementById('nuevo-cliente-nombre').value = '';
+            document.getElementById('nuevo-cliente-doc').value = '';
+
+            sincronizarVistas();
+            mostrarAlerta(`Cliente ${nombre} con placa ${placa} vinculado y activado en estado PAZ Y SALVO.`, 'success');
+        }
+
+        // ===================================================================
+        // MÓDULO 5: BITÁCORA DE AUDITORÍA
+        // ===================================================================
+        function renderizarTablaAuditoria() {
+            const texto = document.getElementById('filtro-auditoria-texto').value.trim().toUpperCase();
+            const tipoFiltro = document.getElementById('filtro-auditoria-tipo').value;
+            const tbody = document.getElementById('tbody-bitacora-auditoria');
+
+            const filtrados = eventosAuditoria.filter(ev => {
+                const coincideTexto = !texto ||
+                    ev.codigo.toUpperCase().includes(texto) ||
+                    ev.placaCelda.toUpperCase().includes(texto) ||
+                    ev.descripcion.toUpperCase().includes(texto) ||
+                    ev.operario.toUpperCase().includes(texto);
+                const coincideTipo = tipoFiltro === 'TODOS' || ev.tipo === tipoFiltro;
+                return coincideTexto && coincideTipo;
+            });
+
+            if (filtrados.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="py-6 text-center text-slate-400">No se encontraron eventos con los criterios seleccionados.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = filtrados.map(ev => {
+                let estiloBadge = 'bg-slate-100 text-slate-700 border-slate-300';
+                if (ev.tipo === 'INGRESO') estiloBadge = 'bg-emerald-100 text-emerald-800 border-emerald-300';
+                if (ev.tipo === 'SALIDA') estiloBadge = 'bg-sky-100 text-sky-800 border-sky-300';
+                if (ev.tipo === 'PAGO') estiloBadge = 'bg-indigo-100 text-indigo-800 border-indigo-300';
+                if (ev.tipo === 'NOVEDAD') estiloBadge = 'bg-amber-100 text-amber-900 border-amber-300';
+                if (ev.tipo === 'BLOQUEO') estiloBadge = 'bg-rose-100 text-rose-800 border-rose-300';
+
+                return `
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="px-4 py-3 font-mono font-semibold text-slate-700 whitespace-nowrap">${ev.codigo}</td>
+                        <td class="px-4 py-3 font-mono text-slate-600 whitespace-nowrap">${ev.fecha}</td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${estiloBadge}">
+                                ${ev.tipo} • ${ev.modulo}
+                            </span>
+                        </td>
+                        <td class="px-4 py-3 font-mono font-bold text-slate-800 whitespace-nowrap">${ev.placaCelda}</td>
+                        <td class="px-4 py-3 text-slate-700">${ev.descripcion}</td>
+                        <td class="px-4 py-3 font-mono text-slate-600 whitespace-nowrap">${ev.operario}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function exportarBitacoraCSV() {
+            const cabeceras = ['Codigo_Transaccion', 'Fecha_Hora', 'Tipo_Evento', 'Modulo', 'Placa_Celda', 'Descripcion', 'Operario'];
+            const filas = eventosAuditoria.map(e => [
+                e.codigo, e.fecha, e.tipo, `"${e.modulo}"`, `"${e.placaCelda}"`, `"${e.descripcion}"`, `"${e.operario}"`
+            ]);
+            const csv = 'data:text/csv;charset=utf-8,' + [cabeceras.join(','), ...filas.map(f => f.join(','))].join('\n');
+            const link = document.createElement('a');
+            link.setAttribute('href', encodeURI(csv));
+            link.setAttribute('download', 'bitacora_autos_colombia.csv');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            mostrarAlerta('Bitácora de auditoría exportada en formato CSV.', 'success');
+        }
+
+        // ===================================================================
+        // PANEL INFERIOR PERSISTENTE (50 CELDAS: 20 AUTOS / 30 MOTOS)
+        // ===================================================================
+        function renderizarPanelInferior50Celdas() {
+            const ocupadasTotal = inventarioCeldas.filter(c => c.estado === 'OCUPADA').length;
+            const libresTotal = inventarioCeldas.length - ocupadasTotal;
+            const autosOcupados = inventarioCeldas.filter(c => c.tipo === 'Automóvil' && c.estado === 'OCUPADA').length;
+            const motosOcupadas = inventarioCeldas.filter(c => c.tipo === 'Motocicleta' && c.estado === 'OCUPADA').length;
+
+            document.getElementById('barra-inf-libres').textContent = libresTotal;
+            document.getElementById('barra-inf-ocupadas').textContent = ocupadasTotal;
+            document.getElementById('barra-inf-autos').textContent = `${autosOcupados}/20`;
+            document.getElementById('barra-inf-motos').textContent = `${motosOcupadas}/30`;
+            document.getElementById('header-resumen-ocupacion').textContent = `Ocupación: ${ocupadasTotal} / 50`;
+
+            const grid = document.getElementById('grid-inferior-50-celdas');
+            grid.innerHTML = inventarioCeldas.map(c => {
+                const ocupada = c.estado === 'OCUPADA';
+                if (ocupada) {
+                    return `
+                        <div onclick="irASalidaConPlaca('${c.placaActual}')" title="Celda ${c.codigo} ocupada por ${c.placaActual}" class="cursor-pointer rounded border border-amber-400 bg-amber-100/90 px-1.5 py-1 text-center hover:bg-amber-200 transition">
+                            <span class="text-[10px] font-mono font-bold text-slate-900 block leading-tight">${c.codigo}</span>
+                            <span class="text-[9px] font-mono font-bold bg-amber-300 text-slate-950 px-1 rounded border border-slate-800 inline-block truncate max-w-full">${c.placaActual}</span>
+                        </div>
+                    `;
+                }
+                return `
+                    <div onclick="preseleccionarCeldaEnIngreso('${c.codigo}')" title="Celda ${c.codigo} Disponible (${c.tipo})" class="cursor-pointer rounded border border-emerald-300 bg-emerald-50/70 px-1.5 py-1 text-center hover:bg-emerald-100 transition">
+                        <span class="text-[10px] font-mono font-bold text-slate-700 block leading-tight">${c.codigo}</span>
+                        <span class="text-[9px] font-semibold text-emerald-700 block">Libre</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function alternarPanelInferior() {
+            const cuerpo = document.getElementById('cuerpo-panel-inferior-celdas');
+            const icono = document.getElementById('icono-colapsar-inferior');
+            const texto = document.getElementById('texto-colapsar-inferior');
+            panelInferiorColapsado = !panelInferiorColapsado;
+
+            if (panelInferiorColapsado) {
+                cuerpo.classList.add('hidden');
+                icono.className = 'fa-solid fa-chevron-down mr-1';
+                texto.textContent = 'Expandir 50 Celdas';
+            } else {
+                cuerpo.classList.remove('hidden');
+                icono.className = 'fa-solid fa-chevron-up mr-1';
+                texto.textContent = 'Compactar';
+            }
+        }
+
+        // Alertas del sistema
+        function mostrarAlerta(mensaje, tipo = 'success') {
+            const contenedor = document.getElementById('alerta-operativa');
+            const icono = document.getElementById('alerta-icono');
+            const span = document.getElementById('alerta-mensaje');
+
+            span.textContent = mensaje;
+            contenedor.className = 'mx-8 mt-5 rounded-lg border px-4 py-3 shadow-sm flex items-center justify-between transition-all';
+
+            if (tipo === 'success') {
+                contenedor.classList.add('bg-emerald-50', 'border-emerald-400', 'text-emerald-900');
+                icono.className = 'fa-solid fa-circle-check text-emerald-600 text-base';
+            } else if (tipo === 'warning') {
+                contenedor.classList.add('bg-amber-50', 'border-amber-400', 'text-amber-900');
+                icono.className = 'fa-solid fa-triangle-exclamation text-amber-600 text-base';
+            } else {
+                contenedor.classList.add('bg-rose-50', 'border-rose-400', 'text-rose-900');
+                icono.className = 'fa-solid fa-circle-xmark text-rose-600 text-base';
+            }
+        }
+
+        function ocultarAlerta() {
+            document.getElementById('alerta-operativa').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>

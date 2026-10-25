@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net">
+  <diagram name="Página-1" id="bnc95NSmACaZVVSLV37p">
+    <mxGraphModel dx="1493" dy="813" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" value="&lt;b style=&quot;font-size: 16px;&quot;&gt;Modelo Relacional (MR) Lógico - Autos Colombia&amp;nbsp;&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="760" x="34" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#334155;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;fontFamily=Courier New;fontSize=11;shadow=1;" value="&lt;b&gt;USUARIOS&lt;/b&gt;&lt;hr&gt;&lt;b&gt;PK&lt;/b&gt; | &lt;u&gt;documento_id&lt;/u&gt; : VARCHAR(20)&lt;hr&gt;     | nombres_apellidos : VARCHAR(100)&lt;br&gt;     | telefono_contacto : VARCHAR(15)&lt;br&gt;     | estado_mensualidad : VARCHAR(20)&lt;br&gt;     | fecha_vencimiento : DATE" vertex="1">
+          <mxGeometry height="145" width="290" x="80" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#334155;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;fontFamily=Courier New;fontSize=11;shadow=1;" value="&lt;b&gt;VEHICULOS&lt;/b&gt;&lt;hr&gt;&lt;b&gt;PK&lt;/b&gt; | &lt;u&gt;placa&lt;/u&gt; : VARCHAR(10)&lt;br&gt;&lt;b&gt;FK&lt;/b&gt; | documento_id : VARCHAR(20)&lt;hr&gt;     | tipo_vehiculo : VARCHAR(15)&lt;br&gt;     | marca_color : VARCHAR(60)" vertex="1">
+          <mxGeometry height="145" width="280" x="465" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#334155;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;fontFamily=Courier New;fontSize=11;shadow=1;" value="&lt;b&gt;PAGOS&lt;/b&gt;&lt;hr&gt;&lt;b&gt;PK&lt;/b&gt; | &lt;u&gt;codigo_transaccion&lt;/u&gt; : VARCHAR(20)&lt;br&gt;&lt;b&gt;FK&lt;/b&gt; | documento_id : VARCHAR(20)&lt;hr&gt;     | monto_total : DECIMAL(10,2)&lt;br&gt;     | medio_pago : VARCHAR(25)&lt;br&gt;     | fecha_emision : DATETIME&lt;br&gt;     | vigencia_hasta : DATE&lt;br&gt;     | operario_responsable : VARCHAR(50)" vertex="1">
+          <mxGeometry height="162.5" width="280" x="85" y="357.5" as="geometry" />
+        </mxCell>
+        <mxCell id="6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#eff6ff;strokeColor=#01040A;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;fontFamily=Courier New;fontSize=11;shadow=1;" value="&lt;b&gt;MOVIMIENTOS&lt;/b&gt;&lt;hr&gt;&lt;b&gt;PK&lt;/b&gt; | &lt;u&gt;id_ticket&lt;/u&gt; : VARCHAR(20)&lt;br&gt;&lt;b&gt;FK&lt;/b&gt; | placa : VARCHAR(10)&lt;br&gt;&lt;b&gt;FK&lt;/b&gt; | codigo_celda : VARCHAR(10)&lt;hr&gt;     | fecha_hora_ingreso : DATETIME&lt;br&gt;     | fecha_hora_salida : DATETIME (NULL)&lt;br&gt;     | novedad_operativa : TEXT&lt;br&gt;     | estado_movimiento : VARCHAR(15)&lt;br&gt;     | operario_responsable : VARCHAR(50)" vertex="1">
+          <mxGeometry height="162.5" width="280" x="465" y="357.5" as="geometry" />
+        </mxCell>
+        <mxCell id="7" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#334155;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;fontFamily=Courier New;fontSize=11;shadow=1;" value="&lt;b&gt;CELDAS&lt;/b&gt;&lt;hr&gt;&lt;b&gt;PK&lt;/b&gt; | &lt;u&gt;codigo_celda&lt;/u&gt; : VARCHAR(10)&lt;hr&gt;     | tipo_espacio : VARCHAR(15)&lt;br&gt;     | estado_ocupacion : VARCHAR(15)" vertex="1">
+          <mxGeometry height="120" width="235" x="480" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="8" edge="1" parent="1" source="3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;startArrow=ERmandOne;startFill=0;endArrow=ERoneToMany;endFill=0;strokeWidth=1.5;strokeColor=#1e293b;" target="4" value="1 : N">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="9" edge="1" parent="1" source="3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;startArrow=ERmandOne;startFill=0;endArrow=ERzeroToMany;endFill=0;strokeWidth=1.5;strokeColor=#1e293b;" target="5" value="1 : N">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="10" edge="1" parent="1" source="4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;startArrow=ERmandOne;startFill=0;endArrow=ERzeroToMany;endFill=0;strokeWidth=1.5;strokeColor=#01040A;" target="6" value="1 : N">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="11" edge="1" parent="1" source="7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.476;entryY=1.006;entryDx=0;entryDy=0;startArrow=ERmandOne;startFill=0;endArrow=ERzeroToMany;endFill=0;strokeWidth=1.5;strokeColor=#01040A;entryPerimeter=0;" target="6" value="1 : N">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

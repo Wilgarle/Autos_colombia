@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net">
+  <diagram name="Página-1" id="MVnkUmTytuBX_k1i2M4F">
+    <mxGraphModel dx="1431" dy="779" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" value="&lt;b style=&quot;font-size: 16px;&quot;&gt;Modelo Físico de Base de Datos (MySQL 8.0 / InnoDB) - Autos Colombia&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="800" x="14" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#1e293b;align=left;verticalAlign=top;spacingLeft=6;spacingTop=0;fontFamily=Courier New;fontSize=10.5;shadow=1;" value="&lt;div style=&quot;background:#1e293b;color:#ffffff;padding:4px 8px;font-weight:bold;&quot;&gt;usuarios (Engine: InnoDB)&lt;/div&gt;&lt;hr&gt;&lt;b&gt;PK&lt;/b&gt; | &lt;u&gt;documento_id&lt;/u&gt; VARCHAR(20) NOT NULL&lt;hr&gt;   | nombres_apellidos VARCHAR(100) NOT NULL&lt;br&gt;   | telefono_contacto VARCHAR(15) NOT NULL&lt;br&gt;   | estado_mensualidad ENUM(&#39;ACTIVO&#39;,&#39;MORA&#39;) NOT NULL&lt;br&gt;   | fecha_vencimiento DATE NOT NULL&lt;hr&gt;&lt;i style=&quot;color:#475569;&quot;&gt;INDEX idx_estado_mensualidad (estado_mensualidad)&lt;/i&gt;" vertex="1">
+          <mxGeometry height="150" width="340" x="20" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#1e293b;align=left;verticalAlign=top;spacingLeft=6;spacingTop=0;fontFamily=Courier New;fontSize=10.5;shadow=1;" value="&lt;div style=&quot;background:#1e293b;color:#ffffff;padding:4px 8px;font-weight:bold;&quot;&gt;vehiculos (Engine: InnoDB)&lt;/div&gt;&lt;hr&gt;&lt;b&gt;PK&lt;/b&gt; | &lt;u&gt;placa&lt;/u&gt; CHAR(6) NOT NULL&lt;br&gt;&lt;b&gt;FK&lt;/b&gt; | documento_id VARCHAR(20) NOT NULL&lt;hr&gt;   | tipo_vehiculo ENUM(&#39;AUTO&#39;,&#39;MOTO&#39;) NOT NULL&lt;br&gt;   | marca_color VARCHAR(60) NOT NULL&lt;hr&gt;&lt;i style=&quot;color:#475569;&quot;&gt;FK fk_veh_usuario (documento_id) ON UPDATE CASCADE&lt;/i&gt;" vertex="1">
+          <mxGeometry height="130" width="340" x="470" y="134" as="geometry" />
+        </mxCell>
+        <mxCell id="5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#1e293b;align=left;verticalAlign=top;spacingLeft=6;spacingTop=0;fontFamily=Courier New;fontSize=10.5;shadow=1;" value="&lt;div style=&quot;background:#1e293b;color:#ffffff;padding:4px 8px;font-weight:bold;&quot;&gt;pagos (Engine: InnoDB)&lt;/div&gt;&lt;hr&gt;&lt;b&gt;PK&lt;/b&gt; | &lt;u&gt;codigo_transaccion&lt;/u&gt; VARCHAR(20) NOT NULL&lt;br&gt;&lt;b&gt;FK&lt;/b&gt; | documento_id VARCHAR(20) NOT NULL&lt;hr&gt;   | monto_total DECIMAL(10,2) NOT NULL CHECK(&gt;0)&lt;br&gt;   | medio_pago ENUM(&#39;EFECTIVO&#39;,&#39;TRANSFERENCIA&#39;,&#39;TARJETA&#39;)&lt;br&gt;   | fecha_emision DATETIME NOT NULL DEFAULT NOW()&lt;br&gt;   | vigencia_hasta DATE NOT NULL&lt;br&gt;   | operario_responsable VARCHAR(50) NOT NULL&lt;hr&gt;&lt;i style=&quot;color:#475569;&quot;&gt;FK fk_pago_usuario (documento_id) ON DELETE RESTRICT&lt;/i&gt;" vertex="1">
+          <mxGeometry height="187" width="340" x="40" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#eff6ff;strokeColor=#1d4ed8;align=left;verticalAlign=top;spacingLeft=6;spacingTop=0;fontFamily=Courier New;fontSize=10.5;shadow=1;" value="&lt;div style=&quot;background:#1d4ed8;color:#ffffff;padding:4px 8px;font-weight:bold;&quot;&gt;movimientos (Engine: InnoDB)&lt;/div&gt;&lt;hr&gt;&lt;b&gt;PK&lt;/b&gt; | &lt;u&gt;id_ticket&lt;/u&gt; VARCHAR(20) NOT NULL&lt;br&gt;&lt;b&gt;FK&lt;/b&gt; | placa CHAR(6) NOT NULL&lt;br&gt;&lt;b&gt;FK&lt;/b&gt; | codigo_celda VARCHAR(5) NOT NULL&lt;hr&gt;   | fecha_hora_ingreso DATETIME NOT NULL DEFAULT NOW()&lt;br&gt;   | fecha_hora_salida DATETIME NULL DEFAULT NULL&lt;br&gt;   | novedad_operativa VARCHAR(255) NOT NULL&lt;br&gt;   | estado_movimiento ENUM(&#39;EN_PATIO&#39;,&#39;FINALIZADO&#39;)&lt;br&gt;   | operario_responsable VARCHAR(50) NOT NULL&lt;hr&gt;&lt;i style=&quot;color:#1e40af;&quot;&gt;INDEX idx_mov_activo (estado_movimiento, placa)&lt;/i&gt;" vertex="1">
+          <mxGeometry height="187" width="340" x="420" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="7" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#1e293b;align=left;verticalAlign=top;spacingLeft=6;spacingTop=0;fontFamily=Courier New;fontSize=10.5;shadow=1;" value="&lt;div style=&quot;background:#1e293b;color:#ffffff;padding:4px 8px;font-weight:bold;&quot;&gt;celdas (Engine: InnoDB - 50 Registros)&lt;/div&gt;&lt;hr&gt;&lt;b&gt;PK&lt;/b&gt; | &lt;u&gt;codigo_celda&lt;/u&gt; VARCHAR(5) NOT NULL&lt;hr&gt;   | tipo_espacio ENUM(&#39;AUTO&#39;,&#39;MOTO&#39;) NOT NULL&lt;br&gt;   | estado_ocupacion ENUM(&#39;DISPONIBLE&#39;,&#39;OCUPADA&#39;)&lt;hr&gt;&lt;i style=&quot;color:#475569;&quot;&gt;INDEX idx_celda_disp (tipo_espacio, estado_ocupacion)&lt;/i&gt;" vertex="1">
+          <mxGeometry height="150" width="300" x="360" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="8" edge="1" parent="1" source="3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;startArrow=ERmandOne;startFill=0;endArrow=ERoneToMany;endFill=0;strokeWidth=1.5;fontSize=9;" target="4" value="fk_veh_usuario">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="9" edge="1" parent="1" source="3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;startArrow=ERmandOne;startFill=0;endArrow=ERzeroToMany;endFill=0;strokeWidth=1.5;fontSize=9;" target="5" value="fk_pago_usuario">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="10" edge="1" parent="1" source="4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;startArrow=ERmandOne;startFill=0;endArrow=ERzeroToMany;endFill=0;strokeWidth=1.5;strokeColor=#1d4ed8;fontSize=9;" target="6" value="fk_mov_vehiculo">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="11" edge="1" parent="1" source="7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;startArrow=ERmandOne;startFill=0;endArrow=ERzeroToMany;endFill=0;strokeWidth=1.5;strokeColor=#1d4ed8;fontSize=9;" target="6" value="fk_mov_celda">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="12" edge="1" parent="1" source="5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;innerLoopWaypoints=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;defaultLabelBackgroundColor=page;" target="5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
