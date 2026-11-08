@@ -122,12 +122,41 @@
             <span class="text-[10px] font-mono text-slate-400">127.0.0.1</span>
         </div>
 
-        <div class="px-4 pt-3 pb-2 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-            Operación Diaria
+        <div id="sidebar-seccion-header" class="px-4 pt-3 pb-2 text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center justify-between">
+            <span id="sidebar-seccion-texto">Operación Diaria</span>
+            <span id="badge-rol-sidebar" class="text-[9px] px-2 py-0.5 rounded font-mono font-bold uppercase bg-sky-950 text-sky-300 border border-sky-800">Operador</span>
         </div>
 
-        <!-- 5 Pestañas de Navegación -->
+        <!-- Pestañas de Navegación -->
         <nav class="flex-1 px-2 space-y-1 overflow-y-auto">
+            <!-- Pestañas Exclusivas para Administrador -->
+            <div id="nav-admin-group" class="hidden space-y-1 pb-1 mb-1 border-b border-slate-800">
+                <button id="btn-tab-admin-dashboard" onclick="cambiarPestana('tab-admin-dashboard', 'btn-tab-admin-dashboard')" class="menu-item menu-item-active w-full flex items-center justify-between px-4 py-3 rounded-r text-left text-sm text-white hover:bg-slate-800/80 transition">
+                    <div class="flex items-center space-x-3">
+                        <i class="fa-solid fa-chart-line w-5 text-center text-sky-400"></i>
+                        <span>Panel y Métricas</span>
+                    </div>
+                </button>
+                <div class="px-4 pt-2.5 pb-1 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                    Gestión de Empleados y Clientes
+                </div>
+                <button id="btn-tab-admin-crud" onclick="cambiarPestana('tab-admin-crud', 'btn-tab-admin-crud')" class="menu-item w-full flex items-center justify-between px-4 py-3 rounded-r text-left text-sm text-slate-300 hover:bg-slate-800/80 transition">
+                    <div class="flex items-center space-x-3">
+                        <i class="fa-solid fa-id-card-clip w-5 text-center text-slate-400"></i>
+                        <span>Directorio Suscriptores</span>
+                    </div>
+                    <span id="admin-badge-count-users" class="bg-indigo-900/80 text-indigo-200 text-xs font-mono px-2 py-0.5 rounded border border-indigo-700">7</span>
+                </button>
+                <button id="btn-tab-admin-empleados" onclick="cambiarPestana('tab-admin-empleados', 'btn-tab-admin-empleados')" class="menu-item w-full flex items-center justify-between px-4 py-3 rounded-r text-left text-sm text-slate-300 hover:bg-slate-800/80 transition">
+                    <div class="flex items-center space-x-3">
+                        <i class="fa-solid fa-users-gear w-5 text-center text-slate-400"></i>
+                        <span>Directorio Empleados</span>
+                    </div>
+                    <span id="admin-badge-count-empleados" class="bg-emerald-900/80 text-emerald-200 text-xs font-mono px-2 py-0.5 rounded border border-emerald-700">5</span>
+                </button>
+            </div>
+
+            <!-- Pestañas Operativas (Portería, Salidas, Celdas, Caja, Auditoría) -->
             <button id="btn-tab-ingreso" onclick="cambiarPestana('tab-ingreso', 'btn-tab-ingreso')" class="menu-item menu-item-active w-full flex items-center justify-between px-4 py-3 rounded-r text-left text-sm hover:bg-slate-800/80 transition">
                 <div class="flex items-center space-x-3">
                     <i class="fa-solid fa-right-to-bracket w-5 text-center text-sky-400"></i>
@@ -167,16 +196,22 @@
             </button>
         </nav>
 
-        <!-- Operario Autenticado -->
-        <div class="p-4 border-t border-slate-800 bg-slate-950/60 flex items-center space-x-3">
-            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center font-bold text-xs text-white shadow">
-                CR
+        <!-- Usuario Autenticado y Salida -->
+        <div class="p-3.5 border-t border-slate-800 bg-slate-950/80 flex flex-col space-y-2.5">
+            <div class="flex items-center space-x-3">
+                <div id="sidebar-usuario-avatar" class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center font-bold text-xs text-white shadow shrink-0">
+                    CR
+                </div>
+                <div class="overflow-hidden flex-1">
+                    <p id="sidebar-usuario-nombre" class="text-xs font-bold text-white truncate">Carlos Ríos</p>
+                    <p id="sidebar-usuario-rol" class="text-[11px] text-slate-400 truncate">Operador en Turno</p>
+                </div>
+                <i class="fa-solid fa-circle-check text-emerald-400 text-xs" title="Sesión Activa"></i>
             </div>
-            <div class="overflow-hidden flex-1">
-                <p class="text-sm font-semibold text-white truncate">Carlos Ríos</p>
-                <p class="text-xs text-slate-400 truncate">Operador en Turno • Sede 01</p>
-            </div>
-            <i class="fa-solid fa-user-check text-emerald-400 text-xs" title="Sesión Activa"></i>
+            <button type="button" onclick="cerrarSesion()" class="w-full py-1.5 px-3 rounded bg-slate-800 hover:bg-rose-900/70 border border-slate-700 hover:border-rose-700 text-xs font-medium text-slate-300 hover:text-white transition flex items-center justify-center space-x-2">
+                <i class="fa-solid fa-arrow-right-from-bracket text-xs text-rose-400"></i>
+                <span>Cerrar Sesión</span>
+            </button>
         </div>
     </aside>
 
@@ -200,6 +235,10 @@
                     <i class="fa-solid fa-warehouse mr-1.5 text-blue-600"></i>
                     <span id="header-resumen-ocupacion">Ocupación: 3 / 50</span>
                 </div>
+                <div id="header-badge-rol" class="bg-slate-900 text-white text-xs font-bold px-3 py-1.5 rounded-md border border-slate-800 flex items-center space-x-1.5 shadow-xs">
+                    <i id="header-badge-icon" class="fa-solid fa-user-shield text-sky-400"></i>
+                    <span id="header-badge-text">Operador</span>
+                </div>
             </div>
         </header>
 
@@ -216,6 +255,384 @@
 
         <!-- CONTENEDOR DE MÓDULOS -->
         <div class="px-8 py-6 flex-1 space-y-6">
+
+            <!-- =============================================================== -->
+            <!-- MÓDULO ADMIN 1: DASHBOARD Y MÉTRICAS CENTRALES                   -->
+            <!-- =============================================================== -->
+            <section id="tab-admin-dashboard" class="vista-modulo hidden space-y-6">
+                <!-- Banner de Bienvenida del Administrador -->
+                <div class="bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 rounded-xl p-6 text-white shadow-sm border border-slate-800 flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <div class="flex items-center space-x-2 text-sky-400 text-xs font-bold uppercase tracking-wider mb-1">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <span>Panel Central de Administración</span>
+                        </div>
+                        <h2 class="text-xl font-bold text-white">Supervisión Ejecutiva y Control de Operaciones</h2>
+                        <p class="text-xs text-slate-300 mt-1">Monitoreo financiero en tiempo real, ocupación de 50 celdas, cartera de suscriptores y auditoría.</p>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <button type="button" onclick="cambiarPestana('tab-admin-crud', 'btn-tab-admin-crud')" class="px-3.5 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center shadow-xs">
+                            <i class="fa-solid fa-users-gear mr-2"></i>Directorio Suscriptores
+                        </button>
+                        <button type="button" onclick="cambiarPestana('tab-ingreso', 'btn-tab-ingreso')" class="px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white text-xs font-semibold transition flex items-center">
+                            <i class="fa-solid fa-car-tunnel mr-2 text-sky-400"></i>Terminal Portería
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 4 Tarjetas de Métricas Ejecutivas (KPIs) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <!-- KPI 1: Recaudo Financiero -->
+                    <div class="bg-white rounded-xl p-5 shadow-xs border border-slate-200 flex flex-col justify-between">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-slate-500 uppercase tracking-wide">Recaudo Acumulado</span>
+                            <div class="w-9 h-9 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center text-sm shadow-xs">
+                                <i class="fa-solid fa-sack-dollar"></i>
+                            </div>
+                        </div>
+                        <div class="my-3">
+                            <span id="admin-kpi-recaudo" class="text-2xl font-bold font-mono text-slate-900 block">$715.000 COP</span>
+                            <span class="text-[11px] text-emerald-700 font-semibold flex items-center mt-1">
+                                <i class="fa-solid fa-arrow-trend-up mr-1"></i>Ingresos por mensualidades
+                            </span>
+                        </div>
+                        <div class="text-[10px] text-slate-500 border-t border-slate-100 pt-2 flex justify-between font-mono">
+                            <span id="admin-kpi-efectivo">Ef: $180k</span>
+                            <span id="admin-kpi-pse">PSE: $440k</span>
+                            <span id="admin-kpi-tarjeta">Tarj: $95k</span>
+                        </div>
+                    </div>
+
+                    <!-- KPI 2: Ocupación de Patio -->
+                    <div class="bg-white rounded-xl p-5 shadow-xs border border-slate-200 flex flex-col justify-between">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-slate-500 uppercase tracking-wide">Ocupación de Patio</span>
+                            <div class="w-9 h-9 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center text-sm shadow-xs">
+                                <i class="fa-solid fa-warehouse"></i>
+                            </div>
+                        </div>
+                        <div class="my-3">
+                            <span id="admin-kpi-ocupacion" class="text-2xl font-bold font-mono text-slate-900 block">3 / 50</span>
+                            <span id="admin-kpi-porcentaje" class="text-[11px] text-blue-700 font-semibold block mt-1">6% de capacidad instalada</span>
+                        </div>
+                        <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                            <div id="admin-kpi-bar" class="bg-blue-600 h-1.5 rounded-full transition-all" style="width: 6%"></div>
+                        </div>
+                    </div>
+
+                    <!-- KPI 3: Cartera de Suscriptores -->
+                    <div class="bg-white rounded-xl p-5 shadow-xs border border-slate-200 flex flex-col justify-between">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-slate-500 uppercase tracking-wide">Padrón de Clientes</span>
+                            <div class="w-9 h-9 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center text-sm shadow-xs">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+                        </div>
+                        <div class="my-3">
+                            <span id="admin-kpi-clientes-total" class="text-2xl font-bold font-mono text-slate-900 block">7 Clientes</span>
+                            <span class="text-[11px] text-slate-500 block mt-1">
+                                <b id="admin-kpi-al-dia" class="text-emerald-700">5 Al Día</b> • <b id="admin-kpi-en-mora" class="text-rose-700">2 En Mora</b>
+                            </span>
+                        </div>
+                        <div class="text-[10px] text-slate-500 border-t border-slate-100 pt-2 flex justify-between font-mono">
+                            <span id="admin-kpi-porcentaje-al-dia">71% Cartera Sana</span>
+                            <span class="text-rose-600">29% Moroso</span>
+                        </div>
+                    </div>
+
+                    <!-- KPI 4: Auditoría y Seguridad -->
+                    <div class="bg-white rounded-xl p-5 shadow-xs border border-slate-200 flex flex-col justify-between">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-slate-500 uppercase tracking-wide">Trazabilidad Total</span>
+                            <div class="w-9 h-9 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center text-sm shadow-xs">
+                                <i class="fa-solid fa-clipboard-check"></i>
+                            </div>
+                        </div>
+                        <div class="my-3">
+                            <span id="admin-kpi-eventos-total" class="text-2xl font-bold font-mono text-slate-900 block">5 Eventos</span>
+                            <span class="text-[11px] text-amber-800 font-semibold block mt-1">Bitácora sellada inmutable</span>
+                        </div>
+                        <div class="text-[10px] text-slate-500 border-t border-slate-100 pt-2 flex justify-between font-mono">
+                            <span>Registro Verificado</span>
+                            <span class="text-blue-700 font-semibold">100% Auditado</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grilla Secundaria: Desglose de Operación y Accesos Rápidos -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <!-- Resumen Financiero y de Capacidad -->
+                    <div class="lg:col-span-8 bg-white rounded-xl p-6 shadow-xs border border-slate-200 space-y-4">
+                        <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+                            <div class="flex items-center space-x-2">
+                                <i class="fa-solid fa-chart-pie text-blue-600"></i>
+                                <h3 class="font-bold text-sm text-slate-900">Salud Financiera y Distribución Operativa</h3>
+                            </div>
+                            <span class="text-xs font-mono text-slate-500">Parqueadero Autos Colombia Sede 01</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+                            <div class="bg-slate-50 rounded-lg p-4 border border-slate-200 space-y-2">
+                                <span class="text-xs font-bold text-slate-700 block">Capacidad por Tipología:</span>
+                                <div class="space-y-1.5 text-xs font-mono">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-slate-600">Automóviles (A-01 a A-20):</span>
+                                        <strong id="admin-metric-autos" class="text-blue-800 font-bold">2 / 20 Ocupados</strong>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-slate-600">Motocicletas (M-01 a M-30):</span>
+                                        <strong id="admin-metric-motos" class="text-emerald-800 font-bold">1 / 30 Ocupados</strong>
+                                    </div>
+                                    <div class="flex justify-between items-center border-t border-slate-200 pt-1.5 font-bold">
+                                        <span class="text-slate-800">Total Instalado:</span>
+                                        <span class="text-slate-900">50 Celdas</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-50 rounded-lg p-4 border border-slate-200 space-y-2">
+                                <span class="text-xs font-bold text-slate-700 block">Proyección Mensual de Cartera:</span>
+                                <div class="space-y-1.5 text-xs font-mono">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-slate-600">Ingreso Potencial (7 Clientes):</span>
+                                        <strong id="admin-metric-proyectado" class="text-slate-900 font-bold">$1.015.000 COP</strong>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-slate-600">Cartera en Mora:</span>
+                                        <strong id="admin-metric-mora-cop" class="text-rose-700 font-bold">$275.000 COP</strong>
+                                    </div>
+                                    <div class="flex justify-between items-center border-t border-slate-200 pt-1.5 font-bold">
+                                        <span class="text-slate-800">Efectividad de Cobro:</span>
+                                        <span id="admin-metric-efectividad" class="text-emerald-700">73%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-2 flex items-center justify-between text-xs text-slate-500">
+                            <span>Sincronizado con API REST en <code class="font-mono bg-slate-100 px-1 py-0.5 rounded">/api/admin/metricas</code></span>
+                            <button type="button" onclick="sincronizarVistas()" class="text-blue-700 font-bold hover:underline">
+                                <i class="fa-solid fa-arrows-rotate mr-1"></i>Actualizar Métricas
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Accesos Rápidos del Administrador -->
+                    <div class="lg:col-span-4 bg-white rounded-xl p-6 shadow-xs border border-slate-200 space-y-3">
+                        <div class="border-b border-slate-200 pb-3 flex items-center space-x-2">
+                            <i class="fa-solid fa-compass text-sky-600"></i>
+                            <h3 class="font-bold text-sm text-slate-900">Acciones de Gestión</h3>
+                        </div>
+
+                        <div class="space-y-2 pt-1">
+                            <button type="button" onclick="cambiarPestana('tab-admin-crud', 'btn-tab-admin-crud')" class="w-full p-3 rounded-lg border border-slate-200 hover:border-blue-500 hover:bg-blue-50/50 text-left transition flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 rounded bg-blue-100 text-blue-700 flex items-center justify-center text-xs">
+                                        <i class="fa-solid fa-user-plus"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-xs font-bold text-slate-800 block">CRUD de Suscriptores</span>
+                                        <span class="text-[11px] text-slate-500 block">Crear, editar y retirar clientes</span>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-chevron-right text-slate-400 text-xs"></i>
+                            </button>
+
+                            <button type="button" onclick="cambiarPestana('tab-auditoria', 'btn-tab-auditoria')" class="w-full p-3 rounded-lg border border-slate-200 hover:border-blue-500 hover:bg-blue-50/50 text-left transition flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 rounded bg-amber-100 text-amber-700 flex items-center justify-center text-xs">
+                                        <i class="fa-solid fa-clipboard-list"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-xs font-bold text-slate-800 block">Bitácora de Auditoría</span>
+                                        <span class="text-[11px] text-slate-500 block">Reportes y trazabilidad general</span>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-chevron-right text-slate-400 text-xs"></i>
+                            </button>
+
+                            <button type="button" onclick="cambiarPestana('tab-patio', 'btn-tab-patio')" class="w-full p-3 rounded-lg border border-slate-200 hover:border-blue-500 hover:bg-blue-50/50 text-left transition flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 rounded bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs">
+                                        <i class="fa-solid fa-table-cells"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-xs font-bold text-slate-800 block">Monitor de 50 Celdas</span>
+                                        <span class="text-[11px] text-slate-500 block">Mapa visual interactivo de patio</span>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-chevron-right text-slate-400 text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =============================================================== -->
+            <!-- MÓDULO ADMIN 2: GESTIÓN DE SUSCRIPTORES (CRUD COMPLETO)         -->
+            <!-- =============================================================== -->
+            <section id="tab-admin-crud" class="vista-modulo hidden space-y-6">
+                <!-- Tarjeta Principal del CRUD -->
+                <div class="bg-white rounded-xl shadow-xs border border-slate-200 overflow-hidden">
+                    <div class="p-6 border-b border-slate-200 flex flex-wrap items-center justify-between gap-4">
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-blue-600"></span>
+                                <h3 class="text-base font-bold text-slate-900">Directorio General de Suscriptores</h3>
+                            </div>
+                            <p class="text-xs text-slate-500 mt-1">Gestión administrativa de titulares: altas, bajas, modificación de fechas y control de cartera.</p>
+                        </div>
+                        <button type="button" onclick="abrirModalCrearUsuario()" class="btn-corp-primary px-4 py-2.5 rounded-lg text-xs font-bold shadow-xs flex items-center">
+                            <i class="fa-solid fa-user-plus mr-2"></i>Vincular Nuevo Suscriptor
+                        </button>
+                    </div>
+
+                    <!-- Filtros Rápidos de Búsqueda -->
+                    <div class="p-4 bg-slate-50 border-b border-slate-200 grid grid-cols-1 md:grid-cols-12 gap-3">
+                        <div class="md:col-span-6 relative">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                            <input type="text" id="admin-crud-input-busqueda" oninput="renderizarAdminCRUD()" placeholder="Buscar por placa, nombre del titular o cédula..." class="w-full pl-9 pr-3 py-2 text-xs rounded border border-slate-300 focus:outline-none focus:border-blue-600 bg-white">
+                        </div>
+                        <div class="md:col-span-3">
+                            <select id="admin-crud-select-tipo" onchange="renderizarAdminCRUD()" class="w-full px-3 py-2 text-xs rounded border border-slate-300 focus:outline-none focus:border-blue-600 bg-white">
+                                <option value="TODOS">Todas las Categorías</option>
+                                <option value="Automóvil">Solo Automóviles</option>
+                                <option value="Motocicleta">Solo Motocicletas</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-3">
+                            <select id="admin-crud-select-estado" onchange="renderizarAdminCRUD()" class="w-full px-3 py-2 text-xs rounded border border-slate-300 focus:outline-none focus:border-blue-600 bg-white">
+                                <option value="TODOS">Todos los Estados</option>
+                                <option value="ACTIVA">Solo Paz y Salvo (Activos)</option>
+                                <option value="EN MORA">Solo en Mora (Bloqueados)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Tabla de Clientes con Operaciones CRUD -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-slate-100 text-slate-600 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider">
+                                    <th class="px-4 py-3">Placa</th>
+                                    <th class="px-4 py-3">Titular & Documento</th>
+                                    <th class="px-4 py-3">Categoría & Canon</th>
+                                    <th class="px-4 py-3">Vigencia Corte</th>
+                                    <th class="px-4 py-3">Estado Cartera</th>
+                                    <th class="px-4 py-3">Ubicación Patio</th>
+                                    <th class="px-4 py-3 text-right">Acciones (CRUD)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla-admin-crud-cuerpo" class="divide-y divide-slate-200">
+                                <!-- Poblado dinámicamente por JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =============================================================== -->
+            <!-- MÓDULO ADMIN 3: GESTIÓN DE EMPLEADOS Y PERSONAL (CRUD COMPLETO) -->
+            <!-- =============================================================== -->
+            <section id="tab-admin-empleados" class="vista-modulo hidden space-y-6">
+                <!-- Tarjeta Principal del Directorio de Empleados -->
+                <div class="bg-white rounded-xl shadow-xs border border-slate-200 overflow-hidden">
+                    <div class="p-6 border-b border-slate-200 flex flex-wrap items-center justify-between gap-4">
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+                                <h3 class="text-base font-bold text-slate-900">Directorio General de Empleados y Cuentas de Acceso</h3>
+                            </div>
+                            <p class="text-xs text-slate-500 mt-1">Gestión administrativa de personal: altas de usuarios, asignación de roles (Administrador / Operador), revocación de permisos y eliminación.</p>
+                        </div>
+                        <button type="button" onclick="abrirModalCrearEmpleado()" class="btn-corp-primary px-4 py-2.5 rounded-lg text-xs font-bold shadow-xs flex items-center">
+                            <i class="fa-solid fa-user-plus mr-2"></i>Registrar Nuevo Empleado
+                        </button>
+                    </div>
+
+                    <!-- 4 Tarjetas Rápidas de Estado del Personal -->
+                    <div class="p-4 bg-slate-50 border-b border-slate-200 grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <div class="bg-white p-3 rounded-lg border border-slate-200 flex items-center justify-between shadow-2xs">
+                            <div>
+                                <span class="text-[10px] uppercase font-bold text-slate-400 block">Total Personal</span>
+                                <span id="admin-emp-kpi-total" class="text-lg font-bold font-mono text-slate-800">5</span>
+                            </div>
+                            <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-xs">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg border border-slate-200 flex items-center justify-between shadow-2xs">
+                            <div>
+                                <span class="text-[10px] uppercase font-bold text-slate-400 block">Administradores</span>
+                                <span id="admin-emp-kpi-admins" class="text-lg font-bold font-mono text-amber-700">2</span>
+                            </div>
+                            <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center text-xs">
+                                <i class="fa-solid fa-crown"></i>
+                            </div>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg border border-slate-200 flex items-center justify-between shadow-2xs">
+                            <div>
+                                <span class="text-[10px] uppercase font-bold text-slate-400 block">Operadores Activos</span>
+                                <span id="admin-emp-kpi-operadores" class="text-lg font-bold font-mono text-emerald-700">2</span>
+                            </div>
+                            <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center text-xs">
+                                <i class="fa-solid fa-user-shield"></i>
+                            </div>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg border border-slate-200 flex items-center justify-between shadow-2xs">
+                            <div>
+                                <span class="text-[10px] uppercase font-bold text-slate-400 block">Permiso Revocado</span>
+                                <span id="admin-emp-kpi-revocados" class="text-lg font-bold font-mono text-rose-700">1</span>
+                            </div>
+                            <div class="w-8 h-8 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center text-xs">
+                                <i class="fa-solid fa-user-lock"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Filtros Rápidos de Empleados -->
+                    <div class="p-4 bg-slate-50/70 border-b border-slate-200 grid grid-cols-1 md:grid-cols-12 gap-3">
+                        <div class="md:col-span-6 relative">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                            <input type="text" id="admin-empleados-input-busqueda" oninput="renderizarAdminEmpleados()" placeholder="Buscar por nombre, correo, cédula o cargo..." class="w-full pl-9 pr-3 py-2 text-xs rounded border border-slate-300 focus:outline-none focus:border-blue-600 bg-white">
+                        </div>
+                        <div class="md:col-span-3">
+                            <select id="admin-empleados-select-rol" onchange="renderizarAdminEmpleados()" class="w-full px-3 py-2 text-xs rounded border border-slate-300 focus:outline-none focus:border-blue-600 bg-white">
+                                <option value="TODOS">Todos los Roles</option>
+                                <option value="ADMINISTRADOR">Solo Administradores</option>
+                                <option value="OPERADOR">Solo Operadores</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-3">
+                            <select id="admin-empleados-select-estado" onchange="renderizarAdminEmpleados()" class="w-full px-3 py-2 text-xs rounded border border-slate-300 focus:outline-none focus:border-blue-600 bg-white">
+                                <option value="TODOS">Todos los Estados</option>
+                                <option value="ACTIVO">Solo Activos (Acceso Permitido)</option>
+                                <option value="REVOCADO">Solo Revocados (Acceso Suspendido)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Tabla de Empleados -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-slate-100 text-slate-600 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider">
+                                    <th class="px-4 py-3">Empleado & Documento</th>
+                                    <th class="px-4 py-3">Correo / Usuario Login</th>
+                                    <th class="px-4 py-3">Cargo Institucional</th>
+                                    <th class="px-4 py-3">Rol de Acceso</th>
+                                    <th class="px-4 py-3">Estado Permisos</th>
+                                    <th class="px-4 py-3">Teléfono</th>
+                                    <th class="px-4 py-3 text-right">Acciones (CRUD)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla-admin-empleados-cuerpo" class="divide-y divide-slate-200">
+                                <!-- Poblado dinámicamente por JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
 
             <!-- =============================================================== -->
             <!-- MÓDULO 1: INGRESO Y PORTERÍA (2 COLUMNAS LIMPIAS)               -->
@@ -413,7 +830,7 @@
                     <div class="lg:col-span-5 bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
                         <div class="px-5 py-4 bg-slate-100 border-b border-slate-200 flex justify-between items-center">
                             <span class="text-xs font-bold text-slate-800 uppercase tracking-wider">
-                                <i class="fa-solid fa-car-On mr-1.5 text-blue-700"></i>Vehículos Activos en Patio
+                                <i class="fa-solid fa-car-side mr-1.5 text-blue-700"></i>Vehículos Activos en Patio
                             </span>
                             <span class="text-xs text-slate-500">Seleccione para gestionar</span>
                         </div>
@@ -429,12 +846,62 @@
             <!-- MÓDULO 3: CELDAS Y PATIO (50 CELDAS: 20 AUTOS / 30 MOTOS)       -->
             <!-- =============================================================== -->
             <section id="tab-patio" class="vista-modulo hidden space-y-6">
+                <!-- 4 Tarjetas KPI de Gestión de Celdas (Iteración 2: HU-05, HU-06, HU-07) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-white rounded-xl p-4 shadow-xs border border-slate-200 flex items-center justify-between">
+                        <div>
+                            <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wide block">Capacidad Instalada</span>
+                            <span class="text-xl font-bold font-mono text-slate-900 mt-1 block">50 Celdas</span>
+                            <span class="text-[11px] text-slate-500 font-mono">20 Autos • 30 Motos</span>
+                        </div>
+                        <div class="w-10 h-10 rounded-lg bg-blue-50 text-blue-700 border border-blue-200 flex items-center justify-center text-base">
+                            <i class="fa-solid fa-table-cells-large"></i>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl p-4 shadow-xs border border-slate-200 flex items-center justify-between">
+                        <div>
+                            <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wide block">Celdas Disponibles</span>
+                            <span id="patio-kpi-disponibles" class="text-xl font-bold font-mono text-emerald-700 mt-1 block">45 Libres</span>
+                            <span id="patio-kpi-disp-detalle" class="text-[11px] text-emerald-700 font-semibold">Habilitadas para asignación</span>
+                        </div>
+                        <div class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center justify-center text-base">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl p-4 shadow-xs border border-slate-200 flex items-center justify-between">
+                        <div>
+                            <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wide block">Celdas Ocupadas</span>
+                            <span id="patio-kpi-ocupadas" class="text-xl font-bold font-mono text-amber-700 mt-1 block">3 En Patio</span>
+                            <span id="patio-kpi-ocup-detalle" class="text-[11px] text-amber-800 font-mono">Autos: 2/20 • Motos: 1/30</span>
+                        </div>
+                        <div class="w-10 h-10 rounded-lg bg-amber-50 text-amber-700 border border-amber-200 flex items-center justify-center text-base">
+                            <i class="fa-solid fa-car-side"></i>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl p-4 shadow-xs border border-slate-200 flex items-center justify-between">
+                        <div>
+                            <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wide block">En Mantenimiento</span>
+                            <span id="patio-kpi-mantenimiento" class="text-xl font-bold font-mono text-rose-700 mt-1 block">2 Bloqueadas</span>
+                            <span class="text-[11px] text-slate-500">Excluidas de asignación</span>
+                        </div>
+                        <div class="w-10 h-10 rounded-lg bg-rose-50 text-rose-700 border border-rose-200 flex items-center justify-center text-base">
+                            <i class="fa-solid fa-screwdriver-wrench"></i>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6 space-y-5">
                     <!-- Barra de Filtros del Mapa de Celdas -->
                     <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-4">
                         <div>
-                            <h2 class="text-base font-bold text-slate-800">Mapa General de Celdas (Capacidad Total: 50 Celdas)</h2>
-                            <p class="text-xs text-slate-500">Distribución oficial: 20 celdas para Automóviles (A-01 a A-20) y 30 celdas para Motocicletas (M-01 a M-30).</p>
+                            <div class="flex items-center space-x-2">
+                                <h2 class="text-base font-bold text-slate-800">Mapa General y Administración de Celdas (50 Cupos)</h2>
+                                <span class="text-[11px] font-mono bg-blue-50 text-blue-800 px-2.5 py-0.5 rounded border border-blue-200 font-semibold">Click en cualquier celda para Inspeccionar / Reubicar / Mantenimiento</span>
+                            </div>
+                            <p class="text-xs text-slate-500 mt-0.5">Distribución oficial: 20 celdas para Automóviles (A-01 a A-20) y 30 celdas para Motocicletas (M-01 a M-30).</p>
                         </div>
 
                         <div class="flex flex-wrap items-center gap-3">
@@ -459,6 +926,7 @@
                                 <option value="TODOS">Todos los Estados</option>
                                 <option value="DISPONIBLE">Solo Disponibles</option>
                                 <option value="OCUPADA">Solo Ocupadas</option>
+                                <option value="MANTENIMIENTO">En Mantenimiento (Bloqueadas)</option>
                             </select>
                         </div>
                     </div>
@@ -607,6 +1075,16 @@
                                 <option value="PAGO">Pago</option>
                                 <option value="NOVEDAD">Novedad</option>
                                 <option value="BLOQUEO">Bloqueo</option>
+                                <option value="SUSCRIPTOR_CREADO">Alta Suscriptor</option>
+                                <option value="SUSCRIPTOR_MODIFICADO">Edición Suscriptor</option>
+                                <option value="SUSCRIPTOR_ELIMINADO">Baja Suscriptor</option>
+                                <option value="CELDA_MANTENIMIENTO">Celda Mantenimiento</option>
+                                <option value="CELDA_HABILITADA">Celda Habilitada</option>
+                                <option value="CELDA_REUBICADA">Reubicación Celda</option>
+                                <option value="EMPLEADO_CREADO">Alta Empleado</option>
+                                <option value="EMPLEADO_MODIFICADO">Edición Empleado</option>
+                                <option value="PERMISOS_MODIFICADOS">Permisos Empleado</option>
+                                <option value="EMPLEADO_ELIMINADO">Baja Empleado</option>
                             </select>
                         </div>
 
@@ -651,7 +1129,7 @@
                         <div class="flex items-center space-x-1.5">
                             <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block"></span>
                             <span class="text-slate-300">Disponibles:</span>
-                            <strong id="barra-inf-libres" class="font-mono text-white">47</strong>
+                            <strong id="barra-inf-libres" class="font-mono text-white">45</strong>
                         </div>
                         <div class="flex items-center space-x-1.5">
                             <span class="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block"></span>
@@ -706,6 +1184,469 @@
                 </button>
                 <button type="button" onclick="confirmarSalidaImpresora()" class="btn-corp-primary px-4 py-2 rounded text-xs font-semibold flex items-center">
                     <i class="fa-solid fa-check mr-1.5"></i>Confirmar Impresión
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- MODAL / OVERLAY DE AUTENTICACIÓN (LOGIN MULTI-ROL)                  -->
+    <!-- =================================================================== -->
+    <div id="vista-login" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden transform transition-all">
+            <!-- Cabecera de la Marca y Sistema -->
+            <div class="p-6 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white text-center relative">
+                <div class="w-14 h-14 mx-auto mb-3 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
+                    <i class="fa-solid fa-square-parking text-2xl"></i>
+                </div>
+                <h2 class="text-xl font-bold tracking-tight text-white">Autos Colombia</h2>
+                <p class="text-xs text-sky-200/80 mt-1">Control de Acceso y Gestión Integral de Parqueadero</p>
+                <div class="mt-3 inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-400/20 text-[11px] text-sky-300">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span>Sistema Operativo en Línea</span>
+                </div>
+            </div>
+
+            <!-- Selector Visual de Roles -->
+            <div class="p-6 pt-5 space-y-4">
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">Seleccione Perfil de Acceso</label>
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <button type="button" id="btn-rol-operador" onclick="seleccionarRolLogin('OPERADOR')" class="flex flex-col items-center justify-center p-3 rounded-xl border-2 border-blue-600 bg-blue-50/50 text-blue-900 transition hover:border-blue-500">
+                            <i class="fa-solid fa-user-shield text-lg text-blue-600 mb-1"></i>
+                            <span class="text-xs font-bold">Operador</span>
+                            <span class="text-[10px] text-slate-500">Portería y Caja</span>
+                        </button>
+                        <button type="button" id="btn-rol-admin" onclick="seleccionarRolLogin('ADMIN')" class="flex flex-col items-center justify-center p-3 rounded-xl border-2 border-slate-200 bg-white text-slate-700 transition hover:border-slate-300">
+                            <i class="fa-solid fa-crown text-lg text-slate-400 mb-1"></i>
+                            <span class="text-xs font-bold">Administrador</span>
+                            <span class="text-[10px] text-slate-500">Control Ejecutivo</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Formulario de Login -->
+                <form id="form-login-sistema" onsubmit="iniciarSesion(event)" class="space-y-3.5">
+                    <input type="hidden" id="login-rol-seleccionado" value="OPERADOR">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Usuario o Correo Institucional</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-envelope absolute left-3 top-3 text-slate-400 text-xs"></i>
+                            <input type="text" id="login-input-usuario" required class="w-full pl-9 pr-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 bg-slate-50/50" value="operario@autoscolombia.com" placeholder="correo@autoscolombia.com">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Contraseña de Acceso</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-lock absolute left-3 top-3 text-slate-400 text-xs"></i>
+                            <input type="password" id="login-input-clave" required class="w-full pl-9 pr-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 bg-slate-50/50" value="operario123" placeholder="••••••••">
+                        </div>
+                    </div>
+
+                    <!-- Mensaje de Error (oculto por defecto) -->
+                    <div id="login-alerta-error" class="hidden rounded-lg bg-rose-50 border border-rose-300 p-2.5 text-xs text-rose-800 flex items-center space-x-2">
+                        <i class="fa-solid fa-circle-exclamation text-rose-600 shrink-0"></i>
+                        <span id="login-error-texto">Credenciales no válidas.</span>
+                    </div>
+
+                    <!-- Botón de Envío -->
+                    <button type="submit" id="btn-submit-login" class="btn-corp-primary w-full py-2.5 rounded-lg text-xs font-bold flex items-center justify-center space-x-2 shadow-md">
+                        <i class="fa-solid fa-arrow-right-to-bracket text-xs"></i>
+                        <span>Ingresar al Sistema</span>
+                    </button>
+                </form>
+
+                <!-- Accesos Rápidos de Demostración y Evaluación -->
+                <div class="pt-2 border-t border-slate-100">
+                    <span class="block text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-2 text-center">Acceso Rápido de Prueba (1 Clic)</span>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button type="button" onclick="iniciarSesionRapida('OPERADOR')" class="px-2.5 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 text-[11px] font-medium flex items-center justify-center space-x-1.5 transition">
+                            <i class="fa-solid fa-user-shield text-blue-600 text-xs"></i>
+                            <span>Operador Demo</span>
+                        </button>
+                        <button type="button" onclick="iniciarSesionRapida('ADMIN')" class="px-2.5 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 text-[11px] font-medium flex items-center justify-center space-x-1.5 transition">
+                            <i class="fa-solid fa-crown text-amber-500 text-xs"></i>
+                            <span>Admin Demo</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 text-[10px] text-slate-500 leading-relaxed font-mono">
+                    <span class="font-bold text-slate-700">Credenciales Demo:</span><br>
+                    • Admin: <span class="text-blue-700 font-semibold">admin@autoscolombia.com</span> / <span class="text-slate-700 font-semibold">admin123</span><br>
+                    • Operario: <span class="text-blue-700 font-semibold">operario@autoscolombia.com</span> / <span class="text-slate-700 font-semibold">operario123</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- MODAL ADMIN: VINCULAR NUEVO SUSCRIPTOR (ALTA EN CRUD)               -->
+    <!-- =================================================================== -->
+    <div id="modal-admin-crear-usuario" class="fixed inset-0 z-50 hidden bg-slate-900/60 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl max-w-lg w-full max-h-[92vh] overflow-y-auto shadow-2xl border border-slate-300">
+            <div class="px-6 py-4 bg-slate-900 text-white flex justify-between items-center">
+                <div class="flex items-center space-x-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white text-sm">
+                        <i class="fa-solid fa-user-plus"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-white">Vincular Nuevo Suscriptor</h3>
+                        <p class="text-[11px] text-slate-400">Alta de usuario en el padrón del parqueadero</p>
+                    </div>
+                </div>
+                <button type="button" onclick="cerrarModalCrearUsuario()" class="text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-base"></i>
+                </button>
+            </div>
+            <form onsubmit="guardarNuevoUsuarioAdmin(event)" class="p-6 space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Placa Vehicular *</label>
+                        <input type="text" id="admin-nuevo-placa" required placeholder="ABC-123" maxlength="7" class="w-full px-3 py-2 text-xs font-mono font-bold rounded-lg border border-slate-300 uppercase focus:outline-none focus:border-blue-600 bg-slate-50/50">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Categoría Vehicular *</label>
+                        <select id="admin-nuevo-tipo" onchange="actualizarTarifaSugeridaAdmin()" class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 bg-white">
+                            <option value="Automóvil">Automóvil ($180.000 / mes)</option>
+                            <option value="Motocicleta">Motocicleta ($95.000 / mes)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Nombre Completo del Titular *</label>
+                    <input type="text" id="admin-nuevo-titular" required placeholder="Ej: Marcela Gómez Castro" class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 bg-slate-50/50">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Teléfono de Contacto</label>
+                        <input type="text" id="admin-nuevo-telefono" maxlength="15" placeholder="Ej: 311 234 5678" class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 bg-slate-50/50">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Marca / Color del Vehículo</label>
+                        <input type="text" id="admin-nuevo-marca" maxlength="60" placeholder="Ej: Mazda 3 gris" class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 bg-slate-50/50">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Documento Identidad (Cédula/NIT) *</label>
+                        <input type="text" id="admin-nuevo-documento" required placeholder="Ej: CC 1020304050" class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 bg-slate-50/50">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Canon Mensual ($ COP) *</label>
+                        <input type="number" id="admin-nuevo-tarifa" required value="180000" class="w-full px-3 py-2 text-xs font-mono rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 bg-slate-50/50">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Fecha de Vencimiento *</label>
+                        <input type="date" id="admin-nuevo-vencimiento" required class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 bg-slate-50/50">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Estado de Cartera Inicial</label>
+                        <select id="admin-nuevo-estado" class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 bg-white">
+                            <option value="ACTIVA">Paz y Salvo (ACTIVA)</option>
+                            <option value="EN MORA">En Mora (EN MORA)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="pt-3 border-t border-slate-200 flex justify-end space-x-2">
+                    <button type="button" onclick="cerrarModalCrearUsuario()" class="px-4 py-2 rounded-lg border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-100 transition">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn-corp-primary px-4 py-2 rounded-lg text-xs font-bold shadow-xs flex items-center">
+                        <i class="fa-solid fa-floppy-disk mr-2"></i>Guardar y Vincular
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- MODAL ADMIN: EDITAR SUSCRIPTOR (MODIFICACIÓN EN CRUD)               -->
+    <!-- =================================================================== -->
+    <div id="modal-admin-editar-usuario" class="fixed inset-0 z-50 hidden bg-slate-900/60 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl max-w-lg w-full max-h-[92vh] overflow-y-auto shadow-2xl border border-slate-300">
+            <div class="px-6 py-4 bg-slate-900 text-white flex justify-between items-center">
+                <div class="flex items-center space-x-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white text-sm">
+                        <i class="fa-solid fa-user-pen"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-white">Modificar Suscriptor</h3>
+                        <p class="text-[11px] text-slate-400">Actualizar vigencia, categoría o datos del titular</p>
+                    </div>
+                </div>
+                <button type="button" onclick="cerrarModalEditarUsuario()" class="text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-base"></i>
+                </button>
+            </div>
+            <form onsubmit="guardarEdicionUsuarioAdmin(event)" class="p-6 space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Placa Vehicular (Inmutable)</label>
+                        <input type="text" id="admin-edit-placa" readonly class="w-full px-3 py-2 text-xs font-mono font-bold rounded-lg border border-slate-300 bg-slate-100 text-slate-700 cursor-not-allowed">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Categoría Vehicular</label>
+                        <select id="admin-edit-tipo" class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 bg-white">
+                            <option value="Automóvil">Automóvil</option>
+                            <option value="Motocicleta">Motocicleta</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Nombre Completo del Titular *</label>
+                    <input type="text" id="admin-edit-titular" required class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 bg-white">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Teléfono de Contacto</label>
+                        <input type="text" id="admin-edit-telefono" maxlength="15" class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 bg-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Marca / Color del Vehículo</label>
+                        <input type="text" id="admin-edit-marca" maxlength="60" class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 bg-white">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Documento Identidad *</label>
+                        <input type="text" id="admin-edit-documento" required class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 bg-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Canon Mensual ($ COP) *</label>
+                        <input type="number" id="admin-edit-tarifa" required class="w-full px-3 py-2 text-xs font-mono rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 bg-white">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Fecha de Vencimiento *</label>
+                        <input type="date" id="admin-edit-vencimiento" required class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 bg-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Estado de Cartera *</label>
+                        <select id="admin-edit-estado" class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 bg-white">
+                            <option value="ACTIVA">Paz y Salvo (ACTIVA)</option>
+                            <option value="EN MORA">En Mora (EN MORA)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="pt-3 border-t border-slate-200 flex justify-end space-x-2">
+                    <button type="button" onclick="cerrarModalEditarUsuario()" class="px-4 py-2 rounded-lg border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-100 transition">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn-corp-primary px-4 py-2 rounded-lg text-xs font-bold shadow-xs flex items-center">
+                        <i class="fa-solid fa-check mr-2"></i>Actualizar Suscriptor
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- MODAL ADMIN: REGISTRAR NUEVO EMPLEADO (ALTA EN CRUD)                -->
+    <!-- =================================================================== -->
+    <div id="modal-admin-crear-empleado" class="fixed inset-0 z-50 hidden bg-slate-900/60 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl max-w-lg w-full max-h-[92vh] overflow-y-auto shadow-2xl border border-slate-300">
+            <div class="px-6 py-4 bg-slate-900 text-white flex justify-between items-center">
+                <div class="flex items-center space-x-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center text-white text-sm">
+                        <i class="fa-solid fa-user-plus"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-white">Registrar Nuevo Empleado</h3>
+                        <p class="text-[11px] text-slate-400">Creación de cuenta de usuario con credenciales y permisos</p>
+                    </div>
+                </div>
+                <button type="button" onclick="cerrarModalCrearEmpleado()" class="text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-base"></i>
+                </button>
+            </div>
+            <form onsubmit="guardarNuevoEmpleadoAdmin(event)" class="p-6 space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Nombre Completo *</label>
+                        <input type="text" id="admin-emp-nuevo-nombre" required placeholder="Ej: Camilo Suárez Pérez" class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 bg-slate-50/50">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Documento Identidad (Cédula) *</label>
+                        <input type="text" id="admin-emp-nuevo-documento" required placeholder="Ej: CC 1025890456" class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 bg-slate-50/50">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Cargo Institucional *</label>
+                        <input type="text" id="admin-emp-nuevo-cargo" required placeholder="Ej: Operador de Portería" class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 bg-slate-50/50">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Teléfono Móvil</label>
+                        <input type="text" id="admin-emp-nuevo-telefono" placeholder="Ej: 311 234 5678" class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 bg-slate-50/50">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Correo Institucional (Usuario) *</label>
+                        <input type="email" id="admin-emp-nuevo-correo" required placeholder="usuario@autoscolombia.com" class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 bg-slate-50/50">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Contraseña de Acceso *</label>
+                        <input type="password" id="admin-emp-nuevo-clave" required placeholder="••••••••" class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 bg-slate-50/50">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Rol en el Sistema *</label>
+                        <select id="admin-emp-nuevo-rol" class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 bg-white">
+                            <option value="OPERADOR">Operador (Portería y Caja)</option>
+                            <option value="ADMINISTRADOR">Administrador (Control Total & CRUD)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Estado de Permisos *</label>
+                        <select id="admin-emp-nuevo-estado" class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 bg-white">
+                            <option value="ACTIVO">Activo (Acceso Permitido)</option>
+                            <option value="REVOCADO">Revocado (Acceso Suspendido)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="pt-3 border-t border-slate-200 flex justify-end space-x-2">
+                    <button type="button" onclick="cerrarModalCrearEmpleado()" class="px-4 py-2 rounded-lg border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-100 transition">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn-corp-primary px-4 py-2 rounded-lg text-xs font-bold shadow-xs flex items-center">
+                        <i class="fa-solid fa-floppy-disk mr-2"></i>Guardar y Crear Cuenta
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- MODAL ADMIN: MODIFICAR EMPLEADO (EDICIÓN EN CRUD)                  -->
+    <!-- =================================================================== -->
+    <div id="modal-admin-editar-empleado" class="fixed inset-0 z-50 hidden bg-slate-900/60 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl max-w-lg w-full max-h-[92vh] overflow-y-auto shadow-2xl border border-slate-300">
+            <div class="px-6 py-4 bg-slate-900 text-white flex justify-between items-center">
+                <div class="flex items-center space-x-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white text-sm">
+                        <i class="fa-solid fa-user-pen"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-white">Modificar Cuenta de Empleado</h3>
+                        <p class="text-[11px] text-slate-400">Actualizar rol, cargo, permisos o credenciales</p>
+                    </div>
+                </div>
+                <button type="button" onclick="cerrarModalEditarEmpleado()" class="text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-base"></i>
+                </button>
+            </div>
+            <form onsubmit="guardarEdicionEmpleadoAdmin(event)" class="p-6 space-y-4">
+                <input type="hidden" id="admin-emp-edit-id">
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Nombre Completo *</label>
+                        <input type="text" id="admin-emp-edit-nombre" required class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 bg-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Documento Identidad *</label>
+                        <input type="text" id="admin-emp-edit-documento" required class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 bg-white">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Cargo Institucional *</label>
+                        <input type="text" id="admin-emp-edit-cargo" required class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 bg-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Teléfono Móvil</label>
+                        <input type="text" id="admin-emp-edit-telefono" class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 bg-white">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Correo Institucional *</label>
+                        <input type="email" id="admin-emp-edit-correo" required class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 bg-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Cambiar Contraseña</label>
+                        <input type="password" id="admin-emp-edit-clave" placeholder="En blanco para conservar" class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 bg-white">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Rol en el Sistema *</label>
+                        <select id="admin-emp-edit-rol" class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 bg-white">
+                            <option value="OPERADOR">Operador (Portería y Caja)</option>
+                            <option value="ADMINISTRADOR">Administrador (Control Total & CRUD)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Estado de Permisos *</label>
+                        <select id="admin-emp-edit-estado" class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 bg-white">
+                            <option value="ACTIVO">Activo (Acceso Permitido)</option>
+                            <option value="REVOCADO">Revocado (Acceso Suspendido)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="pt-3 border-t border-slate-200 flex justify-end space-x-2">
+                    <button type="button" onclick="cerrarModalEditarEmpleado()" class="px-4 py-2 rounded-lg border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-100 transition">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn-corp-primary px-4 py-2 rounded-lg text-xs font-bold shadow-xs flex items-center">
+                        <i class="fa-solid fa-check mr-2"></i>Actualizar Empleado
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- MODAL GESTIÓN OPERATIVA DE CELDA (ITERACIÓN 2: HU-06 Y HU-07)       -->
+    <!-- =================================================================== -->
+    <div id="modal-gestion-celda" class="fixed inset-0 z-50 hidden bg-slate-900/60 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl max-w-lg w-full max-h-[92vh] overflow-y-auto shadow-2xl border border-slate-300">
+            <div class="px-6 py-4 bg-slate-900 text-white flex justify-between items-center">
+                <div class="flex items-center space-x-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white text-sm">
+                        <i class="fa-solid fa-table-cells"></i>
+                    </div>
+                    <div>
+                        <h3 id="modal-celda-titulo" class="text-sm font-bold text-white">Inspección y Control de Celda A-01</h3>
+                        <p id="modal-celda-subtitulo" class="text-[11px] text-slate-400">Gestión de disponibilidad, mantenimiento y reubicación en patio</p>
+                    </div>
+                </div>
+                <button type="button" onclick="cerrarModalGestionCelda()" class="text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-base"></i>
+                </button>
+            </div>
+
+            <div id="modal-celda-cuerpo" class="p-6 space-y-4 text-xs">
+                <!-- Poblado dinámicamente por JS según estado de la celda -->
+            </div>
+
+            <div class="px-6 py-3 bg-slate-50 border-t border-slate-200 flex justify-end">
+                <button type="button" onclick="cerrarModalGestionCelda()" class="px-4 py-2 rounded-lg border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-100 transition">
+                    Cerrar Ventana
                 </button>
             </div>
         </div>
@@ -796,29 +1737,101 @@
             }
         ];
 
+        // 1.1 Directorio General de Empleados y Cuentas de Acceso al Sistema
+        const padronEmpleados = [
+            {
+                id: 'EMP-001',
+                nombre: 'Dra. Patricia Gómez',
+                documento: 'CC 43210987',
+                telefono: '310 456 7890',
+                correo: 'admin@autoscolombia.com',
+                clave: 'admin123',
+                cargo: 'Administradora General',
+                rol: 'ADMINISTRADOR',
+                estado: 'ACTIVO',
+                fechaCreacion: '2026-01-15'
+            },
+            {
+                id: 'EMP-002',
+                nombre: 'Carlos Ríos',
+                documento: 'CC 1020456123',
+                telefono: '312 876 5432',
+                correo: 'operario@autoscolombia.com',
+                clave: 'operario123',
+                cargo: 'Operador de Portería Principal',
+                rol: 'OPERADOR',
+                estado: 'ACTIVO',
+                fechaCreacion: '2026-02-01'
+            },
+            {
+                id: 'EMP-003',
+                nombre: 'Alejandra Morales',
+                documento: 'CC 1037549812',
+                telefono: '301 234 5678',
+                correo: 'alejandra.caja@autoscolombia.com',
+                clave: 'caja123',
+                cargo: 'Cajera y Atención a Suscriptores',
+                rol: 'OPERADOR',
+                estado: 'ACTIVO',
+                fechaCreacion: '2026-03-10'
+            },
+            {
+                id: 'EMP-004',
+                nombre: 'Ing. Fernando Ospina',
+                documento: 'CC 71298456',
+                telefono: '315 789 0123',
+                correo: 'fernando.admin@autoscolombia.com',
+                clave: 'admin456',
+                cargo: 'Supervisor de Operaciones y Auditoría',
+                rol: 'ADMINISTRADOR',
+                estado: 'ACTIVO',
+                fechaCreacion: '2026-04-05'
+            },
+            {
+                id: 'EMP-005',
+                nombre: 'Julián Torres',
+                documento: 'CC 1040321654',
+                telefono: '318 654 9870',
+                correo: 'julian.seguridad@autoscolombia.com',
+                clave: 'julian123',
+                cargo: 'Auxiliar de Patio (Licencia)',
+                rol: 'OPERADOR',
+                estado: 'REVOCADO',
+                fechaCreacion: '2026-05-20'
+            }
+        ];
+
         // 2. Generación dinámica de las 50 celdas (20 Automóviles: A-01..A-20 y 30 Motocicletas: M-01..M-30)
         const inventarioCeldas = [];
         for (let i = 1; i <= 20; i++) {
             const codigo = `A-${String(i).padStart(2, '0')}`;
             let ocupante = null;
-            if (codigo === 'A-01') ocupante = 'ENV-774';
-            if (codigo === 'A-02') ocupante = 'MDE-305';
+            let estadoInicial = 'DISPONIBLE';
+            let notaMant = null;
+            if (codigo === 'A-01') { ocupante = 'ENV-774'; estadoInicial = 'OCUPADA'; }
+            if (codigo === 'A-02') { ocupante = 'MDE-305'; estadoInicial = 'OCUPADA'; }
+            if (codigo === 'A-04') { estadoInicial = 'MANTENIMIENTO'; notaMant = 'Demarcación de pintura epóxica y tope llanta.'; }
             inventarioCeldas.push({
                 codigo,
                 tipo: 'Automóvil',
-                estado: ocupante ? 'OCUPADA' : 'DISPONIBLE',
-                placaActual: ocupante
+                estado: estadoInicial,
+                placaActual: ocupante,
+                motivoMantenimiento: notaMant
             });
         }
         for (let i = 1; i <= 30; i++) {
             const codigo = `M-${String(i).padStart(2, '0')}`;
             let ocupante = null;
-            if (codigo === 'M-01') ocupante = 'XRT-94D';
+            let estadoInicial = 'DISPONIBLE';
+            let notaMant = null;
+            if (codigo === 'M-01') { ocupante = 'XRT-94D'; estadoInicial = 'OCUPADA'; }
+            if (codigo === 'M-05') { estadoInicial = 'MANTENIMIENTO'; notaMant = 'Revisión de anclaje metálico y luminaria.'; }
             inventarioCeldas.push({
                 codigo,
                 tipo: 'Motocicleta',
-                estado: ocupante ? 'OCUPADA' : 'DISPONIBLE',
-                placaActual: ocupante
+                estado: estadoInicial,
+                placaActual: ocupante,
+                motivoMantenimiento: notaMant
             });
         }
 
@@ -922,6 +1935,18 @@
         let panelInferiorColapsado = false;
 
         const metadatosCabecera = {
+            'tab-admin-dashboard': {
+                titulo: 'Panel Central y Métricas Administrativas',
+                subtitulo: 'Supervisión ejecutiva en tiempo real: ocupación, recaudos y control de patio.'
+            },
+            'tab-admin-crud': {
+                titulo: 'Directorio General de Suscriptores y Clientes',
+                subtitulo: 'Altas, modificaciones, control de cartera y eliminación de usuarios del sistema.'
+            },
+            'tab-admin-empleados': {
+                titulo: 'Directorio General de Empleados y Cuentas de Acceso',
+                subtitulo: 'Gestión administrativa de talento humano, asignación de roles ejecutivos y control de permisos.'
+            },
             'tab-ingreso': {
                 titulo: 'Ingreso y Control de Portería',
                 subtitulo: 'Verificación de titularidad, asignación de celda disponible y emisión de comprobante.'
@@ -954,6 +1979,14 @@
                     if (Array.isArray(json.datos.padronClientes) && json.datos.padronClientes.length > 0) {
                         padronClientes.splice(0, padronClientes.length, ...json.datos.padronClientes);
                     }
+                    if (Array.isArray(json.datos.padronEmpleados) && json.datos.padronEmpleados.length > 0) {
+                        const clavesLocales = new Map(padronEmpleados.map(e => [e.id, e.clave]));
+                        const fusionados = json.datos.padronEmpleados.map(e => ({
+                            ...e,
+                            clave: e.clave !== undefined ? e.clave : (clavesLocales.get(e.id) || '')
+                        }));
+                        padronEmpleados.splice(0, padronEmpleados.length, ...fusionados);
+                    }
                     if (Array.isArray(json.datos.inventarioCeldas) && json.datos.inventarioCeldas.length > 0) {
                         inventarioCeldas.splice(0, inventarioCeldas.length, ...json.datos.inventarioCeldas);
                     }
@@ -977,6 +2010,7 @@
         // Inicialización
         window.onload = async function() {
             iniciarReloj();
+            inicializarSesion();
             sincronizarVistas();
             document.getElementById('input-placa-entrada').value = 'KLM-452';
             validarPlacaEnPorteria();
@@ -1006,7 +2040,8 @@
         // Cambio de pestañas en menú lateral
         function cambiarPestana(idTab, idBoton) {
             document.querySelectorAll('.vista-modulo').forEach(sec => sec.classList.add('hidden'));
-            document.getElementById(idTab).classList.remove('hidden');
+            const tabDestino = document.getElementById(idTab);
+            if (tabDestino) tabDestino.classList.remove('hidden');
 
             document.querySelectorAll('.menu-item').forEach(btn => {
                 btn.classList.remove('menu-item-active');
@@ -1019,17 +2054,27 @@
             });
 
             const botonActivo = document.getElementById(idBoton);
-            botonActivo.classList.add('menu-item-active');
-            botonActivo.classList.remove('text-slate-300');
-            const iconoActivo = botonActivo.querySelector('i');
-            if (iconoActivo) {
-                iconoActivo.classList.remove('text-slate-400');
-                iconoActivo.classList.add('text-sky-400');
+            if (botonActivo) {
+                botonActivo.classList.add('menu-item-active');
+                botonActivo.classList.remove('text-slate-300');
+                const iconoActivo = botonActivo.querySelector('i');
+                if (iconoActivo) {
+                    iconoActivo.classList.remove('text-slate-400');
+                    iconoActivo.classList.add('text-sky-400');
+                }
             }
 
             if (metadatosCabecera[idTab]) {
                 document.getElementById('header-titulo').textContent = metadatosCabecera[idTab].titulo;
                 document.getElementById('header-subtitulo').textContent = metadatosCabecera[idTab].subtitulo;
+            }
+
+            if (idTab === 'tab-admin-dashboard') {
+                renderizarAdminDashboard();
+            } else if (idTab === 'tab-admin-crud') {
+                renderizarAdminCRUD();
+            } else if (idTab === 'tab-admin-empleados') {
+                renderizarAdminEmpleados();
             }
         }
 
@@ -1041,6 +2086,11 @@
             renderizarModuloPagos();
             renderizarTablaAuditoria();
             renderizarPanelInferior50Celdas();
+            if (sesionUsuario && sesionUsuario.rol === 'ADMIN') {
+                renderizarAdminDashboard();
+                renderizarAdminCRUD();
+                renderizarAdminEmpleados();
+            }
         }
 
         function actualizarDatalistPlacas() {
@@ -1193,6 +2243,7 @@
             const placaInput = document.getElementById('input-placa-entrada').value.trim().toUpperCase();
             const celdaSeleccionada = document.getElementById('select-celda-entrada').value;
             const observacionInput = document.getElementById('input-observacion-entrada').value.trim() || 'Vehículo ingresa sin novedades físicas.';
+            const operarioActivo = (sesionUsuario && sesionUsuario.nombre) || 'Carlos Ríos';
 
             // Sinergia Híbrida: Intento con API REST Node.js
             try {
@@ -1203,7 +2254,7 @@
                         placa: placaInput,
                         celda: celdaSeleccionada,
                         observacion: observacionInput,
-                        operario: 'Carlos Ríos'
+                        operario: operarioActivo
                     })
                 });
                 const data = await res.json();
@@ -1214,10 +2265,10 @@
                     validarPlacaEnPorteria();
                     mostrarAlerta(data.mensaje || `Ingreso registrado con éxito. Vehículo ${placaInput} ubicado en celda ${celdaSeleccionada}.`, 'success');
                     return;
-                } else if (!res.ok && data.error) {
+                } else if (!res.ok && (data.error || data.mensaje)) {
                     await refrescarEstadoDesdeBackend();
                     sincronizarVistas();
-                    mostrarAlerta(data.error, 'error');
+                    mostrarAlerta(data.error || data.mensaje, 'error');
                     return;
                 }
             } catch (e) {
@@ -1243,7 +2294,7 @@
                     modulo: 'Portería',
                     placaCelda: `${cliente.placa} • N/A`,
                     descripcion: `Intento de ingreso rechazado por mensualidad en mora (Venció: ${cliente.vencimiento}).`,
-                    operario: 'Carlos Ríos'
+                    operario: operarioActivo
                 });
                 sincronizarVistas();
                 mostrarAlerta(`Ingreso bloqueado: La mensualidad de la placa ${cliente.placa} se encuentra EN MORA.`, 'error');
@@ -1254,8 +2305,12 @@
                 return;
             }
 
-            // Actualizar celda y cliente
+            // Actualizar celda y cliente (validando estado DISPONIBLE y compatibilidad física)
             const celdaObj = inventarioCeldas.find(c => c.codigo === celdaSeleccionada);
+            if (!celdaObj || celdaObj.estado !== 'DISPONIBLE' || celdaObj.tipo !== cliente.tipo) {
+                mostrarAlerta(`La celda ${celdaSeleccionada} no se encuentra disponible para la categoría ${cliente.tipo}.`, 'error');
+                return;
+            }
             celdaObj.estado = 'OCUPADA';
             celdaObj.placaActual = cliente.placa;
 
@@ -1274,7 +2329,7 @@
                 celda: celdaSeleccionada,
                 fechaEntrada: fechaHora,
                 permanencia: '00h 01m',
-                operario: 'Carlos Ríos',
+                operario: operarioActivo,
                 novedades: [
                     `${fechaHora.slice(0, 16)} — Ingreso: ${observacionInput}`
                 ]
@@ -1290,7 +2345,7 @@
                 modulo: 'Portería',
                 placaCelda: `${cliente.placa} • ${celdaSeleccionada}`,
                 descripcion: `Entrada autorizada en celda ${celdaSeleccionada}. Estado físico: ${observacionInput}`,
-                operario: 'Carlos Ríos'
+                operario: operarioActivo
             });
 
             document.getElementById('input-observacion-entrada').value = '';
@@ -1503,6 +2558,7 @@
         async function guardarNovedadInmutable() {
             const placa = document.getElementById('select-vehiculo-activo-salida').value;
             const texto = document.getElementById('input-nueva-novedad').value.trim();
+            const operarioActivo = (sesionUsuario && sesionUsuario.nombre) || 'Carlos Ríos';
 
             if (!placa) {
                 mostrarAlerta('Seleccione primero un vehículo en patio.', 'warning');
@@ -1518,7 +2574,7 @@
                 const res = await fetch('/api/movimientos/novedad', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ placa, novedad: texto, operario: 'Carlos Ríos' })
+                    body: JSON.stringify({ placa, novedad: texto, operario: operarioActivo })
                 });
                 const data = await res.json();
                 if (res.ok && data.ok) {
@@ -1527,6 +2583,9 @@
                     sincronizarVistas();
                     seleccionarActivoEnSalida(placa);
                     mostrarAlerta(data.mensaje || `Novedad física registrada y sellada para el vehículo ${placa}.`, 'success');
+                    return;
+                } else if (!res.ok && (data.error || data.mensaje)) {
+                    mostrarAlerta(data.error || data.mensaje, 'error');
                     return;
                 }
             } catch (e) {
@@ -1550,7 +2609,7 @@
                 modulo: 'Salidas y Novedades',
                 placaCelda: `${mov.placa} • ${mov.celda}`,
                 descripcion: `Novedad física anexada al vehículo: ${texto}`,
-                operario: 'Carlos Ríos'
+                operario: operarioActivo
             });
 
             document.getElementById('input-nueva-novedad').value = '';
@@ -1562,6 +2621,7 @@
         async function ejecutarSalidaVehiculo() {
             const placa = document.getElementById('select-vehiculo-activo-salida').value;
             const textoPendiente = document.getElementById('input-nueva-novedad').value.trim();
+            const operarioActivo = (sesionUsuario && sesionUsuario.nombre) || 'Carlos Ríos';
 
             if (!placa) {
                 mostrarAlerta('Seleccione un vehículo activo para autorizar su salida.', 'warning');
@@ -1573,7 +2633,7 @@
                 const res = await fetch('/api/movimientos/salida', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ placa, novedad: textoPendiente, operario: 'Carlos Ríos' })
+                    body: JSON.stringify({ placa, novedad: textoPendiente, operario: operarioActivo })
                 });
                 const data = await res.json();
                 if (res.ok && data.ok) {
@@ -1583,8 +2643,8 @@
                     validarPlacaEnPorteria();
                     mostrarAlerta(data.mensaje || `Salida registrada para ${placa}. La celda ha quedado DISPONIBLE.`, 'success');
                     return;
-                } else if (!res.ok && data.error) {
-                    mostrarAlerta(data.error, 'error');
+                } else if (!res.ok && (data.error || data.mensaje)) {
+                    mostrarAlerta(data.error || data.mensaje, 'error');
                     return;
                 }
             } catch (e) {
@@ -1627,7 +2687,7 @@
                 modulo: 'Salidas y Novedades',
                 placaCelda: `${mov.placa} • ${mov.celda}`,
                 descripcion: `Salida autorizada para ${mov.titular}. Celda ${mov.celda} liberada a estado DISPONIBLE.`,
-                operario: 'Carlos Ríos'
+                operario: operarioActivo
             });
 
             movimientosActivos.splice(idx, 1);
@@ -1637,12 +2697,28 @@
         }
 
         // ===================================================================
-        // MÓDULO 3: CELDAS Y PATIO (50 CELDAS)
+        // MÓDULO 3: CELDAS Y PATIO (50 CELDAS - ITERACIÓN 2: HU-05, HU-06, HU-07)
         // ===================================================================
         function renderizarMapa50Celdas() {
             const busqueda = document.getElementById('filtro-celdas-busqueda').value.trim().toUpperCase();
             const filtroTipo = document.getElementById('filtro-celdas-tipo').value;
             const filtroEstado = document.getElementById('filtro-celdas-estado').value;
+
+            // Actualizar KPIs superiores de Celdas y Patio
+            const totalDisp = inventarioCeldas.filter(c => c.estado === 'DISPONIBLE').length;
+            const totalOcup = inventarioCeldas.filter(c => c.estado === 'OCUPADA').length;
+            const totalMant = inventarioCeldas.filter(c => c.estado === 'MANTENIMIENTO').length;
+            const autosOcup = inventarioCeldas.filter(c => c.tipo === 'Automóvil' && c.estado === 'OCUPADA').length;
+            const motosOcup = inventarioCeldas.filter(c => c.tipo === 'Motocicleta' && c.estado === 'OCUPADA').length;
+
+            const elKpiDisp = document.getElementById('patio-kpi-disponibles');
+            if (elKpiDisp) elKpiDisp.textContent = `${totalDisp} Libres`;
+            const elKpiOcup = document.getElementById('patio-kpi-ocupadas');
+            if (elKpiOcup) elKpiOcup.textContent = `${totalOcup} En Patio`;
+            const elKpiOcupDet = document.getElementById('patio-kpi-ocup-detalle');
+            if (elKpiOcupDet) elKpiOcupDet.textContent = `Autos: ${autosOcup}/20 • Motos: ${motosOcup}/30`;
+            const elKpiMant = document.getElementById('patio-kpi-mantenimiento');
+            if (elKpiMant) elKpiMant.textContent = `${totalMant} Bloqueadas`;
 
             const celdasFiltradas = inventarioCeldas.filter(c => {
                 const coincideTexto = !busqueda ||
@@ -1655,13 +2731,12 @@
 
             const grid = document.getElementById('cuadricula-principal-50-celdas');
             grid.innerHTML = celdasFiltradas.map(c => {
-                const ocupada = c.estado === 'OCUPADA';
                 const icono = c.tipo === 'Automóvil' ? 'fa-car' : 'fa-motorcycle';
                 const mov = movimientosActivos.find(m => m.celda === c.codigo);
 
-                if (ocupada) {
+                if (c.estado === 'OCUPADA') {
                     return `
-                        <div onclick="irASalidaConPlaca('${c.placaActual}')" title="Click para gestionar salida de ${c.placaActual}" class="cursor-pointer rounded-lg border-2 border-amber-400 bg-amber-50/70 p-2.5 flex flex-col justify-between min-h-[104px] hover:shadow-md transition">
+                        <div onclick="abrirModalGestionCelda('${c.codigo}')" title="Click para inspeccionar o reubicar ${c.placaActual}" class="cursor-pointer rounded-lg border-2 border-amber-400 bg-amber-50/70 p-2.5 flex flex-col justify-between min-h-[104px] hover:shadow-md transition">
                             <div class="flex items-center justify-between border-b border-amber-200 pb-1">
                                 <span class="font-mono font-bold text-xs text-slate-900">
                                     <i class="fa-solid ${icono} text-amber-700 mr-1"></i>${c.codigo}
@@ -1678,8 +2753,28 @@
                     `;
                 }
 
+                if (c.estado === 'MANTENIMIENTO') {
+                    return `
+                        <div onclick="abrirModalGestionCelda('${c.codigo}')" title="Celda ${c.codigo} en Mantenimiento" class="cursor-pointer rounded-lg border-2 border-rose-300 bg-rose-50/60 p-2.5 flex flex-col justify-between min-h-[104px] hover:shadow-md transition">
+                            <div class="flex items-center justify-between border-b border-rose-200 pb-1">
+                                <span class="font-mono font-bold text-xs text-rose-900">
+                                    <i class="fa-solid fa-screwdriver-wrench text-rose-600 mr-1"></i>${c.codigo}
+                                </span>
+                                <span class="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded bg-rose-200 text-rose-900">Bloq.</span>
+                            </div>
+                            <div class="my-1.5 text-center">
+                                <i class="fa-solid fa-triangle-exclamation text-rose-500 text-sm"></i>
+                                <span class="block text-[10px] font-bold text-rose-800 mt-0.5">Mantenimiento</span>
+                            </div>
+                            <div class="text-[9px] text-rose-600 text-center border-t border-rose-200 pt-1 truncate">
+                                ${c.tipo}
+                            </div>
+                        </div>
+                    `;
+                }
+
                 return `
-                    <div onclick="preseleccionarCeldaEnIngreso('${c.codigo}')" title="Celda ${c.codigo} Disponible (${c.tipo})" class="cursor-pointer rounded-lg border border-emerald-300 bg-emerald-50/40 p-2.5 flex flex-col justify-between min-h-[104px] hover:bg-emerald-50 transition">
+                    <div onclick="abrirModalGestionCelda('${c.codigo}')" title="Click para gestionar Celda ${c.codigo} (${c.tipo})" class="cursor-pointer rounded-lg border border-emerald-300 bg-emerald-50/40 p-2.5 flex flex-col justify-between min-h-[104px] hover:bg-emerald-50 transition">
                         <div class="flex items-center justify-between border-b border-emerald-200 pb-1">
                             <span class="font-mono font-bold text-xs text-slate-700">
                                 <i class="fa-solid ${icono} text-emerald-600 mr-1"></i>${c.codigo}
@@ -1696,6 +2791,292 @@
                     </div>
                 `;
             }).join('');
+        }
+
+        function abrirModalGestionCelda(codigoCelda) {
+            const celda = inventarioCeldas.find(c => c.codigo === codigoCelda);
+            if (!celda) return;
+
+            document.getElementById('modal-celda-titulo').textContent = `Inspección y Control Operativo — Celda ${celda.codigo}`;
+            document.getElementById('modal-celda-subtitulo').textContent = `Sector ${celda.tipo}s • Estado actual: ${celda.estado}`;
+
+            const cuerpo = document.getElementById('modal-celda-cuerpo');
+
+            if (celda.estado === 'OCUPADA') {
+                const mov = movimientosActivos.find(m => m.celda === celda.codigo);
+                const cliente = padronClientes.find(cl => cl.placa === celda.placaActual);
+                const celdasCompatiblesLibres = inventarioCeldas.filter(
+                    c => c.tipo === celda.tipo && c.estado === 'DISPONIBLE' && c.codigo !== celda.codigo
+                );
+
+                cuerpo.innerHTML = `
+                    <div class="bg-amber-50 border border-amber-300 rounded-lg p-4 space-y-2.5">
+                        <div class="flex items-center justify-between border-b border-amber-200 pb-2">
+                            <span class="font-bold text-amber-950 uppercase text-[11px]">
+                                <i class="fa-solid fa-car-side mr-1.5 text-amber-700"></i>Ficha de Ocupación Activa
+                            </span>
+                            <span class="placa-badge inline-flex items-center justify-center whitespace-nowrap px-2.5 py-0.5 rounded font-mono font-bold text-xs border-2 border-slate-900 shadow-sm">${celda.placaActual}</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-xs">
+                            <div>
+                                <span class="text-slate-500 block text-[10px]">Titular Suscriptor:</span>
+                                <strong class="text-slate-900">${mov ? mov.titular : (cliente ? cliente.titular : 'Registrado')}</strong>
+                            </div>
+                            <div>
+                                <span class="text-slate-500 block text-[10px]">Documento / Ticket:</span>
+                                <strong class="font-mono text-slate-800">${mov ? mov.transaccion : 'Activo'}</strong>
+                            </div>
+                            <div>
+                                <span class="text-slate-500 block text-[10px]">Fecha y Hora Ingreso:</span>
+                                <strong class="font-mono text-slate-800">${mov ? mov.fechaEntrada : '2026-10-24'}</strong>
+                            </div>
+                            <div>
+                                <span class="text-slate-500 block text-[10px]">Categoría de Espacio:</span>
+                                <strong class="text-slate-800">${celda.tipo} (${celda.codigo})</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reubicación Operativa entre Celdas -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 space-y-3">
+                        <label class="block text-xs font-bold text-slate-800 uppercase">
+                            <i class="fa-solid fa-arrows-left-right text-blue-700 mr-1.5"></i>Reubicar Vehículo hacia otra Celda Disponible (${celda.tipo})
+                        </label>
+                        <p class="text-[11px] text-slate-500">Traslada el vehículo conservando su ticket activo, liberando la celda <b>${celda.codigo}</b> y ocupando la celda destino.</p>
+                        <div class="space-y-3">
+                            <select id="select-reubicar-destino" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-xs font-mono bg-white text-slate-800">
+                                ${celdasCompatiblesLibres.length > 0
+                                    ? celdasCompatiblesLibres.map(cd => `<option value="${cd.codigo}">Celda ${cd.codigo} — ${cd.tipo} (DISPONIBLE)</option>`).join('')
+                                    : `<option value="">-- Sin celdas disponibles para ${celda.tipo} --</option>`}
+                            </select>
+                            <div class="flex justify-center">
+                                <button type="button" ${celdasCompatiblesLibres.length === 0 ? 'disabled' : ''} onclick="reubicarVehiculoEntreCeldas('${celda.codigo}')" class="btn-corp-primary px-5 py-2 rounded-lg text-xs font-bold whitespace-nowrap shadow-xs inline-flex items-center justify-center ${celdasCompatiblesLibres.length === 0 ? 'opacity-60 cursor-not-allowed' : ''}">
+                                    <i class="fa-solid fa-route mr-1.5"></i>Confirmar Reubicación
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-rose-50/70 border border-rose-200 rounded-lg p-3 flex items-center justify-between">
+                        <div class="flex items-center space-x-2 text-rose-800 text-[11px]">
+                            <i class="fa-solid fa-shield-halved text-rose-600"></i>
+                            <span><b>Política Operativa:</b> No se permite poner en mantenimiento una celda ocupada.</span>
+                        </div>
+                        <button type="button" onclick="cerrarModalGestionCelda(); irASalidaConPlaca('${celda.placaActual}')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white rounded text-[11px] font-semibold whitespace-nowrap">
+                            Ir a Salidas
+                        </button>
+                    </div>
+                `;
+            } else if (celda.estado === 'DISPONIBLE') {
+                cuerpo.innerHTML = `
+                    <div class="bg-emerald-50 border border-emerald-300 rounded-lg p-4 flex items-center justify-between">
+                        <div>
+                            <span class="text-[11px] font-bold uppercase text-emerald-900 block">Celda Habilitada y Libre</span>
+                            <p class="text-xs text-emerald-800 mt-0.5">Espacio <b>${celda.codigo}</b> exclusivo para <b>${celda.tipo}</b> disponible para asignación.</p>
+                        </div>
+                        <button type="button" onclick="cerrarModalGestionCelda(); preseleccionarCeldaEnIngreso('${celda.codigo}')" class="btn-corp-emerald px-3.5 py-2 rounded-lg text-xs font-bold whitespace-nowrap">
+                            <i class="fa-solid fa-right-to-bracket mr-1.5"></i>Usar en Portería
+                        </button>
+                    </div>
+
+                    <!-- Bloqueo por Mantenimiento -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 space-y-3">
+                        <label class="block text-xs font-bold text-slate-800 uppercase">
+                            <i class="fa-solid fa-screwdriver-wrench text-rose-600 mr-1.5"></i>Bloquear Celda por Mantenimiento u Obra
+                        </label>
+                        <p class="text-[11px] text-slate-500">Al inhabilitar la celda <b>${celda.codigo}</b>, quedará excluida del selector de ingreso en portería hasta su rehabilitación.</p>
+                        <input type="text" id="input-motivo-mantenimiento" value="Mantenimiento preventivo / demarcación de piso" placeholder="Describa el motivo del bloqueo..." class="w-full border border-slate-300 rounded-lg px-3 py-2 text-xs bg-white text-slate-800">
+                        <button type="button" onclick="cambiarEstadoMantenimientoCelda('${celda.codigo}', 'MANTENIMIENTO')" class="w-full py-2.5 px-4 rounded-lg bg-rose-700 hover:bg-rose-800 text-white text-xs font-bold transition flex items-center justify-center">
+                            <i class="fa-solid fa-ban mr-2"></i>Inhabilitar y Poner en Mantenimiento
+                        </button>
+                    </div>
+                `;
+            } else {
+                // MANTENIMIENTO
+                cuerpo.innerHTML = `
+                    <div class="bg-rose-50 border border-rose-300 rounded-lg p-4 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold uppercase text-rose-900">
+                                <i class="fa-solid fa-screwdriver-wrench mr-1.5 text-rose-700"></i>Celda Temporalmente Fuera de Servicio
+                            </span>
+                            <span class="px-2 py-0.5 rounded bg-rose-200 text-rose-900 font-mono text-[10px] font-bold">MANTENIMIENTO</span>
+                        </div>
+                        <p class="text-xs text-rose-800"><b>Motivo reportado:</b> ${celda.motivoMantenimiento || 'Mantenimiento operativo de patio.'}</p>
+                    </div>
+
+                    <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 space-y-3">
+                        <p class="text-xs text-slate-600">Una vez concluida la labor de mantenimiento o demarcación, rehabilite la celda para que vuelva a estar disponible en portería.</p>
+                        <button type="button" onclick="cambiarEstadoMantenimientoCelda('${celda.codigo}', 'DISPONIBLE')" class="w-full btn-corp-emerald py-2.5 px-4 rounded-lg text-xs font-bold flex items-center justify-center">
+                            <i class="fa-solid fa-circle-check mr-2"></i>Habilitar Celda a Estado DISPONIBLE
+                        </button>
+                    </div>
+                `;
+            }
+
+            document.getElementById('modal-gestion-celda').classList.remove('hidden');
+        }
+
+        function cerrarModalGestionCelda() {
+            document.getElementById('modal-gestion-celda').classList.add('hidden');
+        }
+
+        async function cambiarEstadoMantenimientoCelda(codigoCelda, nuevoEstado) {
+            const motivoInput = document.getElementById('input-motivo-mantenimiento');
+            const motivo = (motivoInput && motivoInput.value.trim()) ? motivoInput.value.trim() : 'Mantenimiento operativo de patio';
+            const operarioActivo = (sesionUsuario && sesionUsuario.nombre) || 'Administrador';
+
+            // Sinergia Híbrida: Intento con API REST Node.js (PATCH /api/celdas/:codigo/mantenimiento)
+            try {
+                const res = await fetch(`/api/celdas/${encodeURIComponent(codigoCelda)}/mantenimiento`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        estado: nuevoEstado,
+                        motivo,
+                        operario: operarioActivo
+                    })
+                });
+                const data = await res.json();
+                if (res.ok && data.ok) {
+                    await refrescarEstadoDesdeBackend();
+                    cerrarModalGestionCelda();
+                    sincronizarVistas();
+                    validarPlacaEnPorteria();
+                    mostrarAlerta(
+                        data.mensaje || (nuevoEstado === 'MANTENIMIENTO'
+                            ? `Celda ${codigoCelda} puesta en MANTENIMIENTO y excluida de portería.`
+                            : `Celda ${codigoCelda} rehabilitada y DISPONIBLE para asignación.`),
+                        'success'
+                    );
+                    return;
+                } else if (!res.ok && (data.error || data.mensaje)) {
+                    mostrarAlerta(data.error || data.mensaje, 'error');
+                    return;
+                }
+            } catch (e) {
+                // Modo silencioso: Fallback en memoria reactiva
+            }
+
+            // Motor en memoria reactivo (Fallback Cero Fricción)
+            const celda = inventarioCeldas.find(c => c.codigo === codigoCelda);
+            if (!celda) return;
+
+            if (celda.estado === 'OCUPADA') {
+                mostrarAlerta(`Operación no permitida: No se puede bloquear la celda ${codigoCelda} porque está ocupada por el vehículo ${celda.placaActual}.`, 'error');
+                return;
+            }
+
+            celda.estado = nuevoEstado;
+            celda.motivoMantenimiento = nuevoEstado === 'MANTENIMIENTO' ? motivo : null;
+
+            eventosAuditoria.unshift({
+                codigo: `CEL-2026-${consecutivoTransaccion++}`,
+                fecha: obtenerFechaHoraActual(),
+                tipo: nuevoEstado === 'MANTENIMIENTO' ? 'CELDA_MANTENIMIENTO' : 'CELDA_HABILITADA',
+                modulo: 'Gestión de Celdas',
+                placaCelda: `Celda ${celda.codigo} (${celda.tipo})`,
+                descripcion: nuevoEstado === 'MANTENIMIENTO'
+                    ? `Celda ${celda.codigo} inhabilitada por mantenimiento: ${motivo}`
+                    : `Celda ${celda.codigo} rehabilitada a estado DISPONIBLE.`,
+                operario: operarioActivo
+            });
+
+            cerrarModalGestionCelda();
+            sincronizarVistas();
+            validarPlacaEnPorteria();
+            mostrarAlerta(
+                nuevoEstado === 'MANTENIMIENTO'
+                    ? `Celda ${celda.codigo} puesta en MANTENIMIENTO y excluida de portería.`
+                    : `Celda ${celda.codigo} rehabilitada y DISPONIBLE para asignación.`,
+                'success'
+            );
+        }
+
+        async function reubicarVehiculoEntreCeldas(codigoOrigen) {
+            const selectDestino = document.getElementById('select-reubicar-destino');
+            if (!selectDestino || !selectDestino.value) {
+                mostrarAlerta('Seleccione una celda de destino disponible para la reubicación.', 'warning');
+                return;
+            }
+
+            const codigoDestino = selectDestino.value;
+            const operarioActivo = (sesionUsuario && sesionUsuario.nombre) || 'Administrador';
+
+            // Sinergia Híbrida: Intento con API REST Node.js (POST /api/celdas/reubicar)
+            try {
+                const res = await fetch('/api/celdas/reubicar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        codigoOrigen,
+                        codigoDestino,
+                        operario: operarioActivo
+                    })
+                });
+                const data = await res.json();
+                if (res.ok && data.ok) {
+                    await refrescarEstadoDesdeBackend();
+                    cerrarModalGestionCelda();
+                    sincronizarVistas();
+                    validarPlacaEnPorteria();
+                    mostrarAlerta(data.mensaje || `Vehículo reubicado exitosamente de la celda ${codigoOrigen} a la celda ${codigoDestino}.`, 'success');
+                    return;
+                } else if (!res.ok && (data.error || data.mensaje)) {
+                    mostrarAlerta(data.error || data.mensaje, 'error');
+                    return;
+                }
+            } catch (e) {
+                // Modo silencioso: Fallback en memoria reactiva
+            }
+
+            // Motor en memoria reactivo (Fallback Cero Fricción)
+            const celdaOrigen = inventarioCeldas.find(c => c.codigo === codigoOrigen);
+            const celdaDestino = inventarioCeldas.find(c => c.codigo === codigoDestino);
+            if (!celdaOrigen || celdaOrigen.estado !== 'OCUPADA') {
+                mostrarAlerta(`La celda de origen ${codigoOrigen} no se encuentra ocupada.`, 'error');
+                return;
+            }
+            if (!celdaDestino || celdaDestino.estado !== 'DISPONIBLE' || celdaDestino.codigo === celdaOrigen.codigo) {
+                mostrarAlerta('Seleccione una celda de destino válida y en estado DISPONIBLE.', 'error');
+                return;
+            }
+            if (celdaOrigen.tipo !== celdaDestino.tipo) {
+                mostrarAlerta(`Incompatibilidad de categoría: un vehículo en celda de ${celdaOrigen.tipo} no puede reubicarse en celda de ${celdaDestino.tipo}.`, 'error');
+                return;
+            }
+
+            const placa = celdaOrigen.placaActual;
+            celdaOrigen.estado = 'DISPONIBLE';
+            celdaOrigen.placaActual = null;
+
+            celdaDestino.estado = 'OCUPADA';
+            celdaDestino.placaActual = placa;
+
+            const mov = movimientosActivos.find(m => m.placa === placa);
+            if (mov) {
+                mov.celda = codigoDestino;
+                mov.novedades.push(`${obtenerFechaHoraActual().slice(0, 16)} — Reubicación Patio: Trasladado de ${codigoOrigen} a ${codigoDestino}.`);
+            }
+
+            const cli = padronClientes.find(c => c.placa === placa);
+            if (cli) {
+                cli.celdaActual = codigoDestino;
+            }
+
+            eventosAuditoria.unshift({
+                codigo: `CEL-2026-${consecutivoTransaccion++}`,
+                fecha: obtenerFechaHoraActual(),
+                tipo: 'CELDA_REUBICADA',
+                modulo: 'Gestión de Celdas',
+                placaCelda: `${placa} • ${codigoOrigen} -> ${codigoDestino}`,
+                descripcion: `Reubicación operativa de vehículo ${placa}: liberada celda ${codigoOrigen} y asignada celda ${codigoDestino}${mov ? `. Ticket ${mov.transaccion} conservado.` : '.'}`,
+                operario: operarioActivo
+            });
+
+            cerrarModalGestionCelda();
+            sincronizarVistas();
+            validarPlacaEnPorteria();
+            mostrarAlerta(`Vehículo ${placa} reubicado exitosamente de la celda ${codigoOrigen} a la celda ${codigoDestino}.`, 'success');
         }
 
         function preseleccionarCeldaEnIngreso(codigoCelda) {
@@ -1808,6 +3189,7 @@
             const metodo = document.getElementById('select-metodo-pago').value;
             const cliente = padronClientes.find(item => item.placa === placa);
             if (!cliente) return;
+            const operarioActivo = (sesionUsuario && sesionUsuario.nombre) || 'Carlos Ríos';
 
             // Sinergia Híbrida: Intento con API REST Node.js
             try {
@@ -1818,7 +3200,7 @@
                         placa,
                         medioPago: metodo,
                         monto: cliente.tarifa,
-                        operario: 'Carlos Ríos'
+                        operario: operarioActivo
                     })
                 });
                 const data = await res.json();
@@ -1827,6 +3209,9 @@
                     sincronizarVistas();
                     validarPlacaEnPorteria();
                     mostrarAlerta(data.mensaje || `Recibo emitido: El vehículo ${placa} se encuentra ahora en PAZ Y SALVO.`, 'success');
+                    return;
+                } else if (!res.ok && (data.error || data.mensaje)) {
+                    mostrarAlerta(data.error || data.mensaje, 'error');
                     return;
                 }
             } catch (e) {
@@ -1847,7 +3232,7 @@
                 modulo: 'Mensualidades y Caja',
                 placaCelda: `${cliente.placa} • Mensualidad`,
                 descripcion: `Pago registrado por $${cliente.tarifa.toLocaleString('es-CO')} COP (${metodo}). Estado actualizado a PAZ Y SALVO hasta 2026-11-24.`,
-                operario: 'Carlos Ríos'
+                operario: operarioActivo
             });
 
             sincronizarVistas();
@@ -1860,6 +3245,7 @@
             const tipo = document.getElementById('nuevo-cliente-tipo').value;
             const nombre = document.getElementById('nuevo-cliente-nombre').value.trim();
             const doc = document.getElementById('nuevo-cliente-doc').value.trim();
+            const operarioActivo = (sesionUsuario && sesionUsuario.nombre) || 'Carlos Ríos';
 
             if (!placa || !nombre || !doc) {
                 mostrarAlerta('Complete la placa, nombre del titular y documento para vincular al cliente.', 'warning');
@@ -1876,7 +3262,7 @@
                         tipo,
                         titular: nombre,
                         documento: doc,
-                        operario: 'Carlos Ríos'
+                        operario: operarioActivo
                     })
                 });
                 const data = await res.json();
@@ -1888,8 +3274,8 @@
                     sincronizarVistas();
                     mostrarAlerta(data.mensaje || `Cliente ${nombre} vinculado en PAZ Y SALVO.`, 'success');
                     return;
-                } else if (!res.ok && data.error) {
-                    mostrarAlerta(data.error, 'error');
+                } else if (!res.ok && (data.error || data.mensaje)) {
+                    mostrarAlerta(data.error || data.mensaje, 'error');
                     return;
                 }
             } catch (e) {
@@ -1899,6 +3285,12 @@
             // Motor en memoria reactivo (Fallback Cero Fricción)
             if (padronClientes.some(c => c.placa === placa)) {
                 mostrarAlerta(`La placa ${placa} ya se encuentra registrada en el padrón.`, 'error');
+                return;
+            }
+            const docDigitos = doc.replace(/\D/g, '') || doc.toUpperCase();
+            const docExistente = padronClientes.find(c => (c.documento.replace(/\D/g, '') || c.documento.toUpperCase()) === docDigitos);
+            if (docExistente) {
+                mostrarAlerta(`El documento ${doc} ya se encuentra registrado a nombre de ${docExistente.titular} (${docExistente.placa}).`, 'error');
                 return;
             }
 
@@ -1922,7 +3314,7 @@
                 modulo: 'Mensualidades y Caja',
                 placaCelda: `${placa} • Alta Mensualidad`,
                 descripcion: `Nuevo suscriptor vinculado (${nombre} - ${tipo}). Pago inicial $${tarifa.toLocaleString('es-CO')} COP.`,
-                operario: 'Carlos Ríos'
+                operario: operarioActivo
             });
 
             document.getElementById('nuevo-cliente-placa').value = '';
@@ -1947,7 +3339,9 @@
                     ev.placaCelda.toUpperCase().includes(texto) ||
                     ev.descripcion.toUpperCase().includes(texto) ||
                     ev.operario.toUpperCase().includes(texto);
-                const coincideTipo = tipoFiltro === 'TODOS' || ev.tipo === tipoFiltro;
+                const coincideTipo = tipoFiltro === 'TODOS' ||
+                    ev.tipo === tipoFiltro ||
+                    (tipoFiltro === 'PERMISOS_MODIFICADOS' && ['PERMISOS_MODIFICADOS', 'PERMISOS_REVOCADOS', 'PERMISOS_RESTABLECIDOS'].includes(ev.tipo));
                 return coincideTexto && coincideTipo;
             });
 
@@ -1958,11 +3352,17 @@
 
             tbody.innerHTML = filtrados.map(ev => {
                 let estiloBadge = 'bg-slate-100 text-slate-700 border-slate-300';
-                if (ev.tipo === 'INGRESO') estiloBadge = 'bg-emerald-100 text-emerald-800 border-emerald-300';
-                if (ev.tipo === 'SALIDA') estiloBadge = 'bg-sky-100 text-sky-800 border-sky-300';
-                if (ev.tipo === 'PAGO') estiloBadge = 'bg-indigo-100 text-indigo-800 border-indigo-300';
-                if (ev.tipo === 'NOVEDAD') estiloBadge = 'bg-amber-100 text-amber-900 border-amber-300';
-                if (ev.tipo === 'BLOQUEO') estiloBadge = 'bg-rose-100 text-rose-800 border-rose-300';
+                if (['INGRESO', 'CELDA_HABILITADA', 'SUSCRIPTOR_CREADO', 'EMPLEADO_CREADO', 'PERMISOS_RESTABLECIDOS'].includes(ev.tipo)) {
+                    estiloBadge = 'bg-emerald-100 text-emerald-800 border-emerald-300';
+                } else if (['SALIDA', 'CELDA_REUBICADA'].includes(ev.tipo)) {
+                    estiloBadge = 'bg-sky-100 text-sky-800 border-sky-300';
+                } else if (['PAGO', 'SUSCRIPTOR_MODIFICADO', 'EMPLEADO_MODIFICADO'].includes(ev.tipo)) {
+                    estiloBadge = 'bg-indigo-100 text-indigo-800 border-indigo-300';
+                } else if (['NOVEDAD', 'PERMISOS_MODIFICADOS'].includes(ev.tipo)) {
+                    estiloBadge = 'bg-amber-100 text-amber-900 border-amber-300';
+                } else if (['BLOQUEO', 'CELDA_MANTENIMIENTO', 'SUSCRIPTOR_ELIMINADO', 'EMPLEADO_ELIMINADO', 'PERMISOS_REVOCADOS'].includes(ev.tipo)) {
+                    estiloBadge = 'bg-rose-100 text-rose-800 border-rose-300';
+                }
 
                 return `
                     <tr class="hover:bg-slate-50 transition">
@@ -2001,7 +3401,7 @@
         // ===================================================================
         function renderizarPanelInferior50Celdas() {
             const ocupadasTotal = inventarioCeldas.filter(c => c.estado === 'OCUPADA').length;
-            const libresTotal = inventarioCeldas.length - ocupadasTotal;
+            const libresTotal = inventarioCeldas.filter(c => c.estado === 'DISPONIBLE').length;
             const autosOcupados = inventarioCeldas.filter(c => c.tipo === 'Automóvil' && c.estado === 'OCUPADA').length;
             const motosOcupadas = inventarioCeldas.filter(c => c.tipo === 'Motocicleta' && c.estado === 'OCUPADA').length;
 
@@ -2013,17 +3413,24 @@
 
             const grid = document.getElementById('grid-inferior-50-celdas');
             grid.innerHTML = inventarioCeldas.map(c => {
-                const ocupada = c.estado === 'OCUPADA';
-                if (ocupada) {
+                if (c.estado === 'OCUPADA') {
                     return `
-                        <div onclick="irASalidaConPlaca('${c.placaActual}')" title="Celda ${c.codigo} ocupada por ${c.placaActual}" class="cursor-pointer rounded border border-amber-400 bg-amber-100/90 px-1.5 py-1 text-center hover:bg-amber-200 transition">
+                        <div onclick="abrirModalGestionCelda('${c.codigo}')" title="Celda ${c.codigo} ocupada por ${c.placaActual}" class="cursor-pointer rounded border border-amber-400 bg-amber-100/90 px-1.5 py-1 text-center hover:bg-amber-200 transition">
                             <span class="text-[10px] font-mono font-bold text-slate-900 block leading-tight">${c.codigo}</span>
                             <span class="text-[9px] font-mono font-bold bg-amber-300 text-slate-950 px-1 rounded border border-slate-800 inline-block truncate max-w-full">${c.placaActual}</span>
                         </div>
                     `;
                 }
+                if (c.estado === 'MANTENIMIENTO') {
+                    return `
+                        <div onclick="abrirModalGestionCelda('${c.codigo}')" title="Celda ${c.codigo} en Mantenimiento" class="cursor-pointer rounded border border-rose-300 bg-rose-100/80 px-1.5 py-1 text-center hover:bg-rose-200 transition">
+                            <span class="text-[10px] font-mono font-bold text-rose-900 block leading-tight">${c.codigo}</span>
+                            <span class="text-[9px] font-bold text-rose-800 block">Mant.</span>
+                        </div>
+                    `;
+                }
                 return `
-                    <div onclick="preseleccionarCeldaEnIngreso('${c.codigo}')" title="Celda ${c.codigo} Disponible (${c.tipo})" class="cursor-pointer rounded border border-emerald-300 bg-emerald-50/70 px-1.5 py-1 text-center hover:bg-emerald-100 transition">
+                    <div onclick="abrirModalGestionCelda('${c.codigo}')" title="Celda ${c.codigo} Disponible (${c.tipo})" class="cursor-pointer rounded border border-emerald-300 bg-emerald-50/70 px-1.5 py-1 text-center hover:bg-emerald-100 transition">
                         <span class="text-[10px] font-mono font-bold text-slate-700 block leading-tight">${c.codigo}</span>
                         <span class="text-[9px] font-semibold text-emerald-700 block">Libre</span>
                     </div>
@@ -2071,6 +3478,1295 @@
 
         function ocultarAlerta() {
             document.getElementById('alerta-operativa').classList.add('hidden');
+        }
+
+        // ===================================================================
+        // GESTIÓN DE AUTENTICACIÓN Y ROLES (ADMIN / OPERADOR)
+        // ===================================================================
+        let sesionUsuario = {
+            autenticado: false,
+            rol: 'OPERADOR', // 'ADMIN' o 'OPERADOR'
+            nombre: 'Carlos Ríos',
+            cargo: 'Operador en Turno',
+            correo: 'operario@autoscolombia.com'
+        };
+
+        function inicializarSesion() {
+            try {
+                const guardada = localStorage.getItem('autos_colombia_sesion');
+                if (guardada) {
+                    const parsed = JSON.parse(guardada);
+                    if (parsed && parsed.autenticado) {
+                        sesionUsuario = parsed;
+                        ocultarVistaLogin();
+                        aplicarEstadoSesionEnUI();
+                        return;
+                    }
+                }
+            } catch (e) {}
+            mostrarVistaLogin();
+        }
+
+        function mostrarVistaLogin() {
+            const vista = document.getElementById('vista-login');
+            if (vista) vista.classList.remove('hidden');
+        }
+
+        function ocultarVistaLogin() {
+            const vista = document.getElementById('vista-login');
+            if (vista) vista.classList.add('hidden');
+        }
+
+        function seleccionarRolLogin(rol) {
+            const btnOp = document.getElementById('btn-rol-operador');
+            const btnAd = document.getElementById('btn-rol-admin');
+            const inputRol = document.getElementById('login-rol-seleccionado');
+            const inputUser = document.getElementById('login-input-usuario');
+            const inputClave = document.getElementById('login-input-clave');
+            const alertaError = document.getElementById('login-alerta-error');
+            if (alertaError) alertaError.classList.add('hidden');
+
+            if (inputRol) inputRol.value = rol;
+
+            if (rol === 'ADMIN') {
+                if (btnAd) {
+                    btnAd.className = 'flex flex-col items-center justify-center p-3 rounded-xl border-2 border-indigo-600 bg-indigo-50/50 text-indigo-900 transition hover:border-indigo-500';
+                    const icon = btnAd.querySelector('i');
+                    if (icon) icon.className = 'fa-solid fa-crown text-lg text-indigo-600 mb-1';
+                }
+                if (btnOp) {
+                    btnOp.className = 'flex flex-col items-center justify-center p-3 rounded-xl border-2 border-slate-200 bg-white text-slate-700 transition hover:border-slate-300';
+                    const icon = btnOp.querySelector('i');
+                    if (icon) icon.className = 'fa-solid fa-user-shield text-lg text-slate-400 mb-1';
+                }
+                if (inputUser) inputUser.value = 'admin@autoscolombia.com';
+                if (inputClave) inputClave.value = 'admin123';
+            } else {
+                if (btnOp) {
+                    btnOp.className = 'flex flex-col items-center justify-center p-3 rounded-xl border-2 border-blue-600 bg-blue-50/50 text-blue-900 transition hover:border-blue-500';
+                    const icon = btnOp.querySelector('i');
+                    if (icon) icon.className = 'fa-solid fa-user-shield text-lg text-blue-600 mb-1';
+                }
+                if (btnAd) {
+                    btnAd.className = 'flex flex-col items-center justify-center p-3 rounded-xl border-2 border-slate-200 bg-white text-slate-700 transition hover:border-slate-300';
+                    const icon = btnAd.querySelector('i');
+                    if (icon) icon.className = 'fa-solid fa-crown text-lg text-slate-400 mb-1';
+                }
+                if (inputUser) inputUser.value = 'operario@autoscolombia.com';
+                if (inputClave) inputClave.value = 'operario123';
+            }
+        }
+
+        async function iniciarSesion(event) {
+            if (event) event.preventDefault();
+            const usuario = document.getElementById('login-input-usuario').value.trim();
+            const clave = document.getElementById('login-input-clave').value.trim();
+            const rol = document.getElementById('login-rol-seleccionado').value;
+            const alertaError = document.getElementById('login-alerta-error');
+            const errorTexto = document.getElementById('login-error-texto');
+            const btnSubmit = document.getElementById('btn-submit-login');
+
+            if (alertaError) alertaError.classList.add('hidden');
+            if (btnSubmit) {
+                btnSubmit.disabled = true;
+                btnSubmit.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i>Validando credenciales...`;
+            }
+
+            try {
+                const res = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ usuario, clave, rol })
+                });
+
+                const json = await res.json();
+                if (res.ok && json && json.ok && json.datos) {
+                    establecerSesion(json.datos);
+                    if (btnSubmit) {
+                        btnSubmit.disabled = false;
+                        btnSubmit.innerHTML = `<i class="fa-solid fa-arrow-right-to-bracket text-xs"></i><span>Ingresar al Sistema</span>`;
+                    }
+                    return;
+                } else if (json && json.mensaje) {
+                    if (errorTexto) errorTexto.textContent = json.mensaje;
+                    if (alertaError) alertaError.classList.remove('hidden');
+                    if (btnSubmit) {
+                        btnSubmit.disabled = false;
+                        btnSubmit.innerHTML = `<i class="fa-solid fa-arrow-right-to-bracket text-xs"></i><span>Ingresar al Sistema</span>`;
+                    }
+                    return;
+                }
+            } catch (err) {
+                // Standalone / doble clic en archivo local
+            }
+
+            // Fallback en memoria dinámico (busca en padronEmpleados)
+            const rolEsperado = rol === 'ADMIN' ? 'ADMINISTRADOR' : 'OPERADOR';
+            const digitosU = usuario.replace(/\D/g, '');
+            const emp = padronEmpleados.find(e => {
+                const u = usuario.toLowerCase();
+                return e.correo.toLowerCase() === u ||
+                    e.id.toLowerCase() === u ||
+                    (digitosU.length >= 5 && e.documento.replace(/\D/g, '') === digitosU) ||
+                    (u === 'admin' && e.rol === 'ADMINISTRADOR') ||
+                    (u === 'operario' && e.rol === 'OPERADOR');
+            });
+
+            if (emp && emp.clave === clave) {
+                if (emp.rol !== rolEsperado) {
+                    if (errorTexto) errorTexto.textContent = `Rol no coincide: el usuario ${emp.nombre} tiene rol asignado de ${emp.rol}. Seleccione el botón correspondiente arriba.`;
+                    if (alertaError) alertaError.classList.remove('hidden');
+                } else if (emp.estado === 'REVOCADO') {
+                    if (errorTexto) errorTexto.textContent = `Acceso denegado: Los permisos de esta cuenta (${emp.nombre}) han sido REVOCADOS por la administración. Comuníquese con la gerencia.`;
+                    if (alertaError) alertaError.classList.remove('hidden');
+                } else {
+                    establecerSesion({
+                        autenticado: true,
+                        rol: emp.rol === 'ADMINISTRADOR' ? 'ADMIN' : 'OPERADOR',
+                        nombre: emp.nombre,
+                        cargo: emp.cargo,
+                        correo: emp.correo,
+                        documento: emp.documento,
+                        empleadoId: emp.id
+                    });
+                    if (btnSubmit) {
+                        btnSubmit.disabled = false;
+                        btnSubmit.innerHTML = `<i class="fa-solid fa-arrow-right-to-bracket text-xs"></i><span>Ingresar al Sistema</span>`;
+                    }
+                    return;
+                }
+            } else {
+                if (errorTexto) errorTexto.textContent = 'Credenciales no válidas o rol incorrecto para el usuario ingresado.';
+                if (alertaError) alertaError.classList.remove('hidden');
+            }
+
+            if (btnSubmit) {
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = `<i class="fa-solid fa-arrow-right-to-bracket text-xs"></i><span>Ingresar al Sistema</span>`;
+            }
+        }
+
+        function iniciarSesionRapida(rol) {
+            seleccionarRolLogin(rol);
+            iniciarSesion();
+        }
+
+        function establecerSesion(datos) {
+            sesionUsuario = datos;
+            try {
+                localStorage.setItem('autos_colombia_sesion', JSON.stringify(sesionUsuario));
+            } catch (e) {}
+
+            ocultarVistaLogin();
+            aplicarEstadoSesionEnUI();
+            mostrarAlerta(`Bienvenido al sistema, ${sesionUsuario.nombre} (${sesionUsuario.cargo}).`, 'success');
+        }
+
+        function cerrarSesion() {
+            sesionUsuario = {
+                autenticado: false,
+                rol: 'OPERADOR',
+                nombre: 'Carlos Ríos',
+                cargo: 'Operador en Turno',
+                correo: 'operario@autoscolombia.com'
+            };
+            try {
+                localStorage.removeItem('autos_colombia_sesion');
+            } catch (e) {}
+
+            aplicarEstadoSesionEnUI();
+            mostrarVistaLogin();
+        }
+
+        function aplicarEstadoSesionEnUI() {
+            const navAdmin = document.getElementById('nav-admin-group');
+            const badgeRolSidebar = document.getElementById('badge-rol-sidebar');
+            const textoSeccionSidebar = document.getElementById('sidebar-seccion-texto');
+            const avatarSidebar = document.getElementById('sidebar-usuario-avatar');
+            const nombreSidebar = document.getElementById('sidebar-usuario-nombre');
+            const rolSidebar = document.getElementById('sidebar-usuario-rol');
+            const badgeRolHeader = document.getElementById('header-badge-rol');
+            const badgeRolIcon = document.getElementById('header-badge-icon');
+            const badgeRolText = document.getElementById('header-badge-text');
+            const badgeCountEmp = document.getElementById('admin-badge-count-empleados');
+            const badgeCountUsers = document.getElementById('admin-badge-count-users');
+
+            if (badgeCountEmp) badgeCountEmp.textContent = padronEmpleados.length;
+            if (badgeCountUsers) badgeCountUsers.textContent = padronClientes.length;
+
+            const nombreActual = sesionUsuario.nombre || (sesionUsuario.rol === 'ADMIN' ? 'Dra. Patricia Gómez' : 'Carlos Ríos');
+            const partes = nombreActual.split(' ').filter(Boolean);
+            const iniciales = partes.length >= 2 ? (partes[0][0] + partes[1][0]).toUpperCase() : (partes[0] ? partes[0].slice(0, 2).toUpperCase() : 'AC');
+
+            if (sesionUsuario.autenticado && sesionUsuario.rol === 'ADMIN') {
+                if (navAdmin) navAdmin.classList.remove('hidden');
+                if (badgeRolSidebar) {
+                    badgeRolSidebar.textContent = 'ADMIN';
+                    badgeRolSidebar.className = 'text-[9px] px-2 py-0.5 rounded font-mono font-bold uppercase bg-amber-950 text-amber-300 border border-amber-800';
+                }
+                if (textoSeccionSidebar) textoSeccionSidebar.textContent = 'Supervisión';
+                if (avatarSidebar) {
+                    avatarSidebar.textContent = iniciales;
+                    avatarSidebar.className = 'w-9 h-9 rounded-full bg-gradient-to-br from-amber-600 to-indigo-700 flex items-center justify-center font-bold text-xs text-white shadow shrink-0';
+                }
+                if (nombreSidebar) nombreSidebar.textContent = sesionUsuario.nombre;
+                if (rolSidebar) rolSidebar.textContent = sesionUsuario.cargo;
+
+                if (badgeRolHeader) badgeRolHeader.className = 'bg-slate-900 text-white text-xs font-bold px-3 py-1.5 rounded-md border border-slate-800 flex items-center space-x-1.5 shadow-xs';
+                if (badgeRolIcon) badgeRolIcon.className = 'fa-solid fa-crown text-amber-400';
+                if (badgeRolText) badgeRolText.textContent = 'Administrador';
+
+                cambiarPestana('tab-admin-dashboard', 'btn-tab-admin-dashboard');
+                renderizarAdminDashboard();
+                renderizarAdminCRUD();
+                renderizarAdminEmpleados();
+            } else {
+                if (navAdmin) navAdmin.classList.add('hidden');
+                if (badgeRolSidebar) {
+                    badgeRolSidebar.textContent = 'OPERADOR';
+                    badgeRolSidebar.className = 'text-[9px] px-2 py-0.5 rounded font-mono font-bold uppercase bg-sky-950 text-sky-300 border border-sky-800';
+                }
+                if (textoSeccionSidebar) textoSeccionSidebar.textContent = 'Operación Diaria';
+                if (avatarSidebar) {
+                    avatarSidebar.textContent = iniciales;
+                    avatarSidebar.className = 'w-9 h-9 rounded-full bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center font-bold text-xs text-white shadow shrink-0';
+                }
+                if (nombreSidebar) nombreSidebar.textContent = sesionUsuario.nombre;
+                if (rolSidebar) rolSidebar.textContent = sesionUsuario.cargo;
+
+                if (badgeRolHeader) badgeRolHeader.className = 'bg-slate-900 text-white text-xs font-bold px-3 py-1.5 rounded-md border border-slate-800 flex items-center space-x-1.5 shadow-xs';
+                if (badgeRolIcon) badgeRolIcon.className = 'fa-solid fa-user-shield text-sky-400';
+                if (badgeRolText) badgeRolText.textContent = 'Operador';
+
+                cambiarPestana('tab-ingreso', 'btn-tab-ingreso');
+            }
+
+            sincronizarVistas();
+        }
+
+        // ===================================================================
+        // MÓDULO ADMINISTRADOR: DASHBOARD EJECUTIVO Y MÉTRICAS
+        // ===================================================================
+        async function renderizarAdminDashboard() {
+            let metricas = null;
+
+            try {
+                const res = await fetch('/api/admin/metricas');
+                if (res.ok) {
+                    const json = await res.json();
+                    if (json && json.ok && json.datos) {
+                        metricas = json.datos;
+                    }
+                }
+            } catch (e) {
+                // Modo silencioso
+            }
+
+            if (!metricas) {
+                const ocupadas = inventarioCeldas.filter(c => c.estado === 'OCUPADA').length;
+                const mantenimiento = inventarioCeldas.filter(c => c.estado === 'MANTENIMIENTO').length;
+                const autosOcupados = inventarioCeldas.filter(c => c.tipo === 'Automóvil' && c.estado === 'OCUPADA').length;
+                const motosOcupadas = inventarioCeldas.filter(c => c.tipo === 'Motocicleta' && c.estado === 'OCUPADA').length;
+                const totalClientes = padronClientes.length;
+                const alDia = padronClientes.filter(c => c.estado === 'ACTIVA').length;
+                const enMora = totalClientes - alDia;
+                const ingresoPotencial = padronClientes.reduce((acc, c) => acc + (c.tarifa || 0), 0);
+                const carteraMora = padronClientes.filter(c => c.estado !== 'ACTIVA').reduce((acc, c) => acc + (c.tarifa || 0), 0);
+
+                const pagos = eventosAuditoria.filter(e => e.tipo === 'PAGO');
+                let totalRecaudado = 715000;
+                let efectivo = 180000;
+                let pse = 440000;
+                let tarjeta = 95000;
+
+                pagos.forEach(p => {
+                    if (p.codigo !== 'RC-2026-0891') {
+                        const match = p.descripcion.match(/\$([\d\.]+)/);
+                        if (match) {
+                            const val = parseInt(match[1].replace(/\./g, ''), 10) || 0;
+                            totalRecaudado += val;
+                            if (p.descripcion.includes('Efectivo')) efectivo += val;
+                            else if (p.descripcion.includes('Tarjeta')) tarjeta += val;
+                            else pse += val;
+                        }
+                    }
+                });
+
+                metricas = {
+                    totalRecaudado,
+                    desgloseMedios: { efectivo, pse, tarjeta },
+                    celdas: {
+                        total: 50,
+                        ocupadas,
+                        libres: 50 - ocupadas - mantenimiento,
+                        mantenimiento,
+                        porcentaje: Math.round((ocupadas / 50) * 100),
+                        autosOcupados,
+                        motosOcupadas
+                    },
+                    clientes: {
+                        total: totalClientes,
+                        alDia,
+                        enMora,
+                        porcentajeAlDia: totalClientes > 0 ? Math.round((alDia / totalClientes) * 100) : 0
+                    },
+                    cartera: {
+                        ingresoPotencial,
+                        carteraMora,
+                        efectividadCobro: ingresoPotencial > 0 ? Math.round(((ingresoPotencial - carteraMora) / ingresoPotencial) * 100) : 0
+                    },
+                    eventosAuditoriaTotal: eventosAuditoria.length
+                };
+            }
+
+            const elRecaudo = document.getElementById('admin-kpi-recaudo');
+            if (elRecaudo) elRecaudo.textContent = `$${metricas.totalRecaudado.toLocaleString('es-CO')} COP`;
+
+            const elEf = document.getElementById('admin-kpi-efectivo');
+            if (elEf) elEf.textContent = `Ef: $${Math.round(metricas.desgloseMedios.efectivo / 1000)}k`;
+
+            const elPse = document.getElementById('admin-kpi-pse');
+            if (elPse) elPse.textContent = `PSE: $${Math.round(metricas.desgloseMedios.pse / 1000)}k`;
+
+            const elTarj = document.getElementById('admin-kpi-tarjeta');
+            if (elTarj) elTarj.textContent = `Tarj: $${Math.round(metricas.desgloseMedios.tarjeta / 1000)}k`;
+
+            const elOcup = document.getElementById('admin-kpi-ocupacion');
+            if (elOcup) elOcup.textContent = `${metricas.celdas.ocupadas} / 50`;
+
+            const elPorcOcup = document.getElementById('admin-kpi-porcentaje');
+            if (elPorcOcup) elPorcOcup.textContent = `${metricas.celdas.porcentaje}% de capacidad instalada`;
+
+            const elBar = document.getElementById('admin-kpi-bar');
+            if (elBar) elBar.style.width = `${metricas.celdas.porcentaje}%`;
+
+            const elTotalCli = document.getElementById('admin-kpi-clientes-total');
+            if (elTotalCli) elTotalCli.textContent = `${metricas.clientes.total} Clientes`;
+
+            const elAlDia = document.getElementById('admin-kpi-al-dia');
+            if (elAlDia) elAlDia.textContent = `${metricas.clientes.alDia} Al Día`;
+
+            const elEnMora = document.getElementById('admin-kpi-en-mora');
+            if (elEnMora) elEnMora.textContent = `${metricas.clientes.enMora} En Mora`;
+
+            const elPorcAlDia = document.getElementById('admin-kpi-porcentaje-al-dia');
+            if (elPorcAlDia) elPorcAlDia.textContent = `${metricas.clientes.porcentajeAlDia}% Cartera Sana`;
+
+            const elEventos = document.getElementById('admin-kpi-eventos-total');
+            if (elEventos) elEventos.textContent = `${metricas.eventosAuditoriaTotal} Eventos`;
+
+            const elMetAutos = document.getElementById('admin-metric-autos');
+            if (elMetAutos) elMetAutos.textContent = `${metricas.celdas.autosOcupados} / 20 Ocupados`;
+
+            const elMetMotos = document.getElementById('admin-metric-motos');
+            if (elMetMotos) elMetMotos.textContent = `${metricas.celdas.motosOcupadas} / 30 Ocupados`;
+
+            const elMetProy = document.getElementById('admin-metric-proyectado');
+            if (elMetProy) elMetProy.textContent = `$${metricas.cartera.ingresoPotencial.toLocaleString('es-CO')} COP`;
+
+            const elMetMora = document.getElementById('admin-metric-mora-cop');
+            if (elMetMora) elMetMora.textContent = `$${metricas.cartera.carteraMora.toLocaleString('es-CO')} COP`;
+
+            const elMetEfec = document.getElementById('admin-metric-efectividad');
+            if (elMetEfec) elMetEfec.textContent = `${metricas.cartera.efectividadCobro}%`;
+
+            const elBadgeSidebar = document.getElementById('admin-badge-count-users');
+            if (elBadgeSidebar) elBadgeSidebar.textContent = padronClientes.length;
+        }
+
+        // ===================================================================
+        // MÓDULO ADMINISTRADOR: CRUD DE SUSCRIPTORES
+        // ===================================================================
+        function renderizarAdminCRUD() {
+            const inputBusq = document.getElementById('admin-crud-input-busqueda');
+            const selectTipo = document.getElementById('admin-crud-select-tipo');
+            const selectEstado = document.getElementById('admin-crud-select-estado');
+            const tbody = document.getElementById('tabla-admin-crud-cuerpo');
+            if (!tbody) return;
+
+            const q = inputBusq ? inputBusq.value.trim().toUpperCase() : '';
+            const filtroTipo = selectTipo ? selectTipo.value : 'TODOS';
+            const filtroEstado = selectEstado ? selectEstado.value : 'TODOS';
+
+            const filtrados = padronClientes.filter(c => {
+                const matchTexto = !q ||
+                    c.placa.includes(q) ||
+                    c.titular.toUpperCase().includes(q) ||
+                    c.documento.toUpperCase().includes(q);
+                const matchTipo = filtroTipo === 'TODOS' || c.tipo === filtroTipo;
+                const matchEstado = filtroEstado === 'TODOS' || c.estado === filtroEstado;
+                return matchTexto && matchTipo && matchEstado;
+            });
+
+            const elBadgeSidebar = document.getElementById('admin-badge-count-users');
+            if (elBadgeSidebar) elBadgeSidebar.textContent = padronClientes.length;
+
+            if (filtrados.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="px-6 py-8 text-center text-slate-500">
+                            <i class="fa-solid fa-users-slash text-2xl text-slate-300 block mb-2"></i>
+                            No se encontraron suscriptores con los filtros aplicados.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = filtrados.map(c => {
+                const alDia = c.estado === 'ACTIVA';
+                const badgeEstado = alDia
+                    ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800 border border-emerald-300">
+                            <i class="fa-solid fa-circle-check text-emerald-600"></i>PAZ Y SALVO
+                       </span>`
+                    : `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-rose-100 text-rose-800 border border-rose-300">
+                            <i class="fa-solid fa-circle-exclamation text-rose-600"></i>EN MORA
+                       </span>`;
+
+                const badgePatio = c.enPatio
+                    ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-amber-100 text-amber-900 border border-amber-300 font-mono text-[11px] font-bold">
+                            <i class="fa-solid fa-warehouse text-amber-700"></i>${c.celdaActual || 'En Patio'}
+                       </span>`
+                    : `<span class="text-slate-400 text-[11px] italic">Fuera de Patio</span>`;
+
+                const btnEliminar = c.enPatio
+                    ? `<button type="button" disabled title="Vehículo actualmente en patio. Registre su salida antes de retirarlo." class="p-1.5 rounded border border-slate-200 text-slate-300 cursor-not-allowed">
+                            <i class="fa-solid fa-trash-can"></i>
+                       </button>`
+                    : `<button type="button" onclick="eliminarUsuarioAdmin('${c.placa}')" title="Dar de baja suscriptor" class="p-1.5 rounded border border-rose-200 text-rose-700 hover:bg-rose-50 transition">
+                            <i class="fa-solid fa-trash-can"></i>
+                       </button>`;
+
+                return `
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <span class="placa-badge inline-flex items-center justify-center whitespace-nowrap px-2.5 py-0.5 rounded font-mono font-bold text-xs border-2 border-slate-900 shadow-sm">${c.placa}</span>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <p class="font-bold text-slate-900">${c.titular}</p>
+                            <p class="text-[11px] text-slate-500 font-mono">${c.documento}</p>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <span class="font-semibold text-slate-700 block">${c.tipo}</span>
+                            <span class="font-mono text-[11px] text-slate-500">$${c.tarifa.toLocaleString('es-CO')} COP</span>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap font-mono text-xs ${alDia ? 'text-slate-700' : 'text-rose-700 font-bold'}">
+                            ${c.vencimiento}
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            ${badgeEstado}
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            ${badgePatio}
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap text-right space-x-1">
+                            <button type="button" onclick="abrirModalEditarUsuario('${c.placa}')" title="Modificar datos del suscriptor" class="p-1.5 rounded border border-indigo-200 text-indigo-700 hover:bg-indigo-50 transition">
+                                <i class="fa-solid fa-user-pen"></i>
+                            </button>
+                            ${btnEliminar}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function actualizarTarifaSugeridaAdmin() {
+            const tipo = document.getElementById('admin-nuevo-tipo').value;
+            const inputTarifa = document.getElementById('admin-nuevo-tarifa');
+            if (inputTarifa) {
+                inputTarifa.value = tipo === 'Automóvil' ? 180000 : 95000;
+            }
+        }
+
+        function abrirModalCrearUsuario() {
+            document.getElementById('admin-nuevo-placa').value = '';
+            document.getElementById('admin-nuevo-titular').value = '';
+            document.getElementById('admin-nuevo-documento').value = '';
+            const elTel = document.getElementById('admin-nuevo-telefono');
+            if (elTel) elTel.value = '';
+            const elMarca = document.getElementById('admin-nuevo-marca');
+            if (elMarca) elMarca.value = '';
+            document.getElementById('admin-nuevo-tipo').value = 'Automóvil';
+            document.getElementById('admin-nuevo-tarifa').value = 180000;
+            document.getElementById('admin-nuevo-estado').value = 'ACTIVA';
+            document.getElementById('admin-nuevo-vencimiento').value = '2026-11-24';
+            document.getElementById('modal-admin-crear-usuario').classList.remove('hidden');
+        }
+
+        function cerrarModalCrearUsuario() {
+            document.getElementById('modal-admin-crear-usuario').classList.add('hidden');
+        }
+
+        async function guardarNuevoUsuarioAdmin(event) {
+            if (event) event.preventDefault();
+            const placa = document.getElementById('admin-nuevo-placa').value.trim().toUpperCase();
+            const titular = document.getElementById('admin-nuevo-titular').value.trim();
+            const documento = document.getElementById('admin-nuevo-documento').value.trim();
+            const elTel = document.getElementById('admin-nuevo-telefono');
+            const telefono = elTel ? elTel.value.trim() : '';
+            const elMarca = document.getElementById('admin-nuevo-marca');
+            const marcaColor = elMarca ? elMarca.value.trim() : '';
+            const tipo = document.getElementById('admin-nuevo-tipo').value;
+            const tarifa = parseInt(document.getElementById('admin-nuevo-tarifa').value, 10) || (tipo === 'Automóvil' ? 180000 : 95000);
+            const vencimiento = document.getElementById('admin-nuevo-vencimiento').value;
+            const estado = document.getElementById('admin-nuevo-estado').value;
+            const operarioActivo = (sesionUsuario && sesionUsuario.nombre) || 'Administración';
+
+            if (!placa || !titular || !documento || !vencimiento) {
+                mostrarAlerta('Por favor complete todos los campos obligatorios.', 'warning');
+                return;
+            }
+
+            // Sinergia con backend Node.js (POST /api/pagos/vincular)
+            try {
+                const res = await fetch('/api/pagos/vincular', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        placa,
+                        titular,
+                        documento,
+                        telefono,
+                        marcaColor,
+                        tipo,
+                        vencimiento,
+                        tarifa,
+                        estado,
+                        operario: operarioActivo
+                    })
+                });
+                const data = await res.json();
+                if (res.ok && data.ok) {
+                    await refrescarEstadoDesdeBackend();
+                    cerrarModalCrearUsuario();
+                    sincronizarVistas();
+                    mostrarAlerta(data.mensaje || `Suscriptor ${placa} vinculado exitosamente.`, 'success');
+                    return;
+                } else if (!res.ok && (data.error || data.mensaje)) {
+                    mostrarAlerta(data.error || data.mensaje, 'error');
+                    return;
+                }
+            } catch (e) {
+                // Modo silencioso: Fallback local en memoria
+            }
+
+            // Fallback en memoria (RNF-01: unicidad de placa y documento)
+            const existePlaca = padronClientes.find(c => c.placa === placa);
+            if (existePlaca) {
+                mostrarAlerta(`La placa ${placa} ya se encuentra vinculada al titular ${existePlaca.titular}.`, 'error');
+                return;
+            }
+            const docNormalizado = documento.replace(/\D/g, '') || documento.toUpperCase();
+            const existeDoc = padronClientes.find(c => (c.documento.replace(/\D/g, '') || c.documento.toUpperCase()) === docNormalizado);
+            if (existeDoc) {
+                mostrarAlerta(`El documento ${documento} ya se encuentra registrado a nombre de ${existeDoc.titular} (${existeDoc.placa}).`, 'error');
+                return;
+            }
+
+            padronClientes.push({
+                placa,
+                titular,
+                documento,
+                telefono: telefono || 'No registrado',
+                marcaColor: marcaColor || 'No especificado',
+                tipo,
+                tarifa,
+                vencimiento,
+                estado,
+                enPatio: false,
+                celdaActual: null
+            });
+
+            eventosAuditoria.unshift({
+                codigo: `ADM-2026-${consecutivoTransaccion++}`,
+                fecha: obtenerFechaHoraActual(),
+                tipo: 'SUSCRIPTOR_CREADO',
+                modulo: 'Administración CRUD',
+                placaCelda: `${placa} • Padrón`,
+                descripcion: `Alta de nuevo suscriptor: ${titular} (${documento}), Vehículo: ${tipo}, Canon: $${tarifa.toLocaleString('es-CO')}. Estado: ${estado}.`,
+                operario: operarioActivo
+            });
+
+            cerrarModalCrearUsuario();
+            sincronizarVistas();
+            mostrarAlerta(`Suscriptor ${placa} vinculado exitosamente al padrón.`, 'success');
+        }
+
+        function abrirModalEditarUsuario(placa) {
+            const cliente = padronClientes.find(c => c.placa === placa);
+            if (!cliente) return;
+
+            document.getElementById('admin-edit-placa').value = cliente.placa;
+            document.getElementById('admin-edit-titular').value = cliente.titular;
+            document.getElementById('admin-edit-documento').value = cliente.documento;
+            const elTel = document.getElementById('admin-edit-telefono');
+            if (elTel) elTel.value = (cliente.telefono && cliente.telefono !== 'No registrado') ? cliente.telefono : '';
+            const elMarca = document.getElementById('admin-edit-marca');
+            if (elMarca) elMarca.value = (cliente.marcaColor && cliente.marcaColor !== 'No especificado') ? cliente.marcaColor : '';
+            document.getElementById('admin-edit-tipo').value = cliente.tipo;
+            document.getElementById('admin-edit-tarifa').value = cliente.tarifa;
+            document.getElementById('admin-edit-vencimiento').value = cliente.vencimiento;
+            document.getElementById('admin-edit-estado').value = cliente.estado;
+            document.getElementById('modal-admin-editar-usuario').classList.remove('hidden');
+        }
+
+        function cerrarModalEditarUsuario() {
+            document.getElementById('modal-admin-editar-usuario').classList.add('hidden');
+        }
+
+        async function guardarEdicionUsuarioAdmin(event) {
+            if (event) event.preventDefault();
+            const placa = document.getElementById('admin-edit-placa').value;
+            const titular = document.getElementById('admin-edit-titular').value.trim();
+            const documento = document.getElementById('admin-edit-documento').value.trim();
+            const elTel = document.getElementById('admin-edit-telefono');
+            const telefono = elTel ? elTel.value.trim() : '';
+            const elMarca = document.getElementById('admin-edit-marca');
+            const marcaColor = elMarca ? elMarca.value.trim() : '';
+            const tipo = document.getElementById('admin-edit-tipo').value;
+            const tarifa = parseInt(document.getElementById('admin-edit-tarifa').value, 10);
+            const vencimiento = document.getElementById('admin-edit-vencimiento').value;
+            const estado = document.getElementById('admin-edit-estado').value;
+            const operarioActivo = (sesionUsuario && sesionUsuario.nombre) || 'Administración';
+
+            const datos = { titular, documento, telefono, marcaColor, tipo, tarifa, vencimiento, estado, operario: operarioActivo };
+
+            // Intento con backend Node.js (PUT /api/admin/usuarios/:placa)
+            try {
+                const res = await fetch(`/api/admin/usuarios/${encodeURIComponent(placa)}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(datos)
+                });
+                const data = await res.json();
+                if (res.ok && data.ok) {
+                    await refrescarEstadoDesdeBackend();
+                    cerrarModalEditarUsuario();
+                    sincronizarVistas();
+                    validarPlacaEnPorteria();
+                    mostrarAlerta(data.mensaje || `Suscriptor ${placa} actualizado exitosamente.`, 'success');
+                    return;
+                } else if (!res.ok && (data.error || data.mensaje)) {
+                    mostrarAlerta(data.error || data.mensaje, 'error');
+                    return;
+                }
+            } catch (e) {
+                // Modo silencioso: Fallback local
+            }
+
+            // Fallback en memoria
+            const cliente = padronClientes.find(c => c.placa === placa);
+            if (cliente) {
+                if (cliente.enPatio && cliente.tipo !== tipo) {
+                    mostrarAlerta(`No puede cambiar la categoría de ${placa} mientras ocupa la celda ${cliente.celdaActual}. Registre su salida primero.`, 'error');
+                    return;
+                }
+                const docNormalizado = documento.replace(/\D/g, '') || documento.toUpperCase();
+                const otroDoc = padronClientes.find(c => c.placa !== placa && (c.documento.replace(/\D/g, '') || c.documento.toUpperCase()) === docNormalizado);
+                if (otroDoc) {
+                    mostrarAlerta(`El documento ${documento} ya pertenece a otro suscriptor (${otroDoc.titular}).`, 'error');
+                    return;
+                }
+
+                cliente.titular = titular;
+                cliente.documento = documento;
+                if (telefono) cliente.telefono = telefono;
+                if (marcaColor) cliente.marcaColor = marcaColor;
+                cliente.tipo = tipo;
+                cliente.tarifa = tarifa;
+                cliente.vencimiento = vencimiento;
+                cliente.estado = estado;
+
+                const movActivo = movimientosActivos.find(m => m.placa === placa);
+                if (movActivo) {
+                    movActivo.titular = titular;
+                    movActivo.documento = documento;
+                    movActivo.tipo = tipo;
+                }
+
+                eventosAuditoria.unshift({
+                    codigo: `ADM-2026-${consecutivoTransaccion++}`,
+                    fecha: obtenerFechaHoraActual(),
+                    tipo: 'SUSCRIPTOR_MODIFICADO',
+                    modulo: 'Administración CRUD',
+                    placaCelda: `${placa} • Padrón`,
+                    descripcion: `Modificación de suscriptor: Titular ${titular}, Vigencia: ${vencimiento}, Estado: ${estado}, Canon: $${tarifa.toLocaleString('es-CO')}.`,
+                    operario: operarioActivo
+                });
+            }
+
+            cerrarModalEditarUsuario();
+            sincronizarVistas();
+            validarPlacaEnPorteria();
+            mostrarAlerta(`Suscriptor ${placa} actualizado exitosamente.`, 'success');
+        }
+
+        async function eliminarUsuarioAdmin(placa) {
+            const cliente = padronClientes.find(c => c.placa === placa);
+            if (!cliente) return;
+
+            if (cliente.enPatio) {
+                mostrarAlerta(`No se puede eliminar al suscriptor ${placa} mientras su vehículo esté ocupando la celda ${cliente.celdaActual}. Registre su salida en portería primero.`, 'error');
+                return;
+            }
+
+            if (!confirm(`¿Confirma que desea retirar al suscriptor ${placa} (${cliente.titular}) del padrón de Autos Colombia?`)) {
+                return;
+            }
+
+            const operarioActivo = (sesionUsuario && sesionUsuario.nombre) || 'Administración';
+
+            // Intento con backend Node.js (DELETE /api/admin/usuarios/:placa)
+            try {
+                const res = await fetch(`/api/admin/usuarios/${encodeURIComponent(placa)}`, {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ operario: operarioActivo })
+                });
+                const data = await res.json();
+                if (res.ok && data.ok) {
+                    await refrescarEstadoDesdeBackend();
+                    sincronizarVistas();
+                    validarPlacaEnPorteria();
+                    mostrarAlerta(data.mensaje || `Suscriptor ${placa} eliminado exitosamente.`, 'success');
+                    return;
+                } else if (!res.ok && (data.error || data.mensaje)) {
+                    mostrarAlerta(data.error || data.mensaje, 'error');
+                    return;
+                }
+            } catch (e) {
+                // Modo silencioso: Fallback local
+            }
+
+            // Fallback en memoria
+            const idx = padronClientes.findIndex(c => c.placa === placa);
+            if (idx !== -1) {
+                padronClientes.splice(idx, 1);
+                eventosAuditoria.unshift({
+                    codigo: `ADM-2026-${consecutivoTransaccion++}`,
+                    fecha: obtenerFechaHoraActual(),
+                    tipo: 'SUSCRIPTOR_ELIMINADO',
+                    modulo: 'Administración CRUD',
+                    placaCelda: `${placa} • Padrón`,
+                    descripcion: `Baja de suscriptor: ${cliente.titular} (${cliente.documento}) retirado del padrón.`,
+                    operario: operarioActivo
+                });
+            }
+
+            sincronizarVistas();
+            validarPlacaEnPorteria();
+            mostrarAlerta(`El suscriptor ${placa} ha sido dado de baja del sistema.`, 'success');
+        }
+
+        // ===================================================================
+        // MÓDULO ADMINISTRADOR: CRUD Y GESTIÓN DE EMPLEADOS Y CUENTAS
+        // ===================================================================
+        function renderizarAdminEmpleados() {
+            const inputBusq = document.getElementById('admin-empleados-input-busqueda');
+            const selectRol = document.getElementById('admin-empleados-select-rol');
+            const selectEstado = document.getElementById('admin-empleados-select-estado');
+            const tbody = document.getElementById('tabla-admin-empleados-cuerpo');
+            if (!tbody) return;
+
+            const q = inputBusq ? inputBusq.value.trim().toUpperCase() : '';
+            const filtroRol = selectRol ? selectRol.value : 'TODOS';
+            const filtroEstado = selectEstado ? selectEstado.value : 'TODOS';
+
+            // Actualizar KPIs de personal
+            const total = padronEmpleados.length;
+            const admins = padronEmpleados.filter(e => e.rol === 'ADMINISTRADOR').length;
+            const operadores = padronEmpleados.filter(e => e.rol === 'OPERADOR' && e.estado === 'ACTIVO').length;
+            const revocados = padronEmpleados.filter(e => e.estado === 'REVOCADO').length;
+
+            const elTotal = document.getElementById('admin-emp-kpi-total');
+            if (elTotal) elTotal.textContent = total;
+            const elAdmins = document.getElementById('admin-emp-kpi-admins');
+            if (elAdmins) elAdmins.textContent = admins;
+            const elOps = document.getElementById('admin-emp-kpi-operadores');
+            if (elOps) elOps.textContent = operadores;
+            const elRev = document.getElementById('admin-emp-kpi-revocados');
+            if (elRev) elRev.textContent = revocados;
+
+            const elBadgeSidebar = document.getElementById('admin-badge-count-empleados');
+            if (elBadgeSidebar) elBadgeSidebar.textContent = total;
+
+            const filtrados = padronEmpleados.filter(e => {
+                const matchTexto = !q ||
+                    e.nombre.toUpperCase().includes(q) ||
+                    e.correo.toUpperCase().includes(q) ||
+                    e.documento.toUpperCase().includes(q) ||
+                    e.cargo.toUpperCase().includes(q) ||
+                    e.id.toUpperCase().includes(q);
+                const matchRol = filtroRol === 'TODOS' || e.rol === filtroRol;
+                const matchEstado = filtroEstado === 'TODOS' || e.estado === filtroEstado;
+                return matchTexto && matchRol && matchEstado;
+            });
+
+            if (filtrados.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="px-6 py-8 text-center text-slate-500">
+                            <i class="fa-solid fa-users-slash text-2xl text-slate-300 block mb-2"></i>
+                            No se encontraron empleados o colaboradores con los filtros aplicados.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = filtrados.map(emp => {
+                const esAdmin = emp.rol === 'ADMINISTRADOR';
+                const esActivo = emp.estado === 'ACTIVO';
+                const esRoot = emp.id === 'EMP-001';
+                const esPropiaSesion = sesionUsuario && (sesionUsuario.correo === emp.correo || sesionUsuario.empleadoId === emp.id);
+
+                const partes = emp.nombre.split(' ').filter(Boolean);
+                const iniciales = partes.length >= 2 ? (partes[0][0] + partes[1][0]).toUpperCase() : emp.nombre.slice(0, 2).toUpperCase();
+
+                const avatarBg = esAdmin
+                    ? 'bg-gradient-to-br from-amber-600 to-indigo-700 text-white'
+                    : 'bg-gradient-to-br from-blue-600 to-indigo-700 text-white';
+
+                const badgeRol = esAdmin
+                    ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-100 text-amber-800 border border-amber-300">
+                            <i class="fa-solid fa-crown text-amber-600"></i>ADMINISTRADOR
+                       </span>`
+                    : `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-sky-100 text-sky-800 border border-sky-300">
+                            <i class="fa-solid fa-user-shield text-sky-600"></i>OPERADOR
+                       </span>`;
+
+                const badgeEstado = esActivo
+                    ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800 border border-emerald-300">
+                            <i class="fa-solid fa-circle-check text-emerald-600"></i>ACTIVO
+                       </span>`
+                    : `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-rose-100 text-rose-800 border border-rose-300">
+                            <i class="fa-solid fa-user-lock text-rose-600"></i>REVOCADO
+                       </span>`;
+
+                // Botón de alternar permisos (Revocar / Restaurar)
+                let btnPermisos = '';
+                if (esPropiaSesion) {
+                    btnPermisos = `
+                        <button type="button" disabled title="No puede revocar permisos de su propia cuenta en sesión" class="p-1.5 rounded border border-slate-200 text-slate-300 cursor-not-allowed">
+                            <i class="fa-solid fa-lock"></i>
+                        </button>
+                    `;
+                } else if (esActivo) {
+                    btnPermisos = `
+                        <button type="button" onclick="alternarPermisosEmpleadoAdmin('${emp.id}')" title="Revocar permisos de acceso (bloquear ingreso)" class="p-1.5 rounded border border-amber-200 text-amber-700 hover:bg-amber-50 transition">
+                            <i class="fa-solid fa-user-slash"></i>
+                        </button>
+                    `;
+                } else {
+                    btnPermisos = `
+                        <button type="button" onclick="alternarPermisosEmpleadoAdmin('${emp.id}')" title="Restaurar permisos de acceso (habilitar ingreso)" class="p-1.5 rounded border border-emerald-200 text-emerald-700 hover:bg-emerald-50 transition">
+                            <i class="fa-solid fa-user-check"></i>
+                        </button>
+                    `;
+                }
+
+                // Botón eliminar cuenta
+                let btnEliminar = '';
+                if (esRoot) {
+                    btnEliminar = `
+                        <button type="button" disabled title="Cuenta maestra institucional protegida contra eliminación" class="p-1.5 rounded border border-slate-200 text-slate-300 cursor-not-allowed">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    `;
+                } else if (esPropiaSesion) {
+                    btnEliminar = `
+                        <button type="button" disabled title="No puede eliminar la cuenta actualmente en sesión" class="p-1.5 rounded border border-slate-200 text-slate-300 cursor-not-allowed">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    `;
+                } else {
+                    btnEliminar = `
+                        <button type="button" onclick="eliminarEmpleadoAdmin('${emp.id}')" title="Eliminar cuenta de acceso definitivamente" class="p-1.5 rounded border border-rose-200 text-rose-700 hover:bg-rose-50 transition">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    `;
+                }
+
+                return `
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 rounded-full ${avatarBg} flex items-center justify-center font-bold text-xs shadow-xs shrink-0">
+                                    ${iniciales}
+                                </div>
+                                <div>
+                                    <p class="font-bold text-slate-900 flex items-center gap-1.5">
+                                        ${emp.nombre}
+                                        ${esPropiaSesion ? '<span class="text-[9px] bg-blue-100 text-blue-800 font-bold px-1.5 py-0.2 rounded">Tú</span>' : ''}
+                                    </p>
+                                    <p class="text-[11px] text-slate-500 font-mono">${emp.documento} • <span class="text-slate-400">${emp.id}</span></p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <span class="font-mono text-slate-700 text-xs block">${emp.correo}</span>
+                            <span class="text-[10px] text-slate-400">Usuario de inicio de sesión</span>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <span class="font-semibold text-slate-800 block">${emp.cargo}</span>
+                            <span class="text-[10px] text-slate-400 font-mono">Alta: ${emp.fechaCreacion || '2026-01-01'}</span>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            ${badgeRol}
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            ${badgeEstado}
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap font-mono text-xs text-slate-600">
+                            ${emp.telefono || '<span class="text-slate-400 italic">No registrado</span>'}
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap text-right space-x-1">
+                            <button type="button" onclick="abrirModalEditarEmpleado('${emp.id}')" title="Modificar cuenta, rol y datos" class="p-1.5 rounded border border-indigo-200 text-indigo-700 hover:bg-indigo-50 transition">
+                                <i class="fa-solid fa-user-pen"></i>
+                            </button>
+                            ${btnPermisos}
+                            ${btnEliminar}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function abrirModalCrearEmpleado() {
+            document.getElementById('admin-emp-nuevo-nombre').value = '';
+            document.getElementById('admin-emp-nuevo-documento').value = '';
+            document.getElementById('admin-emp-nuevo-cargo').value = '';
+            document.getElementById('admin-emp-nuevo-telefono').value = '';
+            document.getElementById('admin-emp-nuevo-correo').value = '';
+            document.getElementById('admin-emp-nuevo-clave').value = '';
+            document.getElementById('admin-emp-nuevo-rol').value = 'OPERADOR';
+            document.getElementById('admin-emp-nuevo-estado').value = 'ACTIVO';
+            document.getElementById('modal-admin-crear-empleado').classList.remove('hidden');
+        }
+
+        function cerrarModalCrearEmpleado() {
+            document.getElementById('modal-admin-crear-empleado').classList.add('hidden');
+        }
+
+        async function guardarNuevoEmpleadoAdmin(event) {
+            if (event) event.preventDefault();
+            const nombre = document.getElementById('admin-emp-nuevo-nombre').value.trim();
+            const documento = document.getElementById('admin-emp-nuevo-documento').value.trim();
+            const cargo = document.getElementById('admin-emp-nuevo-cargo').value.trim();
+            const telefono = document.getElementById('admin-emp-nuevo-telefono').value.trim();
+            const correo = document.getElementById('admin-emp-nuevo-correo').value.trim().toLowerCase();
+            const clave = document.getElementById('admin-emp-nuevo-clave').value.trim();
+            const rol = document.getElementById('admin-emp-nuevo-rol').value;
+            const estado = document.getElementById('admin-emp-nuevo-estado').value;
+
+            if (!nombre || !documento || !cargo || !correo || !clave) {
+                mostrarAlerta('Por favor complete todos los campos obligatorios del empleado.', 'warning');
+                return;
+            }
+
+            const existeCorreo = padronEmpleados.find(e => e.correo.toLowerCase() === correo);
+            if (existeCorreo) {
+                mostrarAlerta(`El correo ${correo} ya está asignado al empleado ${existeCorreo.nombre}.`, 'error');
+                return;
+            }
+
+            const existeDoc = padronEmpleados.find(e => e.documento.replace(/\D/g, '') === documento.replace(/\D/g, ''));
+            if (existeDoc) {
+                mostrarAlerta(`El documento ${documento} ya está registrado para ${existeDoc.nombre}.`, 'error');
+                return;
+            }
+
+            // Sinergia con backend Node.js
+            try {
+                const res = await fetch('/api/admin/empleados', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        nombre,
+                        documento,
+                        cargo,
+                        telefono,
+                        correo,
+                        clave,
+                        rol,
+                        estado,
+                        operario: sesionUsuario.nombre || 'Administración'
+                    })
+                });
+                const data = await res.json();
+                if (res.ok && data.ok) {
+                    await refrescarEstadoDesdeBackend();
+                    const empLocal = padronEmpleados.find(e => (data.empleado && e.id === data.empleado.id) || e.correo.toLowerCase() === correo);
+                    if (empLocal) empLocal.clave = clave;
+                    cerrarModalCrearEmpleado();
+                    sincronizarVistas();
+                    mostrarAlerta(data.mensaje || `Empleado ${nombre} registrado exitosamente.`, 'success');
+                    return;
+                } else if (data && (data.error || data.mensaje)) {
+                    mostrarAlerta(data.error || data.mensaje, 'error');
+                    return;
+                }
+            } catch (e) {
+                // Modo silencioso: Fallback local en memoria
+            }
+
+            // Fallback en memoria
+            const nuevoId = `EMP-${String(padronEmpleados.length + 1).padStart(3, '0')}`;
+            padronEmpleados.push({
+                id: nuevoId,
+                nombre,
+                documento,
+                cargo,
+                telefono,
+                correo,
+                clave,
+                rol,
+                estado,
+                fechaCreacion: obtenerFechaHoraActual().slice(0, 10)
+            });
+
+            eventosAuditoria.unshift({
+                codigo: `ADM-2026-${consecutivoTransaccion++}`,
+                fecha: obtenerFechaHoraActual(),
+                tipo: 'EMPLEADO_CREADO',
+                modulo: 'Gestión Empleados',
+                placaCelda: `${nuevoId} • Personal`,
+                descripcion: `Alta de cuenta de usuario para ${nombre} (Cargo: ${cargo}, Rol: ${rol}, Permisos: ${estado}).`,
+                operario: sesionUsuario.nombre || 'Administración'
+            });
+
+            cerrarModalCrearEmpleado();
+            sincronizarVistas();
+            mostrarAlerta(`Empleado ${nombre} creado exitosamente con credenciales de acceso.`, 'success');
+        }
+
+        function abrirModalEditarEmpleado(id) {
+            const emp = padronEmpleados.find(e => e.id === id);
+            if (!emp) return;
+
+            document.getElementById('admin-emp-edit-id').value = emp.id;
+            document.getElementById('admin-emp-edit-nombre').value = emp.nombre;
+            document.getElementById('admin-emp-edit-documento').value = emp.documento;
+            document.getElementById('admin-emp-edit-cargo').value = emp.cargo;
+            document.getElementById('admin-emp-edit-telefono').value = emp.telefono || '';
+            document.getElementById('admin-emp-edit-correo').value = emp.correo;
+            document.getElementById('admin-emp-edit-clave').value = '';
+            document.getElementById('admin-emp-edit-rol').value = emp.rol;
+            document.getElementById('admin-emp-edit-estado').value = emp.estado;
+
+            document.getElementById('modal-admin-editar-empleado').classList.remove('hidden');
+        }
+
+        function cerrarModalEditarEmpleado() {
+            document.getElementById('modal-admin-editar-empleado').classList.add('hidden');
+        }
+
+        async function guardarEdicionEmpleadoAdmin(event) {
+            if (event) event.preventDefault();
+            const id = document.getElementById('admin-emp-edit-id').value;
+            const nombre = document.getElementById('admin-emp-edit-nombre').value.trim();
+            const documento = document.getElementById('admin-emp-edit-documento').value.trim();
+            const cargo = document.getElementById('admin-emp-edit-cargo').value.trim();
+            const telefono = document.getElementById('admin-emp-edit-telefono').value.trim();
+            const correo = document.getElementById('admin-emp-edit-correo').value.trim().toLowerCase();
+            const clave = document.getElementById('admin-emp-edit-clave').value.trim();
+            const rol = document.getElementById('admin-emp-edit-rol').value;
+            const estado = document.getElementById('admin-emp-edit-estado').value;
+
+            if (!nombre || !documento || !cargo || !correo) {
+                mostrarAlerta('Por favor complete todos los campos requeridos.', 'warning');
+                return;
+            }
+
+            const datos = {
+                nombre,
+                documento,
+                cargo,
+                telefono,
+                correo,
+                rol,
+                estado,
+                operario: sesionUsuario.nombre || 'Administración'
+            };
+            if (clave) datos.clave = clave;
+
+            // Sinergia con backend Node.js
+            try {
+                const res = await fetch(`/api/admin/empleados/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(datos)
+                });
+                const data = await res.json();
+                if (res.ok && data.ok) {
+                    await refrescarEstadoDesdeBackend();
+                    if (clave) {
+                        const empLocal = padronEmpleados.find(e => e.id === id);
+                        if (empLocal) empLocal.clave = clave;
+                    }
+                    cerrarModalEditarEmpleado();
+                    sincronizarVistas();
+                    mostrarAlerta(data.mensaje || `Empleado ${nombre} actualizado exitosamente.`, 'success');
+                    return;
+                } else if (data && (data.error || data.mensaje)) {
+                    mostrarAlerta(data.error || data.mensaje, 'error');
+                    return;
+                }
+            } catch (e) {
+                // Modo silencioso: Fallback local en memoria
+            }
+
+            // Fallback en memoria
+            const emp = padronEmpleados.find(e => e.id === id);
+            if (emp) {
+                emp.nombre = nombre;
+                emp.documento = documento;
+                emp.cargo = cargo;
+                emp.telefono = telefono;
+                emp.correo = correo;
+                emp.rol = rol;
+                emp.estado = estado;
+                if (clave) emp.clave = clave;
+
+                eventosAuditoria.unshift({
+                    codigo: `ADM-2026-${consecutivoTransaccion++}`,
+                    fecha: obtenerFechaHoraActual(),
+                    tipo: 'EMPLEADO_MODIFICADO',
+                    modulo: 'Gestión Empleados',
+                    placaCelda: `${id} • Personal`,
+                    descripcion: `Actualización de cuenta para ${nombre} (Cargo: ${cargo}, Rol: ${rol}, Permisos: ${estado}).`,
+                    operario: sesionUsuario.nombre || 'Administración'
+                });
+
+                if (sesionUsuario && sesionUsuario.empleadoId === id) {
+                    sesionUsuario.nombre = nombre;
+                    sesionUsuario.cargo = cargo;
+                    sesionUsuario.correo = correo;
+                    sesionUsuario.rol = rol === 'ADMINISTRADOR' ? 'ADMIN' : 'OPERADOR';
+                    try { localStorage.setItem('autos_colombia_sesion', JSON.stringify(sesionUsuario)); } catch (err) {}
+                    aplicarEstadoSesionEnUI();
+                }
+            }
+
+            cerrarModalEditarEmpleado();
+            sincronizarVistas();
+            mostrarAlerta(`Empleado ${nombre} actualizado exitosamente.`, 'success');
+        }
+
+        async function alternarPermisosEmpleadoAdmin(id) {
+            const emp = padronEmpleados.find(e => e.id === id);
+            if (!emp) return;
+
+            const esPropiaSesion = sesionUsuario && (sesionUsuario.correo === emp.correo || sesionUsuario.empleadoId === emp.id);
+            if (esPropiaSesion) {
+                mostrarAlerta('No puedes revocar los permisos de tu propia cuenta de acceso activa.', 'warning');
+                return;
+            }
+
+            const nuevoEstado = emp.estado === 'ACTIVO' ? 'REVOCADO' : 'ACTIVO';
+            const accionTexto = nuevoEstado === 'REVOCADO' ? 'REVOCAR' : 'RESTAURAR';
+
+            if (!confirm(`¿Confirma que desea ${accionTexto} los permisos de acceso al sistema para ${emp.nombre} (${emp.cargo})?`)) {
+                return;
+            }
+
+            // Sinergia con backend Node.js
+            try {
+                const res = await fetch(`/api/admin/empleados/${id}/permisos`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        estado: nuevoEstado,
+                        operario: sesionUsuario.nombre || 'Administración'
+                    })
+                });
+                const data = await res.json();
+                if (res.ok && data.ok) {
+                    await refrescarEstadoDesdeBackend();
+                    sincronizarVistas();
+                    mostrarAlerta(data.mensaje || `Permisos del empleado ${emp.nombre} actualizados a ${nuevoEstado}.`, 'success');
+                    return;
+                } else if (data && data.mensaje) {
+                    mostrarAlerta(data.mensaje, 'error');
+                    return;
+                }
+            } catch (e) {
+                // Fallback local en memoria
+            }
+
+            // Fallback en memoria
+            emp.estado = nuevoEstado;
+            eventosAuditoria.unshift({
+                codigo: `ADM-2026-${consecutivoTransaccion++}`,
+                fecha: obtenerFechaHoraActual(),
+                tipo: 'PERMISOS_MODIFICADOS',
+                modulo: 'Gestión Empleados',
+                placaCelda: `${id} • Personal`,
+                descripcion: `Permisos de acceso actualizados a ${nuevoEstado} para el colaborador ${emp.nombre} (${emp.cargo}).`,
+                operario: sesionUsuario.nombre || 'Administración'
+            });
+
+            sincronizarVistas();
+            mostrarAlerta(`Permisos de ${emp.nombre} actualizados a ${nuevoEstado} exitosamente.`, 'success');
+        }
+
+        async function eliminarEmpleadoAdmin(id) {
+            const emp = padronEmpleados.find(e => e.id === id);
+            if (!emp) return;
+
+            if (emp.id === 'EMP-001') {
+                mostrarAlerta('La cuenta institucional de Administración General (EMP-001) está protegida contra eliminación.', 'error');
+                return;
+            }
+
+            const esPropiaSesion = sesionUsuario && (sesionUsuario.correo === emp.correo || sesionUsuario.empleadoId === emp.id);
+            if (esPropiaSesion) {
+                mostrarAlerta('No puedes eliminar la cuenta con la que actualmente tienes la sesión iniciada.', 'warning');
+                return;
+            }
+
+            if (!confirm(`¿Confirma que desea ELIMINAR definitivamente la cuenta del empleado ${emp.nombre} (${emp.cargo})? Esta acción revocará todos sus accesos de forma permanente.`)) {
+                return;
+            }
+
+            // Sinergia con backend Node.js
+            try {
+                const res = await fetch(`/api/admin/empleados/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ operario: sesionUsuario.nombre || 'Administración' })
+                });
+                const data = await res.json();
+                if (res.ok && data.ok) {
+                    await refrescarEstadoDesdeBackend();
+                    sincronizarVistas();
+                    mostrarAlerta(data.mensaje || `Cuenta de empleado eliminada exitosamente.`, 'success');
+                    return;
+                } else if (data && data.mensaje) {
+                    mostrarAlerta(data.mensaje, 'error');
+                    return;
+                }
+            } catch (e) {
+                // Fallback local en memoria
+            }
+
+            // Fallback en memoria
+            const idx = padronEmpleados.findIndex(e => e.id === id);
+            if (idx !== -1) {
+                padronEmpleados.splice(idx, 1);
+                eventosAuditoria.unshift({
+                    codigo: `ADM-2026-${consecutivoTransaccion++}`,
+                    fecha: obtenerFechaHoraActual(),
+                    tipo: 'EMPLEADO_ELIMINADO',
+                    modulo: 'Gestión Empleados',
+                    placaCelda: `${id} • Personal`,
+                    descripcion: `Baja definitiva de la cuenta del colaborador ${emp.nombre} (${emp.documento}).`,
+                    operario: sesionUsuario.nombre || 'Administración'
+                });
+            }
+
+            sincronizarVistas();
+            mostrarAlerta(`La cuenta de ${emp.nombre} ha sido eliminada del sistema.`, 'success');
         }
     </script>
 </body>

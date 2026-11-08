@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net">
+  <diagram name="Página-1" id="xSc1FQE9Uf5Aq2IotKzB">
+    <mxGraphModel dx="1493" dy="813" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" value="&lt;b style=&quot;font-size: 16px;&quot;&gt;Diagrama de Casos de Uso UML:Gestión de Usuarios y Celdas&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="850" x="245" y="15" as="geometry" />
+        </mxCell>
+        <mxCell id="3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#334155;verticalAlign=top;align=center;spacingTop=10;strokeWidth=1.5;shadow=1;" value="&lt;b style=&quot;font-size: 13px;&quot;&gt;Sistema de Información Parqueadero Autos Colombia - Módulo de Usuarios y 50 Celdas&lt;/b&gt;" vertex="1">
+          <mxGeometry height="730" width="880" x="230" y="55" as="geometry" />
+        </mxCell>
+        <mxCell id="4" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#d5e8d4;strokeColor=#82b366;" value="&lt;b&gt;Administrador&lt;/b&gt;" vertex="1">
+          <mxGeometry height="90" width="45" x="75" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="5" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="&lt;b&gt;Operario de&lt;br&gt;Portería&lt;/b&gt;" vertex="1">
+          <mxGeometry height="90" width="45" x="75" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="6" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" value="&lt;b&gt;CU-01:&lt;/b&gt; Autenticar Sesión y&lt;br&gt;Validar Rol (RNF-04)" vertex="1">
+          <mxGeometry height="60" width="240" x="280" y="95" as="geometry" />
+        </mxCell>
+        <mxCell id="7" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" value="&lt;b&gt;CU-02:&lt;/b&gt; Registrar Nuevo&lt;br&gt;Usuario Titular (RF-01)" vertex="1">
+          <mxGeometry height="65" width="240" x="280" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="8" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" value="&lt;b&gt;CU-04:&lt;/b&gt; Consultar y Filtrar Padrón&lt;br&gt;de Usuarios (RF-03)" vertex="1">
+          <mxGeometry height="65" width="240" x="280" y="295" as="geometry" />
+        </mxCell>
+        <mxCell id="9" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" value="&lt;b&gt;CU-07:&lt;/b&gt; Cambiar Estado o&lt;br&gt;Inactivar Usuario (RF-05)" vertex="1">
+          <mxGeometry height="65" width="240" x="280" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="10" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" value="&lt;b&gt;CU-08:&lt;/b&gt; Monitorear Mapa de 50 Celdas&lt;br&gt;(20 Autos / 30 Motos) (RF-06, RF-07)" vertex="1">
+          <mxGeometry height="65" width="240" x="280" y="505" as="geometry" />
+        </mxCell>
+        <mxCell id="11" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" value="&lt;b&gt;CU-10:&lt;/b&gt; Bloquear / Habilitar Celda&lt;br&gt;por Mantenimiento (RF-08)" vertex="1">
+          <mxGeometry height="65" width="240" x="280" y="605" as="geometry" />
+        </mxCell>
+        <mxCell id="12" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" value="&lt;b&gt;CU-11:&lt;/b&gt; Reubicar Vehículo&lt;br&gt;entre Celdas (RF-09)" vertex="1">
+          <mxGeometry height="65" width="240" x="280" y="700" as="geometry" />
+        </mxCell>
+        <mxCell id="13" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#64748b;fontSize=11;" value="&lt;b&gt;CU-03:&lt;/b&gt; Vincular Vehículo&lt;br&gt;al Titular (RF-02)" vertex="1">
+          <mxGeometry height="65" width="270" x="780" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="14" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fef2f2;strokeColor=#ef4444;fontSize=11;" value="&lt;b&gt;CU-05:&lt;/b&gt; Actualizar Datos de&lt;br&gt;Titular y Vehículo (RF-04)" vertex="1">
+          <mxGeometry height="65" width="270" x="780" y="275" as="geometry" />
+        </mxCell>
+        <mxCell id="15" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#1d4ed8;fontSize=11;strokeWidth=1.5;" value="&lt;b&gt;CU-06:&lt;/b&gt; Validar Unicidad, Compatibilidad&lt;br&gt;y Ocupación Activa (RNF-01)" vertex="1">
+          <mxGeometry height="70" width="270" x="780" y="425" as="geometry" />
+        </mxCell>
+        <mxCell id="16" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fef2f2;strokeColor=#ef4444;fontSize=11;" value="&lt;b&gt;CU-09:&lt;/b&gt; Consultar Detalle e&lt;br&gt;Historial por Celda (RF-10)" vertex="1">
+          <mxGeometry height="65" width="270" x="780" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="17" edge="1" parent="1" source="4" style="endArrow=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#475569;strokeWidth=1.2;" target="6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="18" edge="1" parent="1" source="4" style="endArrow=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#475569;strokeWidth=1.2;" target="7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="19" edge="1" parent="1" source="4" style="endArrow=none;html=1;entryX=0;entryY=0.3;entryDx=0;entryDy=0;strokeColor=#475569;strokeWidth=1.2;" target="8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="20" edge="1" parent="1" source="4" style="endArrow=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#475569;strokeWidth=1.2;" target="9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="21" edge="1" parent="1" source="4" style="endArrow=none;html=1;entryX=0;entryY=0.3;entryDx=0;entryDy=0;strokeColor=#475569;strokeWidth=1.2;" target="10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="22" edge="1" parent="1" source="4" style="endArrow=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#475569;strokeWidth=1.2;" target="11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="23" edge="1" parent="1" source="4" style="endArrow=none;html=1;entryX=0;entryY=0.3;entryDx=0;entryDy=0;strokeColor=#475569;strokeWidth=1.2;" target="12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="24" edge="1" parent="1" source="5" style="endArrow=none;html=1;entryX=0;entryY=0.8;entryDx=0;entryDy=0;strokeColor=#2563eb;strokeWidth=1.2;" target="6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="25" edge="1" parent="1" source="5" style="endArrow=none;html=1;entryX=0;entryY=0.7;entryDx=0;entryDy=0;strokeColor=#2563eb;strokeWidth=1.2;" target="8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="26" edge="1" parent="1" source="5" style="endArrow=none;html=1;entryX=0;entryY=0.7;entryDx=0;entryDy=0;strokeColor=#2563eb;strokeWidth=1.2;" target="10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="27" edge="1" parent="1" source="5" style="endArrow=none;html=1;entryX=0;entryY=0.7;entryDx=0;entryDy=0;strokeColor=#2563eb;strokeWidth=1.2;" target="12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="28" edge="1" parent="1" source="7" style="endArrow=open;endSize=10;dashed=1;html=1;exitX=1;exitY=0.3;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#1d4ed8;fontSize=10;" target="13" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="29" edge="1" parent="1" source="7" style="endArrow=open;endSize=10;dashed=1;html=1;exitX=1;exitY=0.8;exitDx=0;exitDy=0;entryX=0;entryY=0.2;entryDx=0;entryDy=0;strokeColor=#1d4ed8;fontSize=10;" target="15" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="30" edge="1" parent="1" source="14" style="endArrow=open;endSize=10;dashed=1;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#dc2626;fontSize=10;" target="8" value="&amp;lt;&amp;lt;extend&amp;gt;&amp;gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="31" edge="1" parent="1" source="9" style="endArrow=open;endSize=10;dashed=1;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeColor=#dc2626;fontSize=10;" target="8" value="&amp;lt;&amp;lt;extend&amp;gt;&amp;gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="32" edge="1" parent="1" source="9" style="endArrow=open;endSize=10;dashed=1;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.45;entryDx=0;entryDy=0;strokeColor=#1d4ed8;fontSize=10;" target="15" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="33" edge="1" parent="1" source="16" style="endArrow=open;endSize=10;dashed=1;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#dc2626;fontSize=10;" target="10" value="&amp;lt;&amp;lt;extend&amp;gt;&amp;gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="34" edge="1" parent="1" source="11" style="endArrow=open;endSize=10;dashed=1;html=1;exitX=1;exitY=0.3;exitDx=0;exitDy=0;entryX=0;entryY=0.7;entryDx=0;entryDy=0;strokeColor=#1d4ed8;fontSize=10;" target="15" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="35" edge="1" parent="1" source="12" style="endArrow=open;endSize=10;dashed=1;html=1;exitX=1;exitY=0.3;exitDx=0;exitDy=0;entryX=0.1;entryY=0.9;entryDx=0;entryDy=0;strokeColor=#1d4ed8;fontSize=10;" target="15" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

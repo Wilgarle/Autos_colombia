@@ -66,10 +66,106 @@ app.post('/api/pagos', parqueaderoCtrl.registrarPago);
 app.post('/api/clientes', parqueaderoCtrl.registrarCliente);
 
 /**
+ * @route   POST /api/pagos/vincular
+ * @desc    Alta de suscriptor desde Administración con validación de placa/documento únicos (Iteración 2: RF-01, RF-02)
+ */
+app.post('/api/pagos/vincular', parqueaderoCtrl.vincularCliente);
+
+/**
  * @route   GET /api/historial
  * @desc    Retorna historial de auditoría y movimientos con filtros opcionales (RF-10 / HU-07)
  */
 app.get('/api/historial', parqueaderoCtrl.obtenerHistorial);
+
+// ============================================================================
+// RUTAS DE AUTENTICACIÓN Y ADMINISTRACIÓN (Control Multi-Rol)
+// ============================================================================
+
+/**
+ * @route   POST /api/auth/login
+ * @desc    Autentica usuario bajo rol Administrador u Operador
+ */
+app.post('/api/auth/login', parqueaderoCtrl.login);
+
+/**
+ * @route   GET /api/admin/metricas
+ * @desc    Obtiene KPIs financieros y operativos para el Dashboard de Administrador
+ */
+app.get('/api/admin/metricas', parqueaderoCtrl.obtenerMetricasAdmin);
+
+/**
+ * @route   PUT /api/admin/usuarios/:placa
+ * @desc    Actualiza los datos de un suscriptor existente (CRUD Administrador)
+ */
+app.put('/api/admin/usuarios/:placa', parqueaderoCtrl.editarCliente);
+
+/**
+ * @route   DELETE /api/admin/usuarios/:placa
+ * @desc    Remueve un suscriptor del sistema si no está en patio (CRUD Administrador)
+ */
+app.delete('/api/admin/usuarios/:placa', parqueaderoCtrl.eliminarCliente);
+
+// ============================================================================
+// RUTAS DE GESTIÓN DE EMPLEADOS Y USUARIOS (CRUD ADMINISTRADOR)
+// ============================================================================
+
+/**
+ * @route   GET /api/admin/empleados
+ * @desc    Obtiene el directorio de empleados con filtros por rol y estado
+ */
+app.get('/api/admin/empleados', parqueaderoCtrl.obtenerEmpleados);
+
+/**
+ * @route   POST /api/admin/empleados
+ * @desc    Crea una nueva cuenta de empleado con rol Administrador u Operador
+ */
+app.post('/api/admin/empleados', parqueaderoCtrl.crearEmpleado);
+
+/**
+ * @route   PUT /api/admin/empleados/:id
+ * @desc    Actualiza información, cargo, rol o credenciales de un empleado
+ */
+app.put('/api/admin/empleados/:id', parqueaderoCtrl.editarEmpleado);
+
+/**
+ * @route   PATCH /api/admin/empleados/:id/permisos
+ * @desc    Revoca o restablece permisos de acceso al sistema para un empleado
+ */
+app.patch('/api/admin/empleados/:id/permisos', parqueaderoCtrl.cambiarPermisosEmpleado);
+
+/**
+ * @route   DELETE /api/admin/empleados/:id
+ * @desc    Elimina la cuenta de un empleado del sistema
+ */
+app.delete('/api/admin/empleados/:id', parqueaderoCtrl.eliminarEmpleado);
+
+// ============================================================================
+// RUTAS DE GESTIÓN DE LAS 50 CELDAS (ITERACIÓN 2: RF-06 a RF-10)
+// ============================================================================
+
+/**
+ * @route   GET /api/celdas
+ * @desc    Catálogo de las 50 celdas con su estado (DISPONIBLE / OCUPADA / MANTENIMIENTO)
+ */
+app.get('/api/celdas', parqueaderoCtrl.listarCeldas);
+
+/**
+ * @route   POST /api/celdas/reubicar
+ * @desc    Traslada un vehículo a otra celda DISPONIBLE del mismo tipo conservando el ticket (RF-09)
+ */
+app.post('/api/celdas/reubicar', parqueaderoCtrl.reubicarVehiculo);
+
+/**
+ * @route   GET /api/celdas/:codigo
+ * @desc    Detalle de una celda: ocupante, ticket activo, motivo de mantenimiento e historial (RF-10)
+ */
+app.get('/api/celdas/:codigo', parqueaderoCtrl.detalleCelda);
+
+/**
+ * @route   PATCH /api/celdas/:codigo/mantenimiento
+ * @desc    Bloquea (MANTENIMIENTO) o rehabilita (DISPONIBLE) una celda libre (RF-08)
+ */
+app.patch('/api/celdas/:codigo/mantenimiento', parqueaderoCtrl.cambiarMantenimientoCelda);
 
 // ============================================================================
 // RUTA RAÍZ SPA
@@ -82,22 +178,40 @@ app.get('/', (req, res) => {
 app.use('/api/*', (req, res) => {
     res.status(404).json({
         ok: false,
-        error: 'Ruta API no encontrada en el servidor'
+        error: 'Ruta API no encontrada en el servidor',
+        mensaje: 'Ruta API no encontrada en el servidor'
     });
 });
 
-// Iniciar Servidor
-const server = app.listen(PORT, () => {
-    const persistenciaActual = parqueaderoCtrl.controlador.modoPersistencia;
-    console.log('================================================================');
-    console.log('   🅿️  PARQUEADERO AUTOS COLOMBIA - SISTEMA DE GESTIÓN OPERATIVA');
-    console.log('       Iteración 1: Módulos de Entrada, Salida, Celdas y Caja   ');
-    console.log('================================================================');
-    console.log(` Servidor HTTP Express en línea: http://localhost:${PORT}`);
-    console.log(` Modo de Persistencia Activo    : [${persistenciaActual}]`);
-    console.log(` Capacidad Total Monitoreada   : 50 Celdas (20 Autos / 30 Motos)`);
-    console.log(' Frontend SPA servido en raíz    : http://localhost:' + PORT + '/');
-    console.log('================================================================\n');
+// Manejador de errores (p. ej. JSON malformado) con contrato JSON uniforme
+app.use((err, req, res, next) => {
+    const codigo = err.status || err.statusCode || 500;
+    const mensaje = codigo === 400 ? 'Solicitud con formato JSON no válido.' : (err.message || 'Error interno del servidor');
+    res.status(codigo).json({ ok: false, error: mensaje, mensaje });
 });
 
-module.exports = { app, server };
+// Iniciar Servidor (solo cuando se ejecuta directamente: `node server.js` / `npm start`)
+function iniciarServidor(puerto = PORT) {
+    const instancia = app.listen(puerto, () => {
+        const addr = instancia.address();
+        const puertoActivo = (addr && typeof addr === 'object' && addr.port) ? addr.port : puerto;
+        const persistenciaActual = parqueaderoCtrl.controlador.modoPersistencia;
+        console.log('================================================================');
+        console.log('   🅿️  PARQUEADERO AUTOS COLOMBIA - SISTEMA DE GESTIÓN OPERATIVA');
+        console.log('       Control de Portería, Patio, Caja, Usuarios y Auditoría   ');
+        console.log('================================================================');
+        console.log(` Servidor HTTP Express en línea: http://localhost:${puertoActivo}`);
+        console.log(` Modo de Persistencia Activo    : [${persistenciaActual}]`);
+        console.log(` Capacidad Total Monitoreada   : 50 Celdas (20 Autos / 30 Motos)`);
+        console.log(' Frontend SPA servido en raíz    : http://localhost:' + puertoActivo + '/');
+        console.log('================================================================\n');
+    });
+    return instancia;
+}
+
+let server = null;
+if (require.main === module) {
+    server = iniciarServidor();
+}
+
+module.exports = { app, server, iniciarServidor };

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net">
+  <diagram name="Página-1" id="BeWMprq1OYg0PysgrOCd">
+    <mxGraphModel dx="1144" dy="623" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" value="&lt;b style=&quot;font-size: 16px;&quot;&gt;Tablero de Historias de Usuario: Gestión de Usuarios y 50 Celdas&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="860" x="150" y="15" as="geometry" />
+        </mxCell>
+        <mxCell id="3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eff6ff;strokeColor=#1e40af;align=left;verticalAlign=top;spacing=0;fontSize=10.5;shadow=1;" value="&lt;div style=&quot;background:#1e40af;color:#fff;padding:5px 8px;font-weight:bold;&quot;&gt;HU-01 | Alta de Titular y Vehículo (Prioridad: Alta)&lt;/div&gt;&lt;div style=&quot;padding:8px;&quot;&gt;&lt;b&gt;Como:&lt;/b&gt; Administrador&lt;br&gt;&lt;b&gt;Quiero:&lt;/b&gt; Registrar nuevos titulares vinculando su vehículo (Auto/Moto).&lt;br&gt;&lt;b&gt;Para:&lt;/b&gt; Habilitarlos en el servicio de mensualidad.&lt;hr&gt;&lt;b&gt;Criterios:&lt;/b&gt;&lt;br&gt;• Bloquea cédulas o placas duplicadas (RNF-01).&lt;br&gt;• Asigna vigencia inicial y estado ACTIVO.&lt;/div&gt;" vertex="1">
+          <mxGeometry height="210" width="260" x="40" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eff6ff;strokeColor=#1e40af;align=left;verticalAlign=top;spacing=0;fontSize=10.5;shadow=1;" value="&lt;div style=&quot;background:#1e40af;color:#fff;padding:5px 8px;font-weight:bold;&quot;&gt;HU-02 | Consulta del Padrón (Prioridad: Media)&lt;/div&gt;&lt;div style=&quot;padding:8px;&quot;&gt;&lt;b&gt;Como:&lt;/b&gt; Administrador / Operario&lt;br&gt;&lt;b&gt;Quiero:&lt;/b&gt; Buscar y filtrar usuarios por cédula, nombre, placa o estado.&lt;br&gt;&lt;b&gt;Para:&lt;/b&gt; Verificar rápidamente la vigencia del cliente.&lt;hr&gt;&lt;b&gt;Criterios:&lt;/b&gt;&lt;br&gt;• Filtrado en tiempo real (&amp;lt; 2 seg).&lt;br&gt;• Muestra vehículos asociados y estado.&lt;/div&gt;" vertex="1">
+          <mxGeometry height="210" width="260" x="320" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eff6ff;strokeColor=#1e40af;align=left;verticalAlign=top;spacing=0;fontSize=10.5;shadow=1;" value="&lt;div style=&quot;background:#1e40af;color:#fff;padding:5px 8px;font-weight:bold;&quot;&gt;HU-03 | Edición de Datos Maestros (Prioridad: Media)&lt;/div&gt;&lt;div style=&quot;padding:8px;&quot;&gt;&lt;b&gt;Como:&lt;/b&gt; Administrador&lt;br&gt;&lt;b&gt;Quiero:&lt;/b&gt; Actualizar teléfono, nombre o datos del vehículo de un titular.&lt;br&gt;&lt;b&gt;Para:&lt;/b&gt; Mantener el padrón al día sin perder su historial.&lt;hr&gt;&lt;b&gt;Criterios:&lt;/b&gt;&lt;br&gt;• Conserva trazabilidad de pagos y tickets.&lt;br&gt;• Registra el cambio en bitácora.&lt;/div&gt;" vertex="1">
+          <mxGeometry height="210" width="260" x="600" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eff6ff;strokeColor=#1e40af;align=left;verticalAlign=top;spacing=0;fontSize=10.5;shadow=1;" value="&lt;div style=&quot;background:#1e40af;color:#fff;padding:5px 8px;font-weight:bold;&quot;&gt;HU-04 | Inactivación Segura (Prioridad: Alta)&lt;/div&gt;&lt;div style=&quot;padding:8px;&quot;&gt;&lt;b&gt;Como:&lt;/b&gt; Administrador&lt;br&gt;&lt;b&gt;Quiero:&lt;/b&gt; Dar de baja o inactivar un titular validando el patio.&lt;br&gt;&lt;b&gt;Para:&lt;/b&gt; Suspender exclientes sin dejar vehículos huérfanos adentro.&lt;hr&gt;&lt;b&gt;Criterios:&lt;/b&gt;&lt;br&gt;• Rechaza inactivar si tiene vehículo EN_PATIO.&lt;br&gt;• Bloquea futuros ingresos en portería.&lt;/div&gt;" vertex="1">
+          <mxGeometry height="210" width="250" x="880" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0fdf4;strokeColor=#15803d;align=left;verticalAlign=top;spacing=0;fontSize=10.5;shadow=1;" value="&lt;div style=&quot;background:#15803d;color:#fff;padding:5px 8px;font-weight:bold;&quot;&gt;HU-05 | Monitoreo de 50 Celdas (Prioridad: Alta)&lt;/div&gt;&lt;div style=&quot;padding:8px;&quot;&gt;&lt;b&gt;Como:&lt;/b&gt; Operario / Administrador&lt;br&gt;&lt;b&gt;Quiero:&lt;/b&gt; Visualizar el mapa de 50 celdas (20 Autos y 30 Motos) en tiempo real.&lt;br&gt;&lt;b&gt;Para:&lt;/b&gt; Controlar la capacidad física del parqueadero.&lt;hr&gt;&lt;b&gt;Criterios:&lt;/b&gt;&lt;br&gt;• Distingue DISPONIBLE, OCUPADA y MANTENIMIENTO.&lt;br&gt;• Actualiza KPIs de ocupación al instante.&lt;/div&gt;" vertex="1">
+          <mxGeometry height="215" width="290" x="130" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0fdf4;strokeColor=#15803d;align=left;verticalAlign=top;spacing=0;fontSize=10.5;shadow=1;" value="&lt;div style=&quot;background:#15803d;color:#fff;padding:5px 8px;font-weight:bold;&quot;&gt;HU-06 | Bloqueo por Mantenimiento (Prioridad: Media)&lt;/div&gt;&lt;div style=&quot;padding:8px;&quot;&gt;&lt;b&gt;Como:&lt;/b&gt; Administrador&lt;br&gt;&lt;b&gt;Quiero:&lt;/b&gt; Inhabilitar temporalmente celdas libres por mantenimiento y rehabilitarlas.&lt;br&gt;&lt;b&gt;Para:&lt;/b&gt; Evitar asignar espacios en reparación o demarcación.&lt;hr&gt;&lt;b&gt;Criterios:&lt;/b&gt;&lt;br&gt;• Impide bloquear una celda que esté OCUPADA.&lt;br&gt;• La excluye del selector de portería mientras esté bloqueada.&lt;/div&gt;" vertex="1">
+          <mxGeometry height="215" width="290" x="450" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0fdf4;strokeColor=#15803d;align=left;verticalAlign=top;spacing=0;fontSize=10.5;shadow=1;" value="&lt;div style=&quot;background:#15803d;color:#fff;padding:5px 8px;font-weight:bold;&quot;&gt;HU-07 | Inspección y Reubicación (Prioridad: Alta)&lt;/div&gt;&lt;div style=&quot;padding:8px;&quot;&gt;&lt;b&gt;Como:&lt;/b&gt; Administrador / Operario&lt;br&gt;&lt;b&gt;Quiero:&lt;/b&gt; Inspeccionar una celda y reubicar un vehículo hacia otra celda libre compatible.&lt;br&gt;&lt;b&gt;Para:&lt;/b&gt; Reorganizar el patio manteniendo activo el ticket.&lt;hr&gt;&lt;b&gt;Criterios:&lt;/b&gt;&lt;br&gt;• Valida compatibilidad estricta (Auto-&amp;gt;Auto, Moto-&amp;gt;Moto).&lt;br&gt;• Libera celda origen y ocupa celda destino.&lt;/div&gt;" vertex="1">
+          <mxGeometry height="215" width="290" x="770" y="320" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

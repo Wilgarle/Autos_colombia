@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net">
+  <diagram name="Página-1" id="8Ma24v9ZkMPDaMvGlw9L">
+    <mxGraphModel dx="1561" dy="850" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=15;fontStyle=1;fontColor=#0f172a;" value="Diagrama de Componentes UML — Sistema Parqueadero Autos Colombia (Iteraciones 1 y 2)" vertex="1">
+          <mxGeometry height="30" width="1040" x="180" y="15" as="geometry" />
+        </mxCell>
+        <mxCell id="3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#334155;verticalAlign=top;align=left;spacingLeft=14;spacingTop=8;strokeWidth=1.5;shadow=1;" value="&amp;lt;&amp;lt;subsystem&amp;gt;&amp;gt;&lt;br&gt;&lt;b style=&quot;font-size:13px;&quot;&gt;Cliente Web SPA — Navegador Local (Artefacto: index.html)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="755" width="380" x="40" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="4" parent="1" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=middle;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;shadow=1;" value="&amp;lt;&amp;lt;component&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;UI_OperacionPorteriaCaja&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:10px;color:#475569;&quot;&gt;[Iteración 1: Ingresos, Salidas,&lt;br&gt;Novedades, Ticket POS y Caja]&lt;/span&gt;" vertex="1">
+          <mxGeometry height="115" width="310" x="75" y="135" as="geometry" />
+        </mxCell>
+        <mxCell id="5" parent="1" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=middle;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;shadow=1;" value="&amp;lt;&amp;lt;component&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;UI_GestionUsuariosYCeldas&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:10px;color:#14532d;&quot;&gt;[Iteración 2: CRUD Suscriptores/Empleados,&lt;br&gt;Mapa 50 Celdas, Mantenimiento y Reubicación]&lt;/span&gt;" vertex="1">
+          <mxGeometry height="125" width="310" x="75" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="6" parent="1" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=middle;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;shadow=1;" value="&amp;lt;&amp;lt;component&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;UI_SeguridadYBitacora&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:10px;color:#475569;&quot;&gt;[Login Multi-Rol Admin/Operador,&lt;br&gt;Trazabilidad RNF-04 y Exportación CSV]&lt;/span&gt;" vertex="1">
+          <mxGeometry height="110" width="310" x="75" y="495" as="geometry" />
+        </mxCell>
+        <mxCell id="7" parent="1" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=middle;whiteSpace=wrap;html=1;fillColor=#f1f5f9;strokeColor=#64748b;fontSize=11;shadow=1;" value="&amp;lt;&amp;lt;component&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;MotorEstadoLocalFallback&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:10px;color:#475569;&quot;&gt;[Persistencia LocalStorage + Semilla&lt;br&gt;de 50 Celdas: 20 Autos / 30 Motos]&lt;/span&gt;" vertex="1">
+          <mxGeometry height="110" width="310" x="75" y="665" as="geometry" />
+        </mxCell>
+        <mxCell id="8" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fffbeb;strokeColor=#d97706;verticalAlign=top;align=left;spacingLeft=14;spacingTop=8;strokeWidth=1.5;shadow=1;" value="&amp;lt;&amp;lt;subsystem&amp;gt;&amp;gt;&lt;br&gt;&lt;b style=&quot;font-size:13px;&quot;&gt;Servidor de Aplicación Backend — Node.js + Express (localhost:3000)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="755" width="410" x="550" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="9" parent="1" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=middle;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=11;shadow=1;" value="&amp;lt;&amp;lt;component&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;EnrutadorAPIRest (server.js)&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:10px;color:#475569;&quot;&gt;[Endpoints: /api/movimientos, /api/pagos,&lt;br&gt;/api/admin/usuarios, /api/admin/empleados, /api/estado]&lt;/span&gt;" vertex="1">
+          <mxGeometry height="120" width="335" x="590" y="135" as="geometry" />
+        </mxCell>
+        <mxCell id="10" parent="1" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=middle;whiteSpace=wrap;html=1;fillColor=#ffedd5;strokeColor=#ea580c;fontSize=11;shadow=1;" value="&amp;lt;&amp;lt;component&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;ControladorTransaccional&lt;/b&gt;&lt;br&gt;&lt;i style=&quot;font-size:10px;&quot;&gt;(parqueadero.controllers.js)&lt;/i&gt;&lt;br&gt;&lt;span style=&quot;font-size:10px;color:#475569;&quot;&gt;[Reglas Iteración 1 y 2: Validación de Mora,&lt;br&gt;Control de 50 Celdas, Mantenimiento y Reubicación]&lt;/span&gt;" vertex="1">
+          <mxGeometry height="135" width="335" x="590" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="11" parent="1" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=middle;whiteSpace=wrap;html=1;fillColor=#e0e7ff;strokeColor=#4338ca;fontSize=11;shadow=1;" value="&amp;lt;&amp;lt;component&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;EntidadesDominioOO (modelos.js)&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:10px;color:#1e3a8a;&quot;&gt;[Clases ES6 Encapsuladas:&lt;br&gt;Usuario, Vehiculo, Celda, Movimiento, Pago]&lt;/span&gt;" vertex="1">
+          <mxGeometry height="120" width="335" x="590" y="565" as="geometry" />
+        </mxCell>
+        <mxCell id="12" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f0fdf4;strokeColor=#16a34a;verticalAlign=top;align=left;spacingLeft=14;spacingTop=8;strokeWidth=1.5;shadow=1;" value="&amp;lt;&amp;lt;subsystem&amp;gt;&amp;gt;&lt;br&gt;&lt;b style=&quot;font-size:13px;&quot;&gt;Capa de Persistencia de Datos (MySQL 8.0)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="755" width="310" x="1050" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="13" parent="1" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=middle;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=11;shadow=1;" value="&amp;lt;&amp;lt;component&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;AdaptadorPersistenciaMySQL&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:10px;color:#14532d;&quot;&gt;[Driver: mysql2/promise • Pool TCP 3306&lt;br&gt;Transacciones ACID y Consultas SQL]&lt;/span&gt;" vertex="1">
+          <mxGeometry height="120" width="260" x="1075" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="14" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=14;fillColor=#bbf7d0;strokeColor=#15803d;fontSize=11;shadow=1;align=left;spacingLeft=12;" value="&amp;lt;&amp;lt;database&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;autos_colombia_db&lt;/b&gt;&lt;br&gt;&lt;i style=&quot;font-size:10px;&quot;&gt;(schema_autos_colombia.sql)&lt;/i&gt;&lt;hr&gt;&lt;span style=&quot;font-size:10px;&quot;&gt;• Tabla: usuarios (PK documento_id)&lt;br&gt;• Tabla: vehiculos (PK placa)&lt;br&gt;• Tabla: celdas (50: A-01..20, M-01..30)&lt;br&gt;• Tabla: pagos (PK codigo_transaccion)&lt;br&gt;• Tabla: movimientos (PK id_ticket)&lt;/span&gt;" vertex="1">
+          <mxGeometry height="235" width="260" x="1075" y="455" as="geometry" />
+        </mxCell>
+        <mxCell id="15" parent="1" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#ffffff;strokeColor=#1d4ed8;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry height="20" width="20" x="475" y="182" as="geometry" />
+        </mxCell>
+        <mxCell id="16" parent="1" style="text;html=1;strokeColor=none;fillColor=#ffffff;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=10;" value="&lt;b style=&quot;color:#1d4ed8;&quot;&gt;IAPIRestOperacion&lt;/b&gt;&lt;br&gt;(HTTP JSON)" vertex="1">
+          <mxGeometry height="32" width="110" x="430" y="142" as="geometry" />
+        </mxCell>
+        <mxCell id="17" edge="1" parent="1" source="15" style="endArrow=none;html=1;strokeWidth=2;strokeColor=#1d4ed8;" target="9" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="18" edge="1" parent="1" source="4" style="endArrow=open;endFill=0;dashed=1;html=1;strokeWidth=1.5;strokeColor=#1d4ed8;fontSize=10;labelBackgroundColor=#ffffff;" target="15" value="&amp;lt;&amp;lt;use&amp;gt;&amp;gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="19" parent="1" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#ffffff;strokeColor=#15803d;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry height="20" width="20" x="475" y="362" as="geometry" />
+        </mxCell>
+        <mxCell id="20" parent="1" style="text;html=1;strokeColor=none;fillColor=#ffffff;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=10;" value="&lt;b style=&quot;color:#15803d;&quot;&gt;IAPIRestUsuariosCeldas&lt;/b&gt;&lt;br&gt;(CRUD &amp;amp; 50 Celdas)" vertex="1">
+          <mxGeometry height="32" width="120" x="425" y="322" as="geometry" />
+        </mxCell>
+        <mxCell id="21" edge="1" parent="1" source="19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=none;html=1;strokeWidth=2;strokeColor=#15803d;exitX=1;exitY=0.5;entryX=0;entryY=0.8;" target="9" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="22" edge="1" parent="1" source="5" style="endArrow=open;endFill=0;dashed=1;html=1;strokeWidth=1.5;strokeColor=#15803d;fontSize=10;labelBackgroundColor=#ffffff;" target="19" value="&amp;lt;&amp;lt;use&amp;gt;&amp;gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="23" edge="1" parent="1" source="5" style="endArrow=open;endFill=0;dashed=1;html=1;strokeWidth=1.5;strokeColor=#64748b;fontSize=10;labelBackgroundColor=#f8fafc;" target="6" value="&amp;lt;&amp;lt;use&amp;gt;&amp;gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="24" edge="1" parent="1" source="6" style="endArrow=open;endFill=0;dashed=1;html=1;strokeWidth=1.5;strokeColor=#64748b;fontSize=10;labelBackgroundColor=#f8fafc;" target="7" value="&amp;lt;&amp;lt;fallback&amp;gt;&amp;gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="25" edge="1" parent="1" source="9" style="endArrow=open;endFill=0;dashed=1;html=1;strokeWidth=1.5;strokeColor=#d97706;fontSize=10;labelBackgroundColor=#fffbeb;" target="10" value="&amp;lt;&amp;lt;delegate&amp;gt;&amp;gt; IControladorParqueadero">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="26" edge="1" parent="1" source="10" style="endArrow=open;endFill=0;dashed=1;html=1;strokeWidth=1.5;strokeColor=#4338ca;fontSize=10;labelBackgroundColor=#fffbeb;" target="11" value="&amp;lt;&amp;lt;instantiate&amp;gt;&amp;gt; IModelosDominio">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="27" edge="1" parent="1" source="10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=open;endFill=0;dashed=1;html=1;strokeWidth=1.5;strokeColor=#15803d;fontSize=10;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="13" value="&amp;lt;&amp;lt;use&amp;gt;&amp;gt; IPersistenciaDatos">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="28" edge="1" parent="1" source="13" style="endArrow=block;endFill=1;html=1;strokeWidth=1.8;strokeColor=#15803d;fontSize=10;labelBackgroundColor=#f0fdf4;" target="14" value="&amp;lt;&amp;lt;SQL / TCP 3306&amp;gt;&amp;gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

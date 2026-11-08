@@ -64,6 +64,44 @@ class Usuario {
         const estadoDesc = esVigente ? 'PAZ Y SALVO (ACTIVO)' : 'EN MORA (SUSPENDIDO)';
         return `Titular: ${this.nombresApellidos} [Doc: ${this.documentoId}] - Estado: ${estadoDesc} - Vence: ${this.fechaVencimiento}`;
     }
+
+    /**
+     * Iteración 2 (RF-04 / HU-03): Actualiza los datos maestros del titular sin alterar
+     * su documento (clave natural) ni su historial transaccional.
+     * @param {Object} datos
+     * @param {string} [datos.nombresApellidos]
+     * @param {string} [datos.telefonoContacto]
+     * @param {string} [datos.estadoMensualidad]
+     * @param {string|Date} [datos.fechaVencimiento]
+     * @returns {Usuario} this (encadenable)
+     */
+    actualizarDatosMaestros(datos = {}) {
+        if (datos.nombresApellidos && String(datos.nombresApellidos).trim()) {
+            this.nombresApellidos = String(datos.nombresApellidos).trim();
+        }
+        if (datos.telefonoContacto !== undefined && datos.telefonoContacto !== null) {
+            this.telefonoContacto = String(datos.telefonoContacto).trim();
+        }
+        if (datos.estadoMensualidad) {
+            this.estadoMensualidad = datos.estadoMensualidad;
+        }
+        if (datos.fechaVencimiento) {
+            this.fechaVencimiento = typeof datos.fechaVencimiento === 'string'
+                ? datos.fechaVencimiento.slice(0, 10)
+                : new Date(datos.fechaVencimiento).toISOString().slice(0, 10);
+        }
+        return this;
+    }
+
+    /**
+     * Iteración 2 (RF-05 / HU-04 / RNF-01): Un titular solo puede darse de baja si
+     * ninguno de sus vehículos se encuentra estacionado en patio.
+     * @param {Array<string>} [vehiculosEnPatio] - Placas del titular con movimiento EN_PATIO
+     * @returns {boolean}
+     */
+    puedeDarseDeBaja(vehiculosEnPatio = []) {
+        return !Array.isArray(vehiculosEnPatio) || vehiculosEnPatio.length === 0;
+    }
 }
 
 /**
@@ -127,18 +165,21 @@ class Celda {
     /**
      * @param {string} codigoCelda - Código único (Ej: 'A-01' a 'A-20', 'M-01' a 'M-30')
      * @param {string} tipoEspacio - 'AUTO' | 'MOTO' | 'Automóvil' | 'Motocicleta'
-     * @param {string} estadoOcupacion - 'DISPONIBLE' | 'OCUPADA'
+     * @param {string} estadoOcupacion - 'DISPONIBLE' | 'OCUPADA' | 'MANTENIMIENTO' (Iteración 2)
      * @param {string|null} [placaActual] - Placa del vehículo actualmente aparcado
+     * @param {string|null} [motivoMantenimiento] - Motivo del bloqueo (solo en MANTENIMIENTO)
      */
-    constructor(codigoCelda, tipoEspacio, estadoOcupacion = 'DISPONIBLE', placaActual = null) {
+    constructor(codigoCelda, tipoEspacio, estadoOcupacion = 'DISPONIBLE', placaActual = null, motivoMantenimiento = null) {
         this.codigoCelda = codigoCelda;
         this.tipoEspacio = tipoEspacio;
         this.estadoOcupacion = estadoOcupacion;
         this.placaActual = placaActual;
+        this.motivoMantenimiento = motivoMantenimiento;
     }
 
     /**
      * Verifica si la celda está libre para asignación.
+     * Una celda en MANTENIMIENTO NO se considera disponible (RF-08).
      * @returns {boolean}
      */
     verificarDisponibilidad() {
@@ -152,6 +193,7 @@ class Celda {
     ocuparCelda(placa = null) {
         this.estadoOcupacion = 'OCUPADA';
         this.placaActual = placa;
+        this.motivoMantenimiento = null;
     }
 
     /**
@@ -160,6 +202,76 @@ class Celda {
     liberarCelda() {
         this.estadoOcupacion = 'DISPONIBLE';
         this.placaActual = null;
+    }
+
+    /**
+     * Normaliza el tipo de espacio a 'AUTO' | 'MOTO'.
+     * @returns {'AUTO'|'MOTO'}
+     */
+    obtenerTipoNormalizado() {
+        const t = (this.tipoEspacio || '').toUpperCase();
+        return t.includes('MOTO') ? 'MOTO' : 'AUTO';
+    }
+
+    /**
+     * Iteración 2 (RF-08 / HU-06 / RNF-01): Inhabilita la celda por mantenimiento.
+     * Está prohibido bloquear una celda OCUPADA.
+     * @param {string} [motivo] - Descripción del motivo del bloqueo
+     * @returns {boolean} true si el bloqueo fue aplicado; false si la celda está ocupada
+     */
+    ponerEnMantenimiento(motivo = '') {
+        if ((this.estadoOcupacion || '').toUpperCase() === 'OCUPADA') {
+            return false;
+        }
+        this.estadoOcupacion = 'MANTENIMIENTO';
+        this.placaActual = null;
+        this.motivoMantenimiento = (motivo || '').trim() || 'Mantenimiento operativo de patio.';
+        return true;
+    }
+
+    /**
+     * Iteración 2 (RF-08 / HU-06): Rehabilita una celda en MANTENIMIENTO a DISPONIBLE.
+     * @returns {boolean} true si estaba en mantenimiento y fue rehabilitada
+     */
+    habilitarCelda() {
+        if ((this.estadoOcupacion || '').toUpperCase() !== 'MANTENIMIENTO') {
+            return false;
+        }
+        this.estadoOcupacion = 'DISPONIBLE';
+        this.motivoMantenimiento = null;
+        return true;
+    }
+
+    /**
+     * Iteración 2 (RF-09 / HU-07 / RNF-01): Valida que un vehículo pueda trasladarse de
+     * la celda origen a la celda destino (origen OCUPADA, destino DISPONIBLE, mismo tipo).
+     * @param {Celda} origen
+     * @param {Celda} destino
+     * @returns {{ok: boolean, error?: string}}
+     */
+    static validarReubicacion(origen, destino) {
+        if (!origen || !destino) {
+            return { ok: false, error: 'La celda de origen o destino no existe en el patio.' };
+        }
+        if (origen.codigoCelda === destino.codigoCelda) {
+            return { ok: false, error: 'La celda de destino debe ser diferente a la celda de origen.' };
+        }
+        if ((origen.estadoOcupacion || '').toUpperCase() !== 'OCUPADA') {
+            return { ok: false, error: `La celda de origen ${origen.codigoCelda} no tiene un vehículo estacionado para reubicar.` };
+        }
+        if ((destino.estadoOcupacion || '').toUpperCase() === 'MANTENIMIENTO') {
+            return { ok: false, error: `La celda de destino ${destino.codigoCelda} se encuentra en MANTENIMIENTO y no admite vehículos.` };
+        }
+        if (!destino.verificarDisponibilidad()) {
+            return { ok: false, error: `La celda de destino ${destino.codigoCelda} no está DISPONIBLE (ya está ocupada).` };
+        }
+        if (origen.obtenerTipoNormalizado() !== destino.obtenerTipoNormalizado()) {
+            return {
+                ok: false,
+                error: `Incompatibilidad de categoría: un vehículo de ${origen.tipoEspacio} solo puede reubicarse en celdas de ${origen.tipoEspacio} (destino ${destino.codigoCelda} es de ${destino.tipoEspacio}).`
+            };
+        }
+        return { ok: true };
     }
 }
 
@@ -338,10 +450,74 @@ class Pago {
     }
 }
 
+/**
+ * Entidad Empleado (Cuenta de acceso al sistema - Iteración 2)
+ * Rol 'ADMINISTRADOR' u 'OPERADOR'; estado de permisos 'ACTIVO' | 'REVOCADO'.
+ */
+class Empleado {
+    /**
+     * @param {Object} datos
+     * @param {string} datos.id - Código 'EMP-###'
+     * @param {string} datos.nombre
+     * @param {string} datos.documento
+     * @param {string} datos.cargo
+     * @param {string} [datos.telefono]
+     * @param {string} datos.correo - Usuario de inicio de sesión
+     * @param {string} datos.clave
+     * @param {string} [datos.rol] - 'ADMINISTRADOR' | 'OPERADOR'
+     * @param {string} [datos.estado] - 'ACTIVO' | 'REVOCADO'
+     * @param {string} [datos.fechaCreacion] - YYYY-MM-DD
+     */
+    constructor({ id, nombre, documento, cargo, telefono = '', correo, clave, rol = 'OPERADOR', estado = 'ACTIVO', fechaCreacion = null }) {
+        this.id = id;
+        this.nombre = nombre;
+        this.documento = documento;
+        this.cargo = cargo;
+        this.telefono = telefono;
+        this.correo = correo;
+        this.clave = clave;
+        this.rol = rol === 'ADMINISTRADOR' ? 'ADMINISTRADOR' : 'OPERADOR';
+        this.estado = estado === 'REVOCADO' ? 'REVOCADO' : 'ACTIVO';
+        this.fechaCreacion = fechaCreacion || new Date().toISOString().slice(0, 10);
+    }
+
+    /**
+     * @returns {boolean} true si el empleado tiene rol de Administrador
+     */
+    esAdministrador() {
+        return this.rol === 'ADMINISTRADOR';
+    }
+
+    /**
+     * @returns {boolean} true si el acceso al sistema está habilitado
+     */
+    tieneAccesoHabilitado() {
+        return this.estado === 'ACTIVO';
+    }
+
+    /**
+     * La cuenta maestra institucional (EMP-001) está protegida contra revocación y eliminación.
+     * @returns {boolean}
+     */
+    esCuentaMaestra() {
+        return this.id === 'EMP-001';
+    }
+
+    /**
+     * Conmuta el estado de permisos entre ACTIVO y REVOCADO.
+     * @returns {string} Nuevo estado
+     */
+    alternarPermisos() {
+        this.estado = this.estado === 'ACTIVO' ? 'REVOCADO' : 'ACTIVO';
+        return this.estado;
+    }
+}
+
 module.exports = {
     Usuario,
     Vehiculo,
     Celda,
     Movimiento,
-    Pago
+    Pago,
+    Empleado
 };
